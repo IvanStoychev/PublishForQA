@@ -34,18 +34,17 @@
             this.lblECheckCore = new System.Windows.Forms.Label();
             this.lblECheckService = new System.Windows.Forms.Label();
             this.lblQAFolder = new System.Windows.Forms.Label();
-            this.lblECheckPath = new System.Windows.Forms.Label();
-            this.lblECheckCorePath = new System.Windows.Forms.Label();
-            this.lblECheckServicePath = new System.Windows.Forms.Label();
             this.lblQAFolderPath = new System.Windows.Forms.Label();
             this.btnQAFolderBrowse = new System.Windows.Forms.Button();
             this.btnECheckServiceBrowse = new System.Windows.Forms.Button();
             this.btnECheckCoreBrowse = new System.Windows.Forms.Button();
             this.btnECheckBrowse = new System.Windows.Forms.Button();
             this.btnPublish = new System.Windows.Forms.Button();
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.cbVersions = new System.Windows.Forms.ComboBox();
             this.btnLocate = new System.Windows.Forms.Button();
+            this.tbQAFolderPath = new System.Windows.Forms.TextBox();
+            this.tbECheckServicePath = new System.Windows.Forms.TextBox();
+            this.tbECheckCorePath = new System.Windows.Forms.TextBox();
+            this.tbECheckPath = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblECheck
@@ -83,36 +82,6 @@
             this.lblQAFolder.Size = new System.Drawing.Size(82, 13);
             this.lblQAFolder.TabIndex = 0;
             this.lblQAFolder.Text = "Your QA Folder:";
-            // 
-            // lblECheckPath
-            // 
-            this.lblECheckPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblECheckPath.Location = new System.Drawing.Point(12, 61);
-            this.lblECheckPath.Name = "lblECheckPath";
-            this.lblECheckPath.Size = new System.Drawing.Size(380, 28);
-            this.lblECheckPath.TabIndex = 1;
-            this.lblECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
-            // 
-            // lblECheckCorePath
-            // 
-            this.lblECheckCorePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblECheckCorePath.Location = new System.Drawing.Point(12, 132);
-            this.lblECheckCorePath.Name = "lblECheckCorePath";
-            this.lblECheckCorePath.Size = new System.Drawing.Size(380, 28);
-            this.lblECheckCorePath.TabIndex = 1;
-            this.lblECheckCorePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
-            // 
-            // lblECheckServicePath
-            // 
-            this.lblECheckServicePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblECheckServicePath.Location = new System.Drawing.Point(12, 203);
-            this.lblECheckServicePath.Name = "lblECheckServicePath";
-            this.lblECheckServicePath.Size = new System.Drawing.Size(380, 28);
-            this.lblECheckServicePath.TabIndex = 1;
-            this.lblECheckServicePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
             // 
             // lblQAFolderPath
             // 
@@ -174,26 +143,6 @@
             this.btnPublish.Text = "Publish";
             this.btnPublish.UseVisualStyleBackColor = false;
             // 
-            // lblVersion
-            // 
-            this.lblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblVersion.Location = new System.Drawing.Point(50, 2);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(160, 23);
-            this.lblVersion.TabIndex = 5;
-            this.lblVersion.Text = "E-Check Version to publish:";
-            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cbVersions
-            // 
-            this.cbVersions.FormattingEnabled = true;
-            this.cbVersions.Items.AddRange(new object[] {
-            "Viva2012"});
-            this.cbVersions.Location = new System.Drawing.Point(216, 5);
-            this.cbVersions.Name = "cbVersions";
-            this.cbVersions.Size = new System.Drawing.Size(79, 21);
-            this.cbVersions.TabIndex = 7;
-            // 
             // btnLocate
             // 
             this.btnLocate.Location = new System.Drawing.Point(312, 5);
@@ -204,23 +153,70 @@
             this.btnLocate.UseVisualStyleBackColor = true;
             this.btnLocate.Click += new System.EventHandler(this.btnLocate_Click);
             // 
+            // tbQAFolderPath
+            // 
+            this.tbQAFolderPath.AllowDrop = true;
+            this.tbQAFolderPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbQAFolderPath.Location = new System.Drawing.Point(12, 271);
+            this.tbQAFolderPath.Multiline = true;
+            this.tbQAFolderPath.Name = "tbQAFolderPath";
+            this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
+            this.tbQAFolderPath.TabIndex = 9;
+            this.tbQAFolderPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
+    "E-Check\\AppData\\bin\\debug";
+            // 
+            // tbECheckServicePath
+            // 
+            this.tbECheckServicePath.AllowDrop = true;
+            this.tbECheckServicePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbECheckServicePath.Location = new System.Drawing.Point(12, 200);
+            this.tbECheckServicePath.Multiline = true;
+            this.tbECheckServicePath.Name = "tbECheckServicePath";
+            this.tbECheckServicePath.Size = new System.Drawing.Size(380, 32);
+            this.tbECheckServicePath.TabIndex = 9;
+            this.tbECheckServicePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
+    "E-Check\\AppData\\bin\\debug";
+            // 
+            // tbECheckCorePath
+            // 
+            this.tbECheckCorePath.AllowDrop = true;
+            this.tbECheckCorePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbECheckCorePath.Location = new System.Drawing.Point(12, 129);
+            this.tbECheckCorePath.Multiline = true;
+            this.tbECheckCorePath.Name = "tbECheckCorePath";
+            this.tbECheckCorePath.Size = new System.Drawing.Size(380, 32);
+            this.tbECheckCorePath.TabIndex = 9;
+            this.tbECheckCorePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
+    "E-Check\\AppData\\bin\\debug";
+            // 
+            // tbECheckPath
+            // 
+            this.tbECheckPath.AllowDrop = true;
+            this.tbECheckPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbECheckPath.Location = new System.Drawing.Point(12, 58);
+            this.tbECheckPath.Multiline = true;
+            this.tbECheckPath.Name = "tbECheckPath";
+            this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
+            this.tbECheckPath.TabIndex = 9;
+            this.tbECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
+    "E-Check\\AppData\\bin\\debug";
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 398);
+            this.Controls.Add(this.tbECheckPath);
+            this.Controls.Add(this.tbECheckCorePath);
+            this.Controls.Add(this.tbECheckServicePath);
+            this.Controls.Add(this.tbQAFolderPath);
             this.Controls.Add(this.btnLocate);
-            this.Controls.Add(this.cbVersions);
-            this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.btnPublish);
             this.Controls.Add(this.btnECheckBrowse);
             this.Controls.Add(this.btnECheckCoreBrowse);
             this.Controls.Add(this.btnECheckServiceBrowse);
             this.Controls.Add(this.btnQAFolderBrowse);
             this.Controls.Add(this.lblQAFolderPath);
-            this.Controls.Add(this.lblECheckServicePath);
-            this.Controls.Add(this.lblECheckCorePath);
-            this.Controls.Add(this.lblECheckPath);
             this.Controls.Add(this.lblQAFolder);
             this.Controls.Add(this.lblECheckService);
             this.Controls.Add(this.lblECheckCore);
@@ -240,18 +236,17 @@
         private System.Windows.Forms.Label lblECheckCore;
         private System.Windows.Forms.Label lblECheckService;
         private System.Windows.Forms.Label lblQAFolder;
-        private System.Windows.Forms.Label lblECheckPath;
-        private System.Windows.Forms.Label lblECheckCorePath;
-        private System.Windows.Forms.Label lblECheckServicePath;
         private System.Windows.Forms.Label lblQAFolderPath;
         private System.Windows.Forms.Button btnQAFolderBrowse;
         private System.Windows.Forms.Button btnECheckServiceBrowse;
         private System.Windows.Forms.Button btnECheckCoreBrowse;
         private System.Windows.Forms.Button btnECheckBrowse;
         private System.Windows.Forms.Button btnPublish;
-        private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.ComboBox cbVersions;
         private System.Windows.Forms.Button btnLocate;
+        private System.Windows.Forms.TextBox tbQAFolderPath;
+        private System.Windows.Forms.TextBox tbECheckServicePath;
+        private System.Windows.Forms.TextBox tbECheckCorePath;
+        private System.Windows.Forms.TextBox tbECheckPath;
     }
 }
 

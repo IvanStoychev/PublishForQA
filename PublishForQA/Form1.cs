@@ -15,6 +15,7 @@ namespace PublishForQA
         public FormPublisher()
         {
             InitializeComponent();
+            //cbVersions.Items.AddRange();
         }
 
         private void btnLocate_Click(object sender, EventArgs e)
@@ -24,28 +25,28 @@ namespace PublishForQA
 
         private void btnECheckBrowse_Click(object sender, EventArgs e)
         {
-            Browse(lblECheckPath);
+            Browse(tbECheckPath);
         }
 
         private void btnECheckCoreBrowse_Click(object sender, EventArgs e)
         {
-            Browse(lblECheckCorePath);
+            Browse(tbECheckCorePath);
         }
 
         private void btnECheckServiceBrowse_Click(object sender, EventArgs e)
         {
-            Browse(lblECheckServicePath);
+            Browse(tbECheckServicePath);
         }
 
         private void btnQAFolderBrowse_Click(object sender, EventArgs e)
         {
-            Browse(lblQAFolderPath);
+            Browse(tbQAFolderPath);
         }
 
-        private void Browse(Label label)
+        private void Browse(TextBox textBox)
         {
             folderBrowserDialog.ShowDialog();
-            label.Text = folderBrowserDialog.SelectedPath;
+            textBox.Text = folderBrowserDialog.SelectedPath;
         }
     }
 }
