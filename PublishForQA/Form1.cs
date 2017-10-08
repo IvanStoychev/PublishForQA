@@ -21,5 +21,31 @@ namespace PublishForQA
         {
 
         }
+
+        private void btnECheckBrowse_Click(object sender, EventArgs e)
+        {
+            Browse(lblECheckPath);
+        }
+
+        private void btnECheckCoreBrowse_Click(object sender, EventArgs e)
+        {
+            Browse(lblECheckCorePath);
+        }
+
+        private void btnECheckServiceBrowse_Click(object sender, EventArgs e)
+        {
+            Browse(lblECheckServicePath);
+        }
+
+        private void btnQAFolderBrowse_Click(object sender, EventArgs e)
+        {
+            Browse(lblQAFolderPath);
+        }
+
+        private void Browse(Label label)
+        {
+            folderBrowserDialog.ShowDialog();
+            label.Text = folderBrowserDialog.SelectedPath;
+        }
     }
 }
