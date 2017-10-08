@@ -40,7 +40,6 @@
             this.btnECheckCoreBrowse = new System.Windows.Forms.Button();
             this.btnECheckBrowse = new System.Windows.Forms.Button();
             this.btnPublish = new System.Windows.Forms.Button();
-            this.btnLocate = new System.Windows.Forms.Button();
             this.tbQAFolderPath = new System.Windows.Forms.TextBox();
             this.tbECheckServicePath = new System.Windows.Forms.TextBox();
             this.tbECheckCorePath = new System.Windows.Forms.TextBox();
@@ -143,16 +142,6 @@
             this.btnPublish.Text = "Publish";
             this.btnPublish.UseVisualStyleBackColor = false;
             // 
-            // btnLocate
-            // 
-            this.btnLocate.Location = new System.Drawing.Point(312, 5);
-            this.btnLocate.Name = "btnLocate";
-            this.btnLocate.Size = new System.Drawing.Size(53, 23);
-            this.btnLocate.TabIndex = 8;
-            this.btnLocate.Text = "Locate";
-            this.btnLocate.UseVisualStyleBackColor = true;
-            this.btnLocate.Click += new System.EventHandler(this.btnLocate_Click);
-            // 
             // tbQAFolderPath
             // 
             this.tbQAFolderPath.AllowDrop = true;
@@ -210,7 +199,6 @@
             this.Controls.Add(this.tbECheckCorePath);
             this.Controls.Add(this.tbECheckServicePath);
             this.Controls.Add(this.tbQAFolderPath);
-            this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.btnPublish);
             this.Controls.Add(this.btnECheckBrowse);
             this.Controls.Add(this.btnECheckCoreBrowse);
@@ -242,7 +230,6 @@
         private System.Windows.Forms.Button btnECheckCoreBrowse;
         private System.Windows.Forms.Button btnECheckBrowse;
         private System.Windows.Forms.Button btnPublish;
-        private System.Windows.Forms.Button btnLocate;
         private System.Windows.Forms.TextBox tbQAFolderPath;
         private System.Windows.Forms.TextBox tbECheckServicePath;
         private System.Windows.Forms.TextBox tbECheckCorePath;
