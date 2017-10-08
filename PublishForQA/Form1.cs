@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace PublishForQA
 {
-    public partial class Form1 : Form
+    public partial class FormPublisher : Form
     {
-        public Form1()
+        public FormPublisher()
         {
             InitializeComponent();
+        }
+
+        private void btnLocate_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
