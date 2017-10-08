@@ -44,6 +44,7 @@
             this.tbECheckServicePath = new System.Windows.Forms.TextBox();
             this.tbECheckCorePath = new System.Windows.Forms.TextBox();
             this.tbECheckPath = new System.Windows.Forms.TextBox();
+            this.btnLocate = new PublishForQA.MenuButton();
             this.SuspendLayout();
             // 
             // lblECheck
@@ -190,11 +191,21 @@
             this.tbECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
     "E-Check\\AppData\\bin\\debug";
             // 
+            // btnLocate
+            // 
+            this.btnLocate.Location = new System.Drawing.Point(296, 13);
+            this.btnLocate.Name = "btnLocate";
+            this.btnLocate.Size = new System.Drawing.Size(75, 23);
+            this.btnLocate.TabIndex = 10;
+            this.btnLocate.Text = "Locate";
+            this.btnLocate.UseVisualStyleBackColor = true;
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 398);
+            this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.tbECheckPath);
             this.Controls.Add(this.tbECheckCorePath);
             this.Controls.Add(this.tbECheckServicePath);
@@ -234,6 +245,7 @@
         private System.Windows.Forms.TextBox tbECheckServicePath;
         private System.Windows.Forms.TextBox tbECheckCorePath;
         private System.Windows.Forms.TextBox tbECheckPath;
+        private MenuButton btnLocate;
     }
 }
 
