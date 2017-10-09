@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormAccessDenied.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAccessDenied.Designer.cs">
+      <DependentUpon>FormAccessDenied.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPublisher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -53,6 +59,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAccessDenied.resx">
+      <DependentUpon>FormAccessDenied.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormPublisher.resx">
       <DependentUpon>FormPublisher.cs</DependentUpon>
     </EmbeddedResource>
@@ -64,6 +73,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -80,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="E-CheckVersions.xml" />
+    <None Include="Resources\Security Denied.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

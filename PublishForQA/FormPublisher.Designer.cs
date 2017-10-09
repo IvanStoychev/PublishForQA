@@ -46,6 +46,8 @@
             this.tbECheckCorePath = new System.Windows.Forms.TextBox();
             this.tbECheckPath = new System.Windows.Forms.TextBox();
             this.btnLocate = new PublishForQA.MenuButton();
+            this.pbAccessDenied = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
             this.SuspendLayout();
             // 
             // lblECheck
@@ -155,6 +157,7 @@
             this.tbQAFolderPath.TabIndex = 9;
             this.tbQAFolderPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
     "E-Check\\AppData\\bin\\debug";
+            this.tbQAFolderPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // tbECheckServicePath
             // 
@@ -167,6 +170,7 @@
             this.tbECheckServicePath.TabIndex = 9;
             this.tbECheckServicePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
     "E-Check\\AppData\\bin\\debug";
+            this.tbECheckServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // tbECheckCorePath
             // 
@@ -179,6 +183,7 @@
             this.tbECheckCorePath.TabIndex = 9;
             this.tbECheckCorePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
     "E-Check\\AppData\\bin\\debug";
+            this.tbECheckCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // tbECheckPath
             // 
@@ -191,6 +196,7 @@
             this.tbECheckPath.TabIndex = 9;
             this.tbECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
     "E-Check\\AppData\\bin\\debug";
+            this.tbECheckPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // btnLocate
             // 
@@ -201,11 +207,24 @@
             this.btnLocate.Text = "Locate";
             this.btnLocate.UseVisualStyleBackColor = true;
             // 
+            // pbAccessDenied
+            // 
+            this.pbAccessDenied.Image = global::PublishForQA.Properties.Resources.AccessDeniedIcon;
+            this.pbAccessDenied.Location = new System.Drawing.Point(265, 12);
+            this.pbAccessDenied.Name = "pbAccessDenied";
+            this.pbAccessDenied.Size = new System.Drawing.Size(25, 25);
+            this.pbAccessDenied.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAccessDenied.TabIndex = 11;
+            this.pbAccessDenied.TabStop = false;
+            this.pbAccessDenied.Visible = false;
+            this.pbAccessDenied.Click += new System.EventHandler(this.pbAccessDenied_Click);
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 398);
+            this.Controls.Add(this.pbAccessDenied);
             this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.tbECheckPath);
             this.Controls.Add(this.tbECheckCorePath);
@@ -223,6 +242,7 @@
             this.Controls.Add(this.lblECheck);
             this.Name = "FormPublisher";
             this.Text = "Publisher";
+            ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,6 +267,7 @@
         private System.Windows.Forms.TextBox tbECheckCorePath;
         private System.Windows.Forms.TextBox tbECheckPath;
         private MenuButton btnLocate;
+        private System.Windows.Forms.PictureBox pbAccessDenied;
     }
 }
 
