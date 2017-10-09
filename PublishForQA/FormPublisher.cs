@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace PublishForQA
 {
@@ -18,9 +19,40 @@ namespace PublishForQA
             //cbVersions.Items.AddRange();
         }
 
-        private void btnLocate_Click(object sender, EventArgs e)
+        private static void Locate(string version)
         {
+            List<DriveInfo> drives = new List<DriveInfo>();
+            List<string> folders = new List<string>();
+            List<string> results = new List<string>();
+            List<string> accessDeniedFolders = new List<string>();
+            drives.AddRange(DriveInfo.GetDrives());
+            drives = drives
+                           .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
+                           .Select(x => x)
+                           .ToList();
 
+            foreach (var drive in drives)
+            {
+                folders.AddRange(Directory.GetDirectories(drive.Name));
+                foreach (var folder in folders)
+                {
+                    try
+                    {
+                        results.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is System.UnauthorizedAccessException)
+                        {
+                            accessDeniedFolders.Add(ex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
         }
 
         private void btnECheckBrowse_Click(object sender, EventArgs e)
@@ -51,7 +83,7 @@ namespace PublishForQA
 
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            MessageBox.Show("Test");
+            Locate(e.ClickedItem.ToString());
         }
     }
 
