@@ -44,7 +44,7 @@ namespace PublishForQA
                 {
                     try
                     {
-                        results.AddRange(Directory.GetDirectories(folder, /*version*/"Torrents", SearchOption.AllDirectories));
+                        results.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
                     }
                     catch (Exception ex)
                     {
@@ -108,18 +108,41 @@ namespace PublishForQA
             accessDenied.ShowDialog();
         }
 
-        private void tb_KeyDown(object sender, KeyEventArgs e)
+        private void tb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.SuppressKeyPress = (e.KeyCode == Keys.Enter);
+            //If an IllegalPath character or the Enter key would be entered in the
+            //textboxes, we prevent it by setting the "Handled" property to "true".
+            e.Handled =
+                (
+                    e.KeyChar == (char)Keys.Return ||
+                    e.KeyChar == '"' ||
+                    e.KeyChar == '/' ||
+                    e.KeyChar == '\\' ||
+                    e.KeyChar == '?' ||
+                    e.KeyChar == '|' ||
+                    e.KeyChar == ':' ||
+                    e.KeyChar == '*' ||
+                    e.KeyChar == '<' ||
+                    e.KeyChar == '>'
+                );
+
+            //If the pressed key is the "Enter" key we call the textbox "Leave" event.
+            if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
+        }
+
+        private void tb_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text.EndsWith(".")) tb.Text = tb.Text.TrimEnd('.');
         }
 
         private void btnPublish_Click(object sender, EventArgs e)
         {
             string[] destinationPaths =
                 {
-                tbQAFolderPath.Text + "E-Check\\",
-                tbQAFolderPath.Text + "E-CheckCore\\",
-                tbQAFolderPath.Text + "E-CheckService\\"
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
                 };
             string[] sourcePaths =
                 {
