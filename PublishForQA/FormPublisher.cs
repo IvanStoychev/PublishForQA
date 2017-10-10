@@ -18,7 +18,6 @@ namespace PublishForQA
         public FormPublisher()
         {   
             InitializeComponent();
-            //cbVersions.Items.AddRange();
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace PublishForQA
         private void Browse(TextBox textBox)
         {
             folderBrowserDialog.ShowDialog();
-            textBox.Text = folderBrowserDialog.SelectedPath;
+            textBox.Text = folderBrowserDialog.SelectedPath + "\\";
         }
 
         private void btnECheckBrowse_Click(object sender, EventArgs e)
@@ -112,6 +111,33 @@ namespace PublishForQA
         private void tb_KeyDown(object sender, KeyEventArgs e)
         {
             e.SuppressKeyPress = (e.KeyCode == Keys.Enter);
+        }
+
+        private void btnPublish_Click(object sender, EventArgs e)
+        {
+            string[] destinationPaths =
+                {
+                tbQAFolderPath.Text + "E-Check\\",
+                tbQAFolderPath.Text + "E-CheckCore\\",
+                tbQAFolderPath.Text + "E-CheckService\\"
+                };
+            string[] sourcePaths =
+                {
+                tbECheckPath.Text,
+                tbECheckCorePath.Text,
+                tbECheckServicePath.Text
+                };
+
+            for (int i = 0; i < 3; i++)
+            {
+                //First we create the directory structure
+                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
+
+                //Then we copy all files, overwriting any existing ones
+                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
+            }
         }
     }
 

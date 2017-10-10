@@ -139,12 +139,13 @@
             // btnPublish
             // 
             this.btnPublish.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnPublish.Location = new System.Drawing.Point(160, 352);
+            this.btnPublish.Location = new System.Drawing.Point(152, 352);
             this.btnPublish.Name = "btnPublish";
             this.btnPublish.Size = new System.Drawing.Size(100, 37);
             this.btnPublish.TabIndex = 3;
             this.btnPublish.Text = "Publish";
             this.btnPublish.UseVisualStyleBackColor = false;
+            this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
             // 
             // tbQAFolderPath
             // 
@@ -155,8 +156,6 @@
             this.tbQAFolderPath.Name = "tbQAFolderPath";
             this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
             this.tbQAFolderPath.TabIndex = 9;
-            this.tbQAFolderPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
             this.tbQAFolderPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // tbECheckServicePath
@@ -168,8 +167,6 @@
             this.tbECheckServicePath.Name = "tbECheckServicePath";
             this.tbECheckServicePath.Size = new System.Drawing.Size(380, 32);
             this.tbECheckServicePath.TabIndex = 9;
-            this.tbECheckServicePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
             this.tbECheckServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // tbECheckCorePath
@@ -181,8 +178,6 @@
             this.tbECheckCorePath.Name = "tbECheckCorePath";
             this.tbECheckCorePath.Size = new System.Drawing.Size(380, 32);
             this.tbECheckCorePath.TabIndex = 9;
-            this.tbECheckCorePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
             this.tbECheckCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // tbECheckPath
@@ -194,8 +189,6 @@
             this.tbECheckPath.Name = "tbECheckPath";
             this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
             this.tbECheckPath.TabIndex = 9;
-            this.tbECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
             this.tbECheckPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // btnLocate
