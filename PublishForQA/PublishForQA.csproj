@@ -89,8 +89,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="E-CheckVersions.xml" />
-    <None Include="Resources\Security Denied.png" />
+    <EmbeddedResource Include="Resources\E-CheckVersions.xml" />
+    <EmbeddedResource Include="Resources\Security Denied.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
