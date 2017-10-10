@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace PublishForQA
 {
@@ -16,9 +18,14 @@ namespace PublishForQA
         public FormPublisher()
         {
             InitializeComponent();
-            //cbVersions.Items.AddRange();
         }
-
+        
+        /// <summary>
+        /// Gets a list of all the folders of the fixed and removable drives on the system and searches through them for
+        /// a folder named as the passed version parameter.
+        /// </summary>
+        /// <param name="version">The folder name of the E-Check version to search for</param>
+        /// <remarks>The method also keeps a list of all folders that access was denied to</remarks>
         private static void Locate(string version)
         {
             List<DriveInfo> drives = new List<DriveInfo>();
@@ -83,6 +90,7 @@ namespace PublishForQA
 
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            ((FormPublisher)Form.ActiveForm).btnLocate.Menu.Close();
             Locate(e.ClickedItem.ToString());
         }
     }
@@ -100,7 +108,23 @@ namespace PublishForQA
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
             contextMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(FormPublisher.contextMenuStrip_ItemClicked);
             Menu = contextMenuStrip;
-            contextMenuStrip.Items.Add("gg");
+
+            string result = string.Empty;
+            using (Stream stream = this.GetType().Assembly.GetManifestResourceStream("PublishForQA.E-CheckVersions.xml"))
+            {
+                using (StreamReader streamReader = new StreamReader(stream))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+            }
+
+            XmlReader reader = XmlReader.Create(new StringReader(result));
+            var doc = XDocument.Load(reader);
+            List<XElement> elements = doc.Root.Elements("Version").ToList();
+            foreach (var element in elements)
+            {
+                contextMenuStrip.Items.Add(element.Value);
+            }
         }
 
         protected override void OnMouseDown(MouseEventArgs mevent)
