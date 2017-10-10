@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
@@ -15,23 +13,24 @@ namespace PublishForQA
 {
     public partial class FormPublisher : Form
     {
+        public static List<string> AccessDeniedFolders = new List<string>();
+
         public FormPublisher()
         {
             InitializeComponent();
+            //cbVersions.Items.AddRange();
         }
-        
+
         /// <summary>
         /// Gets a list of all the folders of the fixed and removable drives on the system and searches through them for
         /// a folder named as the passed version parameter.
         /// </summary>
         /// <param name="version">The folder name of the E-Check version to search for</param>
         /// <remarks>The method also keeps a list of all folders that access was denied to</remarks>
-        private static void Locate(string version)
+        private void Locate(string version)
         {
             List<DriveInfo> drives = new List<DriveInfo>();
-            List<string> folders = new List<string>();
             List<string> results = new List<string>();
-            List<string> accessDeniedFolders = new List<string>();
             drives.AddRange(DriveInfo.GetDrives());
             drives = drives
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
@@ -40,18 +39,19 @@ namespace PublishForQA
 
             foreach (var drive in drives)
             {
+                List<string> folders = new List<string>();
                 folders.AddRange(Directory.GetDirectories(drive.Name));
                 foreach (var folder in folders)
                 {
                     try
                     {
-                        results.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
+                        results.AddRange(Directory.GetDirectories(folder, /*version*/"Torrents", SearchOption.AllDirectories));
                     }
                     catch (Exception ex)
                     {
                         if (ex is System.UnauthorizedAccessException)
                         {
-                            accessDeniedFolders.Add(ex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
+                            AccessDeniedFolders.Add(ex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
                         }
                         else
                         {
@@ -60,6 +60,21 @@ namespace PublishForQA
                     }
                 }
             }
+            if (AccessDeniedFolders.Count > 0)
+            {
+                AccessDeniedFolders.Sort();
+                pbAccessDenied.Visible = true;
+            }
+            else
+            {
+                pbAccessDenied.Visible = false;
+            }
+        }
+
+        private void Browse(TextBox textBox)
+        {
+            folderBrowserDialog.ShowDialog();
+            textBox.Text = folderBrowserDialog.SelectedPath;
         }
 
         private void btnECheckBrowse_Click(object sender, EventArgs e)
@@ -82,16 +97,21 @@ namespace PublishForQA
             Browse(tbQAFolderPath);
         }
 
-        private void Browse(TextBox textBox)
-        {
-            folderBrowserDialog.ShowDialog();
-            textBox.Text = folderBrowserDialog.SelectedPath;
-        }
-
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ((FormPublisher)Form.ActiveForm).btnLocate.Menu.Close();
-            Locate(e.ClickedItem.ToString());
+            ((FormPublisher)Form.ActiveForm).Locate(e.ClickedItem.ToString());
+        }
+
+        private void pbAccessDenied_Click(object sender, EventArgs e)
+        {
+            FormAccessDenied accessDenied = new FormAccessDenied();
+            accessDenied.ShowDialog();
+        }
+
+        private void tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.SuppressKeyPress = (e.KeyCode == Keys.Enter);
         }
     }
 
@@ -108,16 +128,14 @@ namespace PublishForQA
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
             contextMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(FormPublisher.contextMenuStrip_ItemClicked);
             Menu = contextMenuStrip;
-
             string result = string.Empty;
-            using (Stream stream = this.GetType().Assembly.GetManifestResourceStream("PublishForQA.E-CheckVersions.xml"))
+            using (Stream stream = this.GetType().Assembly.GetManifestResourceStream("PublishForQA.Resources.E-CheckVersions.xml"))
             {
                 using (StreamReader streamReader = new StreamReader(stream))
                 {
                     result = streamReader.ReadToEnd();
                 }
             }
-
             XmlReader reader = XmlReader.Create(new StringReader(result));
             var doc = XDocument.Load(reader);
             List<XElement> elements = doc.Root.Elements("Version").ToList();
