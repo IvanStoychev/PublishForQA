@@ -117,7 +117,6 @@ namespace PublishForQA
                     e.KeyChar == (char)Keys.Return ||
                     e.KeyChar == '"' ||
                     e.KeyChar == '/' ||
-                    e.KeyChar == '\\' ||
                     e.KeyChar == '?' ||
                     e.KeyChar == '|' ||
                     e.KeyChar == ':' ||
