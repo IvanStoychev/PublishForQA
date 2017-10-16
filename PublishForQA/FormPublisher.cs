@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using System.Text;
 
 namespace PublishForQA
 {
@@ -125,6 +126,9 @@ namespace PublishForQA
                     e.KeyChar == '>'
                 );
 
+            //There is a special case for the "Task Name" textbox
+            if (sender.Equals(tbTaskName) && e.KeyChar == '\\') e.Handled = true;
+
             //If the pressed key is the "Enter" key we call the textbox "Leave" event.
             if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
         }
@@ -150,8 +154,41 @@ namespace PublishForQA
                 tbECheckServicePath.Text
                 };
 
+            #region Validation
+            List<TextBox> tbNoBinDebugList = new List<TextBox>();
+
+            //We check if each path ends in "\bin\debug".
+            //In order to provide the greatest ease to the user we operate on textboxes, so that
+            //we can show which ones, exactly, don't end in "\bin\debug".
+            foreach (var tb in this.Controls.OfType<TextBox>().Where(txt => txt.Name.StartsWith("tbECheck")))
+            {
+                if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\") && !tb.Text.ToLower().EndsWith("\\bin\\debug"))
+                {
+                    tbNoBinDebugList.Add(tb);
+                }
+            }
+
+            if (tbNoBinDebugList.Count > 0)
+            {
+                StringBuilder stringBuilder = new StringBuilder("The following paths don't end with a \"bin\\Debug\" folder:" + System.Environment.NewLine + System.Environment.NewLine);
+                foreach (var tb in tbNoBinDebugList)
+                {
+                    stringBuilder.Append(tb.Name.Replace("tbECheck", "E-Check ").Replace("Path", "") + System.Environment.NewLine);
+
+                }
+                stringBuilder.Append(System.Environment.NewLine + "Are you sure you wish to proceed?");
+                DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.No) return;
+            }
+            #endregion
+
+            #region Copying
             for (int i = 0; i < 3; i++)
             {
+                //For clarity and "just in case", we add a slash
+                //at the end of paths that don't have one.
+                if (!sourcePaths[i].EndsWith("\\")) sourcePaths[i] = sourcePaths[i] + "\\";
+
                 //First we create the directory structure
                 foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
                     Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
@@ -160,6 +197,7 @@ namespace PublishForQA
                 foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
                     File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
             }
+            #endregion
         }
     }
 
