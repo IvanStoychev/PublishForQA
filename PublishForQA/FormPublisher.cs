@@ -34,11 +34,11 @@ namespace PublishForQA
         private void Locate(string version)
         {
             List<DriveInfo> drives = new List<DriveInfo>();
-            List<string> results = new List<string>();
+            List<string> ECheckresults = new List<string>();
+            List<string> ECheckCoreresults = new List<string>();
             drives.AddRange(DriveInfo.GetDrives());
             drives = drives
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
-                           .Select(x => x)
                            .ToList();
 
             foreach (var drive in drives)
@@ -49,7 +49,8 @@ namespace PublishForQA
                 {
                     try
                     {
-                        results.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
+                        ECheckresults.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
+                        ECheckCoreresults.AddRange(Directory.GetDirectories(folder, "E-CheckCore", SearchOption.AllDirectories));
                     }
                     catch (Exception ex)
                     {
@@ -64,14 +65,32 @@ namespace PublishForQA
                     }
                 }
             }
+
+            //If there were any folders that access was denied to we show the
+            //button which opens the dialog which lists them.
             if (AccessDeniedFolders.Count > 0)
             {
+                AccessDeniedFolders.Distinct();
                 AccessDeniedFolders.Sort();
                 pbAccessDenied.Visible = true;
             }
             else
             {
                 pbAccessDenied.Visible = false;
+            }
+
+            List<string> ECheckPath = ECheckresults.Where(x => Directory.Exists(x + "\\master\\WinClient\\E-Check\\")).ToList();
+            List<string> ECheckCorePath = ECheckCoreresults.Where(x => Directory.Exists(x + "\\E-CheckCoreConsoleHost\\bin\\Debug\\")).ToList();
+            if (ECheckPath.Count == 1)
+            {
+                if(Directory.Exists(ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug")) tbECheckPath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
+                else MessageBox.Show("WinClient debug directory does not exist.");
+                if(Directory.Exists(ECheckPath[0] + "\\master\\AppServer\\ServiceHostNew\\ServiceHostNew\\bin\\Debug")) tbECheckServicePath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
+                else MessageBox.Show("Appserver debug directory does not exist.");
+            }
+            else
+            {
+                
             }
         }
 
@@ -192,9 +211,7 @@ namespace PublishForQA
                 tbECheckCorePath.Text,
                 tbECheckServicePath.Text
                 };
-
             
-
             #region Copying
             for (int i = 0; i < 3; i++)
             {
