@@ -15,10 +15,14 @@ namespace PublishForQA
     public partial class FormPublisher : Form
     {
         public static List<string> AccessDeniedFolders = new List<string>();
+        public static List<TextBox> tbECheckList = new List<TextBox>();
 
         public FormPublisher()
         {   
             InitializeComponent();
+            tbECheckList.Add(tbECheckPath);
+            tbECheckList.Add(tbECheckCorePath);
+            tbECheckList.Add(tbECheckServicePath);
         }
 
         /// <summary>
@@ -141,27 +145,21 @@ namespace PublishForQA
 
         private void btnPublish_Click(object sender, EventArgs e)
         {
-            string[] destinationPaths =
-                {
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
-                };
-            string[] sourcePaths =
-                {
-                tbECheckPath.Text,
-                tbECheckCorePath.Text,
-                tbECheckServicePath.Text
-                };
-
             #region Validation
-            List<TextBox> tbNoBinDebugList = new List<TextBox>();
+            //For clarity and "just in case", we add a slash
+            //at the end of paths that don't have one.
+            foreach (var tb in tbECheckList)
+            {   
+                if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
+            }
+            if (!tbQAFolderPath.Text.EndsWith("\\")) tbQAFolderPath.Text = tbQAFolderPath.Text + "\\";
 
-            //We check if each path ends in "\bin\debug".
-            //In order to provide the greatest ease to the user we operate on textboxes, so that
-            //we can show which ones, exactly, don't end in "\bin\debug".
-            foreach (var tb in this.Controls.OfType<TextBox>().Where(txt => txt.Name.StartsWith("tbECheck")))
+            //We check if each path ends in "\\bin\\debug\\"
+            List<TextBox> tbNoBinDebugList = new List<TextBox>();
+            foreach (var tb in tbECheckList)
             {
+                //Considering the previous validation all paths should end in "\\" but
+                //just in case we also check for "\\bin\\debug".
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\") && !tb.Text.ToLower().EndsWith("\\bin\\debug"))
                 {
                     tbNoBinDebugList.Add(tb);
@@ -182,13 +180,24 @@ namespace PublishForQA
             }
             #endregion
 
+            string[] destinationPaths =
+                {
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
+                };
+            string[] sourcePaths =
+                {
+                tbECheckPath.Text,
+                tbECheckCorePath.Text,
+                tbECheckServicePath.Text
+                };
+
+            
+
             #region Copying
             for (int i = 0; i < 3; i++)
             {
-                //For clarity and "just in case", we add a slash
-                //at the end of paths that don't have one.
-                if (!sourcePaths[i].EndsWith("\\")) sourcePaths[i] = sourcePaths[i] + "\\";
-
                 //First we create the directory structure
                 foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
                     Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
