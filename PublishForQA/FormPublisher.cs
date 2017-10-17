@@ -70,7 +70,6 @@ namespace PublishForQA
             //button which opens the dialog which lists them.
             if (AccessDeniedFolders.Count > 0)
             {
-                AccessDeniedFolders.Distinct();
                 AccessDeniedFolders.Sort();
                 pbAccessDenied.Visible = true;
             }
@@ -79,14 +78,32 @@ namespace PublishForQA
                 pbAccessDenied.Visible = false;
             }
 
+            StringBuilder notFound = new StringBuilder();
             List<string> ECheckPath = ECheckresults.Where(x => Directory.Exists(x + "\\master\\WinClient\\E-Check\\")).ToList();
-            List<string> ECheckCorePath = ECheckCoreresults.Where(x => Directory.Exists(x + "\\E-CheckCoreConsoleHost\\bin\\Debug\\")).ToList();
-            if (ECheckPath.Count == 1)
+            List<string> ECheckCorePath = ECheckCoreresults.Where(x => Directory.Exists(x + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\")).ToList();
+            if (ECheckPath.Count < 1) MessageBox.Show(version + "was not found.");
+            else if (ECheckPath.Count == 1)
             {
-                if(Directory.Exists(ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug")) tbECheckPath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
-                else MessageBox.Show("WinClient debug directory does not exist.");
-                if(Directory.Exists(ECheckPath[0] + "\\master\\AppServer\\ServiceHostNew\\ServiceHostNew\\bin\\Debug")) tbECheckServicePath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
-                else MessageBox.Show("Appserver debug directory does not exist.");
+                if (Directory.Exists(ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug")) tbECheckPath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
+                else
+                {
+                    MessageBox.Show("WinClient debug directory does not exist.");
+                    tbECheckPath.Text = ECheckPath[0];
+                }
+                if (Directory.Exists(ECheckPath[0] + "\\master\\AppServer\\ServiceHostNew\\ServiceHostNew\\bin\\Debug")) tbECheckServicePath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
+                else
+                {
+                    MessageBox.Show("Appserver debug directory does not exist.");
+                    tbECheckServicePath.Text = ECheckPath[0];
+                }
+            }
+            else
+            {
+
+            }
+            if (ECheckCorePath.Count == 1)
+            {
+                tbECheckCorePath.Text = ECheckCorePath[0] + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\";
             }
             else
             {
@@ -190,7 +207,7 @@ namespace PublishForQA
                 StringBuilder stringBuilder = new StringBuilder("The following paths don't end with a \"bin\\Debug\" folder:" + System.Environment.NewLine + System.Environment.NewLine);
                 foreach (var tb in tbNoBinDebugList)
                 {
-                    stringBuilder.Append(tb.Name.Replace("tbECheck", "E-Check ").Replace("Path", "") + System.Environment.NewLine);
+                    stringBuilder.AppendLine(tb.Name.Replace("tbECheck", "E-Check ").Replace("Path", ""));
 
                 }
                 stringBuilder.Append(System.Environment.NewLine + "Are you sure you wish to proceed?");
