@@ -47,6 +47,8 @@
             this.tbECheckPath = new System.Windows.Forms.TextBox();
             this.btnLocate = new PublishForQA.MenuButton();
             this.pbAccessDenied = new System.Windows.Forms.PictureBox();
+            this.tbTaskName = new System.Windows.Forms.TextBox();
+            this.lblTaskName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
             this.SuspendLayout();
             // 
@@ -139,12 +141,13 @@
             // btnPublish
             // 
             this.btnPublish.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnPublish.Location = new System.Drawing.Point(160, 352);
+            this.btnPublish.Location = new System.Drawing.Point(152, 385);
             this.btnPublish.Name = "btnPublish";
             this.btnPublish.Size = new System.Drawing.Size(100, 37);
             this.btnPublish.TabIndex = 3;
             this.btnPublish.Text = "Publish";
             this.btnPublish.UseVisualStyleBackColor = false;
+            this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
             // 
             // tbQAFolderPath
             // 
@@ -155,9 +158,9 @@
             this.tbQAFolderPath.Name = "tbQAFolderPath";
             this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
             this.tbQAFolderPath.TabIndex = 9;
-            this.tbQAFolderPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
-            this.tbQAFolderPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
+            this.tbQAFolderPath.Text = "E:\\Development\\QA\\";
+            this.tbQAFolderPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            this.tbQAFolderPath.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // tbECheckServicePath
             // 
@@ -168,9 +171,10 @@
             this.tbECheckServicePath.Name = "tbECheckServicePath";
             this.tbECheckServicePath.Size = new System.Drawing.Size(380, 32);
             this.tbECheckServicePath.TabIndex = 9;
-            this.tbECheckServicePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
-            this.tbECheckServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
+            this.tbECheckServicePath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-Check\\E-Check\\master\\AppServer\\ServiceHostNew" +
+    "\\ServiceHostNew\\bin\\Debug\\";
+            this.tbECheckServicePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            this.tbECheckServicePath.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // tbECheckCorePath
             // 
@@ -181,9 +185,10 @@
             this.tbECheckCorePath.Name = "tbECheckCorePath";
             this.tbECheckCorePath.Size = new System.Drawing.Size(380, 32);
             this.tbECheckCorePath.TabIndex = 9;
-            this.tbECheckCorePath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
-            this.tbECheckCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
+            this.tbECheckCorePath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-CheckCore\\E-CheckCore\\E-CheckCoreConsoleHost\\" +
+    "bin\\Debug\\";
+            this.tbECheckCorePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            this.tbECheckCorePath.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // tbECheckPath
             // 
@@ -194,9 +199,10 @@
             this.tbECheckPath.Name = "tbECheckPath";
             this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
             this.tbECheckPath.TabIndex = 9;
-            this.tbECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\master\\E-Check\\E-Check\\master\\WinClient\\master\\" +
-    "E-Check\\AppData\\bin\\debug";
-            this.tbECheckPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
+            this.tbECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-Check\\E-Check\\master\\WinClient\\E-Check\\bin\\De" +
+    "bug\\";
+            this.tbECheckPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            this.tbECheckPath.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // btnLocate
             // 
@@ -219,11 +225,32 @@
             this.pbAccessDenied.Visible = false;
             this.pbAccessDenied.Click += new System.EventHandler(this.pbAccessDenied_Click);
             // 
+            // tbTaskName
+            // 
+            this.tbTaskName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbTaskName.Location = new System.Drawing.Point(27, 347);
+            this.tbTaskName.Name = "tbTaskName";
+            this.tbTaskName.Size = new System.Drawing.Size(350, 20);
+            this.tbTaskName.TabIndex = 12;
+            this.tbTaskName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            this.tbTaskName.Leave += new System.EventHandler(this.tb_Leave);
+            // 
+            // lblTaskName
+            // 
+            this.lblTaskName.AutoSize = true;
+            this.lblTaskName.Location = new System.Drawing.Point(173, 328);
+            this.lblTaskName.Name = "lblTaskName";
+            this.lblTaskName.Size = new System.Drawing.Size(65, 13);
+            this.lblTaskName.TabIndex = 13;
+            this.lblTaskName.Text = "Task Name:";
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 398);
+            this.ClientSize = new System.Drawing.Size(404, 433);
+            this.Controls.Add(this.lblTaskName);
+            this.Controls.Add(this.tbTaskName);
             this.Controls.Add(this.pbAccessDenied);
             this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.tbECheckPath);
@@ -268,6 +295,8 @@
         private System.Windows.Forms.TextBox tbECheckPath;
         private MenuButton btnLocate;
         private System.Windows.Forms.PictureBox pbAccessDenied;
+        private System.Windows.Forms.TextBox tbTaskName;
+        private System.Windows.Forms.Label lblTaskName;
     }
 }
 

@@ -8,17 +8,21 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using System.Text;
 
 namespace PublishForQA
 {
     public partial class FormPublisher : Form
     {
         public static List<string> AccessDeniedFolders = new List<string>();
+        public static List<TextBox> tbECheckList = new List<TextBox>();
 
         public FormPublisher()
         {   
             InitializeComponent();
-            //cbVersions.Items.AddRange();
+            tbECheckList.Add(tbECheckPath);
+            tbECheckList.Add(tbECheckCorePath);
+            tbECheckList.Add(tbECheckServicePath);
         }
 
         /// <summary>
@@ -30,11 +34,11 @@ namespace PublishForQA
         private void Locate(string version)
         {
             List<DriveInfo> drives = new List<DriveInfo>();
-            List<string> results = new List<string>();
+            List<string> ECheckresults = new List<string>();
+            List<string> ECheckCoreresults = new List<string>();
             drives.AddRange(DriveInfo.GetDrives());
             drives = drives
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
-                           .Select(x => x)
                            .ToList();
 
             foreach (var drive in drives)
@@ -45,7 +49,8 @@ namespace PublishForQA
                 {
                     try
                     {
-                        results.AddRange(Directory.GetDirectories(folder, /*version*/"Torrents", SearchOption.AllDirectories));
+                        ECheckresults.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
+                        ECheckCoreresults.AddRange(Directory.GetDirectories(folder, "E-CheckCore", SearchOption.AllDirectories));
                     }
                     catch (Exception ex)
                     {
@@ -60,6 +65,9 @@ namespace PublishForQA
                     }
                 }
             }
+
+            //If there were any folders that access was denied to we show the
+            //button which opens the dialog which lists them.
             if (AccessDeniedFolders.Count > 0)
             {
                 AccessDeniedFolders.Sort();
@@ -69,12 +77,44 @@ namespace PublishForQA
             {
                 pbAccessDenied.Visible = false;
             }
+
+            StringBuilder notFound = new StringBuilder();
+            List<string> ECheckPath = ECheckresults.Where(x => Directory.Exists(x + "\\master\\WinClient\\E-Check\\")).ToList();
+            List<string> ECheckCorePath = ECheckCoreresults.Where(x => Directory.Exists(x + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\")).ToList();
+            if (ECheckPath.Count < 1) MessageBox.Show(version + "was not found.");
+            else if (ECheckPath.Count == 1)
+            {
+                if (Directory.Exists(ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug")) tbECheckPath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
+                else
+                {
+                    MessageBox.Show("WinClient debug directory does not exist.");
+                    tbECheckPath.Text = ECheckPath[0];
+                }
+                if (Directory.Exists(ECheckPath[0] + "\\master\\AppServer\\ServiceHostNew\\ServiceHostNew\\bin\\Debug")) tbECheckServicePath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
+                else
+                {
+                    MessageBox.Show("Appserver debug directory does not exist.");
+                    tbECheckServicePath.Text = ECheckPath[0];
+                }
+            }
+            else
+            {
+
+            }
+            if (ECheckCorePath.Count == 1)
+            {
+                tbECheckCorePath.Text = ECheckCorePath[0] + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\";
+            }
+            else
+            {
+                
+            }
         }
 
         private void Browse(TextBox textBox)
         {
             folderBrowserDialog.ShowDialog();
-            textBox.Text = folderBrowserDialog.SelectedPath;
+            textBox.Text = folderBrowserDialog.SelectedPath + "\\";
         }
 
         private void btnECheckBrowse_Click(object sender, EventArgs e)
@@ -109,9 +149,98 @@ namespace PublishForQA
             accessDenied.ShowDialog();
         }
 
-        private void tb_KeyDown(object sender, KeyEventArgs e)
+        private void tb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.SuppressKeyPress = (e.KeyCode == Keys.Enter);
+            //If an IllegalPath character or the Enter key would be entered in the
+            //textboxes, we prevent it by setting the "Handled" property to "true".
+            e.Handled =
+                (
+                    e.KeyChar == (char)Keys.Return ||
+                    e.KeyChar == '"' ||
+                    e.KeyChar == '/' ||
+                    e.KeyChar == '?' ||
+                    e.KeyChar == '|' ||
+                    e.KeyChar == ':' ||
+                    e.KeyChar == '*' ||
+                    e.KeyChar == '<' ||
+                    e.KeyChar == '>'
+                );
+
+            //There is a special case for the "Task Name" textbox
+            if (sender.Equals(tbTaskName) && e.KeyChar == '\\') e.Handled = true;
+
+            //If the pressed key is the "Enter" key we call the textbox "Leave" event.
+            if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
+        }
+
+        private void tb_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text.EndsWith(".")) tb.Text = tb.Text.TrimEnd('.');
+        }
+
+        private void btnPublish_Click(object sender, EventArgs e)
+        {
+            #region Validation
+            //For clarity and "just in case", we add a slash
+            //at the end of paths that don't have one.
+            foreach (var tb in tbECheckList)
+            {   
+                if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
+            }
+            if (!tbQAFolderPath.Text.EndsWith("\\")) tbQAFolderPath.Text = tbQAFolderPath.Text + "\\";
+
+            //We check if each path ends in "\\bin\\debug\\"
+            List<TextBox> tbNoBinDebugList = new List<TextBox>();
+            foreach (var tb in tbECheckList)
+            {
+                //Considering the previous validation all paths should end in "\\" but
+                //just in case we also check for "\\bin\\debug".
+                if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\") && !tb.Text.ToLower().EndsWith("\\bin\\debug"))
+                {
+                    tbNoBinDebugList.Add(tb);
+                }
+            }
+
+            if (tbNoBinDebugList.Count > 0)
+            {
+                StringBuilder stringBuilder = new StringBuilder("The following paths don't end with a \"bin\\Debug\" folder:" + System.Environment.NewLine + System.Environment.NewLine);
+                foreach (var tb in tbNoBinDebugList)
+                {
+                    stringBuilder.AppendLine(tb.Name.Replace("tbECheck", "E-Check ").Replace("Path", ""));
+
+                }
+                stringBuilder.Append(System.Environment.NewLine + "Are you sure you wish to proceed?");
+                DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.No) return;
+            }
+            #endregion
+
+            string[] destinationPaths =
+                {
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
+                };
+            string[] sourcePaths =
+                {
+                tbECheckPath.Text,
+                tbECheckCorePath.Text,
+                tbECheckServicePath.Text
+                };
+            
+            #region Copying
+            for (int i = 0; i < 3; i++)
+            {
+                //First we create the directory structure
+                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
+
+                //Then we copy all files, overwriting any existing ones
+                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
+            }
+            #endregion
         }
     }
 
