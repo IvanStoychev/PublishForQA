@@ -59,6 +59,7 @@
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.lblAccessDenied);
             this.Controls.Add(this.lbAccessDenied);
+            this.MinimizeBox = false;
             this.Name = "FormAccessDenied";
             this.Text = "Access Denied Folders";
             this.ResumeLayout(false);
