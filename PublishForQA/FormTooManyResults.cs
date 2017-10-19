@@ -32,8 +32,7 @@ namespace PublishForQA
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
             tlpMain.AutoSize = true;
             tlpMain.Controls.Add(lblText, 0, 0);
-            tlpMain.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-            tlpMain.Location = new Point(12, 12);
+            tlpMain.Location = new Point(5, 10);
             this.Controls.Add(tlpMain);
 
             //We create a list that is going to hold all the results
@@ -56,8 +55,12 @@ namespace PublishForQA
                 longestList = eCheckCorePath;
             }
 
+            //We find the longest result so we can later set the ListBoxes' width appropriately
             string longest = longestList.Aggregate("", (max, cur) => max.Length > cur.Length ? max : cur);
+            Graphics graphics = this.CreateGraphics();
+            int longestWidth = TextRenderer.MeasureText(longest, this.Font).Width;
 
+            //Labels and ListBoxes are created, only if needed (more than one result)
             if (eCheckPath.Count > 1)
             {
                 Panel pEcheck = new Panel();
@@ -71,17 +74,12 @@ namespace PublishForQA
                 lblECheck.UseMnemonic = false;
 
                 ListBox lbECheck = new ListBox();
-                
-                Graphics graphics = this.CreateGraphics();
-                SizeF size = graphics.MeasureString(longest, lbECheck.Font);
-                size.Width = MeasureString(longest, lbECheck.Font);
-                size.Height = 15 * eCheckPath.Count;
-                lbECheck.Size = Size.Round(size);
+                lbECheck.Size = new Size(longestWidth, 15 * eCheckPath.Count);
                 lbECheck.DataSource = eCheckPath;
                 lbECheck.Location = new Point(0, 15);
 
                 tlpMain.RowCount++;
-                tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 100));
+                tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, lbECheck.Height + 25));
                 tlpMain.Controls.Add(pEcheck, 0, tlpMain.RowCount - 1);
                 pEcheck.Controls.Add(lblECheck);
                 pEcheck.Controls.Add(lbECheck);
@@ -93,26 +91,21 @@ namespace PublishForQA
                 pCore.AutoSize = true;
                 pCore.AutoScroll = true;
 
-                Label lblECheck = new Label();
-                lblECheck.Text = "E-Check location:";
-                lblECheck.AutoSize = true;
-                lblECheck.UseMnemonic = false;
+                Label lblECheckCore = new Label();
+                lblECheckCore.Text = "E-CheckCore location:";
+                lblECheckCore.AutoSize = true;
+                lblECheckCore.UseMnemonic = false;
 
-                ListBox lbECheck = new ListBox();
-
-                Graphics graphics = this.CreateGraphics();
-                SizeF size = graphics.MeasureString(longest, lbECheck.Font);
-                size.Width = MeasureString(longest, lbECheck.Font);
-                size.Height = 15 * eCheckPath.Count;
-                lbECheck.Size = Size.Round(size);
-                lbECheck.DataSource = eCheckPath;
-                lbECheck.Location = new Point(0, 15);
+                ListBox lbECheckCore = new ListBox();
+                lbECheckCore.Size = new Size(longestWidth, 15 * eCheckPath.Count);
+                lbECheckCore.DataSource = eCheckCorePath;
+                lbECheckCore.Location = new Point(0, 15);
 
                 tlpMain.RowCount++;
-                tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 100));
+                tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, lbECheckCore.Height + 25));
                 tlpMain.Controls.Add(pCore, 0, tlpMain.RowCount - 1);
-                pCore.Controls.Add(lblECheck);
-                pCore.Controls.Add(lbECheck);
+                pCore.Controls.Add(lblECheckCore);
+                pCore.Controls.Add(lbECheckCore);
             }
         }
 
