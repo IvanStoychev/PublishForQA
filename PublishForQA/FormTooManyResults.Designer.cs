@@ -35,9 +35,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(441, 428);
+            this.ClientSize = new System.Drawing.Size(214, 162);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(230, 200);
             this.Name = "FormTooManyResults";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Choose paths";
