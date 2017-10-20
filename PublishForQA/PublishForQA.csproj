@@ -57,22 +57,19 @@
     <Compile Include="FormPublisher.Designer.cs">
       <DependentUpon>FormPublisher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FormTooManyResults.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormTooManyResults.Designer.cs">
       <DependentUpon>FormTooManyResults.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAccessDenied.resx">
       <DependentUpon>FormAccessDenied.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPublisher.resx">
       <DependentUpon>FormPublisher.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormTooManyResults.resx">
-      <DependentUpon>FormTooManyResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -84,6 +81,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="FormTooManyResults.resx">
+      <DependentUpon>FormTooManyResults.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
