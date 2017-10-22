@@ -73,13 +73,17 @@ namespace PublishForQA
             this.Size = new Size(longestWidth + 30, tallestHeightECheck + tallestHeightCore + 100);
             
             lbECheck.ClientSize = new Size(longestWidth, tallestHeightECheck);
-            lbECheck.Location = new Point(0, 0);
+            //lbECheck.Location = new Point(0, 0);
             lbCore.ClientSize = new Size(longestWidth, tallestHeightCore);
-            lbCore.Location = new Point(0, 0);
-            tlpMain.RowStyles[1].SizeType = SizeType.Absolute;
-            tlpMain.RowStyles[1].Height = tallestHeightECheck + lblECheck.Height + 10;
-            tlpMain.RowStyles[2].SizeType = SizeType.Absolute;
-            tlpMain.RowStyles[2].Height = tallestHeightCore + lbCore.Height + 10;
+            //lbCore.Location = new Point(0, lblCore.Location.Y);
+
+
+            MessageBox.Show(lbCore.Location.Y.ToString());
+
+            //tlpMain.RowStyles[1].SizeType = SizeType.Absolute;
+            //tlpMain.RowStyles[1].Height = tallestHeightECheck + lblECheck.Height + 10;
+            //tlpMain.RowStyles[2].SizeType = SizeType.Absolute;
+            //tlpMain.RowStyles[2].Height = tallestHeightCore + lbCore.Height + 10;
             lbECheck.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom);
             lbCore.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom);
         }
