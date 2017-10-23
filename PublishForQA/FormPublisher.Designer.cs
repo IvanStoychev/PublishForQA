@@ -159,6 +159,7 @@
             this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
             this.tbQAFolderPath.TabIndex = 9;
             this.tbQAFolderPath.Text = "E:\\Development\\QA\\";
+            this.tbQAFolderPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbQAFolderPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbQAFolderPath.Leave += new System.EventHandler(this.tb_Leave);
             // 
@@ -173,6 +174,7 @@
             this.tbECheckServicePath.TabIndex = 9;
             this.tbECheckServicePath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-Check\\E-Check\\master\\AppServer\\ServiceHostNew" +
     "\\ServiceHostNew\\bin\\Debug\\";
+            this.tbECheckServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbECheckServicePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbECheckServicePath.Leave += new System.EventHandler(this.tb_Leave);
             // 
@@ -187,6 +189,7 @@
             this.tbECheckCorePath.TabIndex = 9;
             this.tbECheckCorePath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-CheckCore\\E-CheckCore\\E-CheckCoreConsoleHost\\" +
     "bin\\Debug\\";
+            this.tbECheckCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbECheckCorePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbECheckCorePath.Leave += new System.EventHandler(this.tb_Leave);
             // 
@@ -201,6 +204,7 @@
             this.tbECheckPath.TabIndex = 9;
             this.tbECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-Check\\E-Check\\master\\WinClient\\E-Check\\bin\\De" +
     "bug\\";
+            this.tbECheckPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbECheckPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbECheckPath.Leave += new System.EventHandler(this.tb_Leave);
             // 
