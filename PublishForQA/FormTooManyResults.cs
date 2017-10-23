@@ -69,23 +69,16 @@ namespace PublishForQA
             int longestWidth = Math.Min(TextRenderer.MeasureText(longest, this.Font).Width, widthLimit);
             
             //First we size the form, because if we size the ListBoxes first
-            //they will look ugly when the form is being resized.
-            this.Size = new Size(longestWidth + 30, tallestHeightECheck + tallestHeightCore + 100);
+            //they will be misshapen after the form resize.
+            this.Size = new Size(longestWidth + 45, tallestHeightECheck + tallestHeightCore + 175);
             
-            lbECheck.ClientSize = new Size(longestWidth, tallestHeightECheck);
+            lbECheck.ClientSize = new Size(longestWidth + 15, tallestHeightECheck);
             lblECheck.Location = new Point(0, 0);
             lbECheck.Location = new Point(0, 15);
             lblCore.Location = new Point(0, 0);
-            lbCore.ClientSize = new Size(longestWidth, tallestHeightCore);
+            lbCore.ClientSize = new Size(longestWidth + 15, tallestHeightCore);
             lbCore.Location = new Point(0, 15);
 
-
-            //MessageBox.Show(lbCore.Location.Y.ToString());
-
-            //tlpMain.RowStyles[1].SizeType = SizeType.Absolute;
-            //tlpMain.RowStyles[1].Height = tallestHeightECheck + lblECheck.Height + 10;
-            //tlpMain.RowStyles[2].SizeType = SizeType.Absolute;
-            //tlpMain.RowStyles[2].Height = tallestHeightCore + lbCore.Height + 10;
             lbECheck.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom);
             lbCore.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom);
         }
