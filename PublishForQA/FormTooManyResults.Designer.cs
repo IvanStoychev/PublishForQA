@@ -44,7 +44,6 @@
             // 
             // tlpMain
             // 
-            this.tlpMain.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tlpMain.ColumnCount = 1;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.Controls.Add(this.lblResults, 0, 0);
@@ -66,7 +65,7 @@
             // 
             this.lblResults.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblResults.Location = new System.Drawing.Point(4, 4);
+            this.lblResults.Location = new System.Drawing.Point(3, 3);
             this.lblResults.Name = "lblResults";
             this.lblResults.Size = new System.Drawing.Size(260, 34);
             this.lblResults.TabIndex = 0;
@@ -78,16 +77,16 @@
             this.pECheck.Controls.Add(this.lbECheck);
             this.pECheck.Controls.Add(this.lblECheck);
             this.pECheck.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pECheck.Location = new System.Drawing.Point(4, 45);
+            this.pECheck.Location = new System.Drawing.Point(3, 43);
             this.pECheck.Name = "pECheck";
-            this.pECheck.Size = new System.Drawing.Size(449, 202);
+            this.pECheck.Size = new System.Drawing.Size(451, 204);
             this.pECheck.TabIndex = 1;
             // 
             // lbECheck
             // 
             this.lbECheck.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbECheck.FormattingEnabled = true;
-            this.lbECheck.Location = new System.Drawing.Point(3, 16);
+            this.lbECheck.Location = new System.Drawing.Point(4, 17);
             this.lbECheck.Name = "lbECheck";
             this.lbECheck.Size = new System.Drawing.Size(443, 173);
             this.lbECheck.TabIndex = 1;
@@ -107,16 +106,16 @@
             this.pCore.Controls.Add(this.lbCore);
             this.pCore.Controls.Add(this.lblCore);
             this.pCore.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pCore.Location = new System.Drawing.Point(4, 254);
+            this.pCore.Location = new System.Drawing.Point(3, 253);
             this.pCore.Name = "pCore";
-            this.pCore.Size = new System.Drawing.Size(449, 202);
+            this.pCore.Size = new System.Drawing.Size(451, 204);
             this.pCore.TabIndex = 2;
             // 
             // lbCore
             // 
             this.lbCore.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbCore.FormattingEnabled = true;
-            this.lbCore.Location = new System.Drawing.Point(3, 16);
+            this.lbCore.Location = new System.Drawing.Point(4, 17);
             this.lbCore.Name = "lbCore";
             this.lbCore.Size = new System.Drawing.Size(443, 173);
             this.lbCore.TabIndex = 3;
@@ -134,7 +133,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnOK.Location = new System.Drawing.Point(378, 468);
+            this.btnOK.Location = new System.Drawing.Point(379, 469);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;

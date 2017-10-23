@@ -41,6 +41,8 @@ namespace PublishForQA
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
                            .ToList();
 
+            this.Cursor = Cursors.WaitCursor;
+
             //For each Fixed or Removable storage drive on the system we search for folders
             //named after the selected version and "E-CheckCore".
             //We also create a list of all folders to which access was denied to.
@@ -81,21 +83,11 @@ namespace PublishForQA
                 pbAccessDenied.Visible = false;
             }
 
-            List<string> eCheckPath = ECheckresults.Where(x => Directory.Exists(x + "\\master\\WinClient\\E-Check\\")).ToList();
-            List<string> corePath = Coreresults.Where(x => Directory.Exists(x + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\")).ToList();
+            this.Cursor = Cursors.Default;
 
-            Validate(eCheckPath, corePath, version);
-        }
+            List<string> eCheckPath = ECheckresults.Where(x => Directory.Exists(x + @"\master\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList();
+            List<string> corePath = Coreresults.Where(x => Directory.Exists(x + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList();
 
-        /// <summary>
-        /// Validates which paths were found: The E-Check version and/or E-CheckCore, sets the path for the textboxes and
-        /// opens the "TooManyResults" form, if needed.
-        /// </summary>
-        /// <param name="eCheckPath">The list of all folders with the same name as "version" found</param>
-        /// <param name="corePath">The list of all "E-CheckCore" folders found</param>
-        /// <param name="version">The version of E-Check it was searched for</param>
-        private void Validate(List<string> eCheckPath, List<string> corePath, string version)
-        {
             //No results for either E-Check or E-CheckCore
             if (eCheckPath.Count < 1 && corePath.Count < 1)
             {
@@ -115,34 +107,20 @@ namespace PublishForQA
                 return;
             }
 
-            if (eCheckPath.Count > 1 || corePath.Count > 1) new FormTooManyResults(eCheckPath, corePath);
-
             if (eCheckPath.Count == 1)
             {
-                if (Directory.Exists(eCheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug")) tbECheckPath.Text = eCheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
-                else
-                {
-                    MessageBox.Show("WinClient debug directory does not exist.");
-                    tbECheckPath.Text = eCheckPath[0];
-                }
-                if (Directory.Exists(eCheckPath[0] + "\\master\\AppServer\\ServiceHostNew\\ServiceHostNew\\bin\\Debug")) tbECheckServicePath.Text = eCheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
-                else
-                {
-                    MessageBox.Show("Appserver debug directory does not exist.");
-                    tbECheckServicePath.Text = eCheckPath[0];
-                }
-            }
-            else
-            {
-                //call too many results form
+                tbECheckPath.Text = Path.Combine(eCheckPath[0], @"master\WinClient\E-Check\bin\Debug\");
+                tbECheckServicePath.Text = Path.Combine(eCheckPath[0], @"master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
             }
             if (corePath.Count == 1)
             {
-                tbECheckCorePath.Text = corePath[0] + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\";
+                tbECheckCorePath.Text = Path.Combine(corePath[0], @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
             }
-            else
-            {
 
+            if (eCheckPath.Count > 1 || corePath.Count > 1)
+            {
+                FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPath, corePath);
+                formTooManyResults.ShowDialog();
             }
         }
 
