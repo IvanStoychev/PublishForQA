@@ -16,8 +16,7 @@ namespace PublishForQA
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FormPublisher());
-            Application.Run(new FormTooManyResults());
+            Application.Run(new FormPublisher());
         }
     }
 }

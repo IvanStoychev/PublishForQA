@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,6 +82,25 @@ namespace PublishForQA
 
             lbECheck.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom);
             lbCore.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom);
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            Form parent = Application.OpenForms["FormPublisher"];
+            if (lbECheck.SelectedItem != null)
+            {
+                string ECheck = Path.Combine(lbECheck.SelectedItem.ToString(), @"\master\WinClient\E-Check\bin\Debug\");
+                string ECheckService = Path.Combine(lbECheck.SelectedItem.ToString(), @"\master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
+                parent.Controls.Find("tbECheckPath", false).FirstOrDefault().Text = ECheck;
+                parent.Controls.Find("tbECheckServicePath", false).FirstOrDefault().Text = ECheckService;
+            }
+            if (lbCore.SelectedItem != null)
+            {
+                string ECheckCore = Path.Combine(lbCore.SelectedItem.ToString(), @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
+                parent.Controls.Find("tbECheckCorePath", false).FirstOrDefault().Text = ECheckCore;
+            }
+
+            this.Dispose();
         }
     }
 }
