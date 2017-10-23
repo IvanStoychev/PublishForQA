@@ -106,7 +106,7 @@
             this.btnQAFolderBrowse.TabIndex = 2;
             this.btnQAFolderBrowse.Text = "Browse...";
             this.btnQAFolderBrowse.UseVisualStyleBackColor = true;
-            this.btnQAFolderBrowse.Click += new System.EventHandler(this.btnQAFolderBrowse_Click);
+            this.btnQAFolderBrowse.Click += new System.EventHandler(this.Browse);
             // 
             // btnECheckServiceBrowse
             // 
@@ -116,7 +116,7 @@
             this.btnECheckServiceBrowse.TabIndex = 2;
             this.btnECheckServiceBrowse.Text = "Browse...";
             this.btnECheckServiceBrowse.UseVisualStyleBackColor = true;
-            this.btnECheckServiceBrowse.Click += new System.EventHandler(this.btnECheckServiceBrowse_Click);
+            this.btnECheckServiceBrowse.Click += new System.EventHandler(this.Browse);
             // 
             // btnECheckCoreBrowse
             // 
@@ -126,7 +126,7 @@
             this.btnECheckCoreBrowse.TabIndex = 2;
             this.btnECheckCoreBrowse.Text = "Browse...";
             this.btnECheckCoreBrowse.UseVisualStyleBackColor = true;
-            this.btnECheckCoreBrowse.Click += new System.EventHandler(this.btnECheckCoreBrowse_Click);
+            this.btnECheckCoreBrowse.Click += new System.EventHandler(this.Browse);
             // 
             // btnECheckBrowse
             // 
@@ -136,7 +136,7 @@
             this.btnECheckBrowse.TabIndex = 2;
             this.btnECheckBrowse.Text = "Browse...";
             this.btnECheckBrowse.UseVisualStyleBackColor = true;
-            this.btnECheckBrowse.Click += new System.EventHandler(this.btnECheckBrowse_Click);
+            this.btnECheckBrowse.Click += new System.EventHandler(this.Browse);
             // 
             // btnPublish
             // 

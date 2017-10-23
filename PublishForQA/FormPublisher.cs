@@ -35,12 +35,15 @@ namespace PublishForQA
         {
             List<DriveInfo> drives = new List<DriveInfo>();
             List<string> ECheckresults = new List<string>();
-            List<string> ECheckCoreresults = new List<string>();
+            List<string> Coreresults = new List<string>();
             drives.AddRange(DriveInfo.GetDrives());
             drives = drives
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
                            .ToList();
 
+            //For each Fixed or Removable storage drive on the system we search for folders
+            //named after the selected version and "E-CheckCore".
+            //We also create a list of all folders to which access was denied to.
             foreach (var drive in drives)
             {
                 List<string> folders = new List<string>();
@@ -50,7 +53,7 @@ namespace PublishForQA
                     try
                     {
                         ECheckresults.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
-                        ECheckCoreresults.AddRange(Directory.GetDirectories(folder, "E-CheckCore", SearchOption.AllDirectories));
+                        Coreresults.AddRange(Directory.GetDirectories(folder, "E-CheckCore", SearchOption.AllDirectories));
                     }
                     catch (Exception ex)
                     {
@@ -78,63 +81,76 @@ namespace PublishForQA
                 pbAccessDenied.Visible = false;
             }
 
-            StringBuilder notFound = new StringBuilder();
-            List<string> ECheckPath = ECheckresults.Where(x => Directory.Exists(x + "\\master\\WinClient\\E-Check\\")).ToList();
-            List<string> ECheckCorePath = ECheckCoreresults.Where(x => Directory.Exists(x + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\")).ToList();
-            if (ECheckPath.Count < 1) MessageBox.Show(version + "was not found.");
-            else if (ECheckPath.Count == 1)
+            List<string> eCheckPath = ECheckresults.Where(x => Directory.Exists(x + "\\master\\WinClient\\E-Check\\")).ToList();
+            List<string> corePath = Coreresults.Where(x => Directory.Exists(x + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\")).ToList();
+
+            Validate(eCheckPath, corePath, version);
+        }
+
+        /// <summary>
+        /// Validates which paths were found: The E-Check version and/or E-CheckCore, sets the path for the textboxes and
+        /// opens the "TooManyResults" form, if needed.
+        /// </summary>
+        /// <param name="eCheckPath">The list of all folders with the same name as "version" found</param>
+        /// <param name="corePath">The list of all "E-CheckCore" folders found</param>
+        /// <param name="version">The version of E-Check it was searched for</param>
+        private void Validate(List<string> eCheckPath, List<string> corePath, string version)
+        {
+            //No results for either E-Check or E-CheckCore
+            if (eCheckPath.Count < 1 && corePath.Count < 1)
             {
-                if (Directory.Exists(ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug")) tbECheckPath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
+                MessageBox.Show("Neither " + version + " nor E-CheckCore were found");
+                return;
+            }
+            //No results for E-Check
+            else if (eCheckPath.Count > 0 && corePath.Count < 1)
+            {
+                MessageBox.Show(version + "was not found.");
+                return;
+            }
+            //No results for E-CheckCore
+            else if (eCheckPath.Count < 1 && corePath.Count > 0)
+            {
+                MessageBox.Show("E-CheckCore was not found.");
+                return;
+            }
+
+            if (eCheckPath.Count > 1 || corePath.Count > 1) new FormTooManyResults(eCheckPath, corePath);
+
+            if (eCheckPath.Count == 1)
+            {
+                if (Directory.Exists(eCheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug")) tbECheckPath.Text = eCheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
                 else
                 {
                     MessageBox.Show("WinClient debug directory does not exist.");
-                    tbECheckPath.Text = ECheckPath[0];
+                    tbECheckPath.Text = eCheckPath[0];
                 }
-                if (Directory.Exists(ECheckPath[0] + "\\master\\AppServer\\ServiceHostNew\\ServiceHostNew\\bin\\Debug")) tbECheckServicePath.Text = ECheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
+                if (Directory.Exists(eCheckPath[0] + "\\master\\AppServer\\ServiceHostNew\\ServiceHostNew\\bin\\Debug")) tbECheckServicePath.Text = eCheckPath[0] + "\\master\\WinClient\\E-Check\\bin\\Debug";
                 else
                 {
                     MessageBox.Show("Appserver debug directory does not exist.");
-                    tbECheckServicePath.Text = ECheckPath[0];
+                    tbECheckServicePath.Text = eCheckPath[0];
                 }
             }
             else
             {
-
+                //call too many results form
             }
-            if (ECheckCorePath.Count == 1)
+            if (corePath.Count == 1)
             {
-                tbECheckCorePath.Text = ECheckCorePath[0] + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\";
+                tbECheckCorePath.Text = corePath[0] + "\\E-CheckCore\\E-CheckCoreConsoleHost\\bin\\Debug\\";
             }
             else
             {
-                
+
             }
         }
 
-        private void Browse(TextBox textBox)
+        private void Browse(object sender, EventArgs e)
         {
+            TextBox textBox = (TextBox)sender;
             folderBrowserDialog.ShowDialog();
             textBox.Text = folderBrowserDialog.SelectedPath + "\\";
-        }
-
-        private void btnECheckBrowse_Click(object sender, EventArgs e)
-        {
-            Browse(tbECheckPath);
-        }
-
-        private void btnECheckCoreBrowse_Click(object sender, EventArgs e)
-        {
-            Browse(tbECheckCorePath);
-        }
-
-        private void btnECheckServiceBrowse_Click(object sender, EventArgs e)
-        {
-            Browse(tbECheckServicePath);
-        }
-
-        private void btnQAFolderBrowse_Click(object sender, EventArgs e)
-        {
-            Browse(tbQAFolderPath);
         }
 
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)

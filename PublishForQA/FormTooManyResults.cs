@@ -13,16 +13,17 @@ namespace PublishForQA
 {
     public partial class FormTooManyResults : Form
     {
-        public FormTooManyResults()
+        /// <summary>
+        /// Initialised a new instance of the form "TooManyResults".
+        /// </summary>
+        /// <param name="eCheckPath">List of results for the chosen E-Check version</param>
+        /// <param name="eCheckCorePath">List of results for E-CheckCore</param>
+        public FormTooManyResults(List<string> eCheckPath, List<string> eCheckCorePath)
         {
             //These are constants that will limit the initial size of out ListBoxes.
             //They will still resize indefinitely with the form.
             const int widthLimit = 600;
             const int heightLimit = 200;
-
-            List<string> eCheckPath = new List<string>() { "qwhfoqwjidwhpaiwjdpwaijdpawijsdapisdjpidpIQJDPAWIJFPAIFPAIJDPAWIDJAPWIFJAPFDIJPAFHAPIFPAFJAEPFOEFJO1", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "z" };
-            List<string> eCheckCorePath = new List<string>() { "qwhfoqwjidwhpaiwjdFJO1adawdawdwad", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "z" };
-            //params - List<string> eCheckPath, List<string> eCheckCorePath
 
             InitializeComponent();
             lbECheck.DataSource = eCheckPath;
