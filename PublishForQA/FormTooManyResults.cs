@@ -17,8 +17,8 @@ namespace PublishForQA
         /// Initialised a new instance of the form "TooManyResults".
         /// </summary>
         /// <param name="eCheckPath">List of results for the chosen E-Check version</param>
-        /// <param name="eCheckCorePath">List of results for E-CheckCore</param>
-        public FormTooManyResults(List<string> eCheckPath, List<string> eCheckCorePath)
+        /// <param name="corePath">List of results for E-CheckCore</param>
+        public FormTooManyResults(List<string> eCheckPath, List<string> corePath)
         {
             //These are constants that will limit the initial size of out ListBoxes.
             //They will still resize indefinitely with the form.
@@ -27,7 +27,7 @@ namespace PublishForQA
 
             InitializeComponent();
             lbECheck.DataSource = eCheckPath;
-            lbCore.DataSource = eCheckCorePath;
+            lbCore.DataSource = corePath;
             int tallestHeightECheck = Math.Min(lbECheck.GetItemRectangle(0).Height * lbECheck.Items.Count, heightLimit);
             int tallestHeightCore = Math.Min(lbCore.GetItemRectangle(0).Height * lbCore.Items.Count, heightLimit);
 
@@ -36,12 +36,24 @@ namespace PublishForQA
 
             //If both ECheck AND ECheckCore have more than 1 result
             //"longestList" becomes the sum of all their results.
-            if (eCheckPath.Count > 1 && eCheckCorePath.Count > 1)
+            if (eCheckPath.Count > 1 && corePath.Count > 1)
             {
-                longestList = eCheckPath.Concat(eCheckCorePath).ToList();
+                longestList = eCheckPath.Concat(corePath).ToList();
+            }
+            //If there is more than 1 result for EcheckCore, only
+            else if (eCheckPath.Count < 2 && corePath.Count > 1)
+            {
+                //We hide the row and set the limit for the ECheck
+                //ListBox to 0, because even with a hidden row it
+                //has a real width value and that will interfere
+                //with the initial sizing of the form.
+                tlpMain.RowStyles[1].Height = 0;
+                tallestHeightECheck = 0;
+                lbECheck.ClearSelected();
+                longestList = corePath;
             }
             //If there is more than 1 result for Echeck, only
-            else if (eCheckPath.Count > 1 && eCheckCorePath.Count < 2)
+            else if (eCheckPath.Count > 1 && corePath.Count < 2)
             {
                 //We hide the row and set the limit for the ECheckCore
                 //ListBox to 0, because even with a hidden row it
@@ -51,18 +63,6 @@ namespace PublishForQA
                 tallestHeightCore = 0;
                 lbCore.ClearSelected();
                 longestList = eCheckPath;
-            }
-            //If there is more than 1 result for EcheckCore, only
-            else if (eCheckPath.Count < 2 && eCheckCorePath.Count > 1)
-            {
-                //We hide the row and set the limit for the ECheck
-                //ListBox to 0, because even with a hidden row it
-                //has a real width value and that will interfere
-                //with the initial sizing of the form.
-                tlpMain.RowStyles[3].Height = 0;
-                tallestHeightECheck = 0;
-                lbECheck.ClearSelected();
-                longestList = eCheckCorePath;
             }
 
             //We find the longest result so we can later set the ListBoxes' width appropriately
@@ -93,12 +93,12 @@ namespace PublishForQA
                 string eCheck = Path.Combine(lbECheck.SelectedItem.ToString(), @"master\WinClient\E-Check\bin\Debug\");
                 string service = Path.Combine(lbECheck.SelectedItem.ToString(), @"master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
                 parent.Controls.Find("tbECheckPath", false).FirstOrDefault().Text = eCheck;
-                parent.Controls.Find("tbECheckServicePath", false).FirstOrDefault().Text = service;
+                parent.Controls.Find("tbServicePath", false).FirstOrDefault().Text = service;
             }
             if (lbCore.SelectedItem != null)
             {
                 string core = Path.Combine(lbCore.SelectedItem.ToString(), @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
-                parent.Controls.Find("tbECheckCorePath", false).FirstOrDefault().Text = core;
+                parent.Controls.Find("tbCorePath", false).FirstOrDefault().Text = core;
             }
 
             this.Dispose();

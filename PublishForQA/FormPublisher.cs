@@ -21,8 +21,8 @@ namespace PublishForQA
         {   
             InitializeComponent();
             tbECheckList.Add(tbECheckPath);
-            tbECheckList.Add(tbECheckCorePath);
-            tbECheckList.Add(tbECheckServicePath);
+            tbECheckList.Add(tbCorePath);
+            tbECheckList.Add(tbServicePath);
         }
 
         /// <summary>
@@ -75,6 +75,7 @@ namespace PublishForQA
             //button which opens the dialog which lists them.
             if (AccessDeniedFolders.Count > 0)
             {
+                AccessDeniedFolders = AccessDeniedFolders.Distinct().ToList();
                 AccessDeniedFolders.Sort();
                 pbAccessDenied.Visible = true;
             }
@@ -110,11 +111,11 @@ namespace PublishForQA
             if (eCheckPath.Count == 1)
             {
                 tbECheckPath.Text = Path.Combine(eCheckPath[0], @"master\WinClient\E-Check\bin\Debug\");
-                tbECheckServicePath.Text = Path.Combine(eCheckPath[0], @"master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
+                tbServicePath.Text = Path.Combine(eCheckPath[0], @"master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
             }
             if (corePath.Count == 1)
             {
-                tbECheckCorePath.Text = Path.Combine(corePath[0], @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
+                tbCorePath.Text = Path.Combine(corePath[0], @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
             }
 
             if (eCheckPath.Count > 1 || corePath.Count > 1)
@@ -226,8 +227,8 @@ namespace PublishForQA
             string[] sourcePaths =
                 {
                 tbECheckPath.Text,
-                tbECheckCorePath.Text,
-                tbECheckServicePath.Text
+                tbCorePath.Text,
+                tbServicePath.Text
                 };
             
             #region Copying

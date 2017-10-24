@@ -32,23 +32,23 @@
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.lblECheck = new System.Windows.Forms.Label();
-            this.lblECheckCore = new System.Windows.Forms.Label();
-            this.lblECheckService = new System.Windows.Forms.Label();
+            this.lblCore = new System.Windows.Forms.Label();
+            this.lblService = new System.Windows.Forms.Label();
             this.lblQAFolder = new System.Windows.Forms.Label();
             this.lblQAFolderPath = new System.Windows.Forms.Label();
             this.btnQAFolderBrowse = new System.Windows.Forms.Button();
-            this.btnECheckServiceBrowse = new System.Windows.Forms.Button();
-            this.btnECheckCoreBrowse = new System.Windows.Forms.Button();
+            this.btnServiceBrowse = new System.Windows.Forms.Button();
+            this.btnCoreBrowse = new System.Windows.Forms.Button();
             this.btnECheckBrowse = new System.Windows.Forms.Button();
             this.btnPublish = new System.Windows.Forms.Button();
             this.tbQAFolderPath = new System.Windows.Forms.TextBox();
-            this.tbECheckServicePath = new System.Windows.Forms.TextBox();
-            this.tbECheckCorePath = new System.Windows.Forms.TextBox();
+            this.tbServicePath = new System.Windows.Forms.TextBox();
+            this.tbCorePath = new System.Windows.Forms.TextBox();
             this.tbECheckPath = new System.Windows.Forms.TextBox();
-            this.btnLocate = new PublishForQA.MenuButton();
             this.pbAccessDenied = new System.Windows.Forms.PictureBox();
             this.tbTaskName = new System.Windows.Forms.TextBox();
             this.lblTaskName = new System.Windows.Forms.Label();
+            this.btnLocate = new PublishForQA.MenuButton();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,23 +61,23 @@
             this.lblECheck.TabIndex = 0;
             this.lblECheck.Text = "E-Check Debug Folder:";
             // 
-            // lblECheckCore
+            // lblCore
             // 
-            this.lblECheckCore.AutoSize = true;
-            this.lblECheckCore.Location = new System.Drawing.Point(12, 111);
-            this.lblECheckCore.Name = "lblECheckCore";
-            this.lblECheckCore.Size = new System.Drawing.Size(143, 13);
-            this.lblECheckCore.TabIndex = 0;
-            this.lblECheckCore.Text = "E-Check Core Debug Folder:";
+            this.lblCore.AutoSize = true;
+            this.lblCore.Location = new System.Drawing.Point(12, 111);
+            this.lblCore.Name = "lblCore";
+            this.lblCore.Size = new System.Drawing.Size(143, 13);
+            this.lblCore.TabIndex = 0;
+            this.lblCore.Text = "E-Check Core Debug Folder:";
             // 
-            // lblECheckService
+            // lblService
             // 
-            this.lblECheckService.AutoSize = true;
-            this.lblECheckService.Location = new System.Drawing.Point(12, 182);
-            this.lblECheckService.Name = "lblECheckService";
-            this.lblECheckService.Size = new System.Drawing.Size(157, 13);
-            this.lblECheckService.TabIndex = 0;
-            this.lblECheckService.Text = "E-Check Service Debug Folder:";
+            this.lblService.AutoSize = true;
+            this.lblService.Location = new System.Drawing.Point(12, 182);
+            this.lblService.Name = "lblService";
+            this.lblService.Size = new System.Drawing.Size(157, 13);
+            this.lblService.TabIndex = 0;
+            this.lblService.Text = "E-Check Service Debug Folder:";
             // 
             // lblQAFolder
             // 
@@ -108,25 +108,25 @@
             this.btnQAFolderBrowse.UseVisualStyleBackColor = true;
             this.btnQAFolderBrowse.Click += new System.EventHandler(this.Browse);
             // 
-            // btnECheckServiceBrowse
+            // btnServiceBrowse
             // 
-            this.btnECheckServiceBrowse.Location = new System.Drawing.Point(317, 234);
-            this.btnECheckServiceBrowse.Name = "btnECheckServiceBrowse";
-            this.btnECheckServiceBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnECheckServiceBrowse.TabIndex = 2;
-            this.btnECheckServiceBrowse.Text = "Browse...";
-            this.btnECheckServiceBrowse.UseVisualStyleBackColor = true;
-            this.btnECheckServiceBrowse.Click += new System.EventHandler(this.Browse);
+            this.btnServiceBrowse.Location = new System.Drawing.Point(317, 234);
+            this.btnServiceBrowse.Name = "btnServiceBrowse";
+            this.btnServiceBrowse.Size = new System.Drawing.Size(75, 23);
+            this.btnServiceBrowse.TabIndex = 2;
+            this.btnServiceBrowse.Text = "Browse...";
+            this.btnServiceBrowse.UseVisualStyleBackColor = true;
+            this.btnServiceBrowse.Click += new System.EventHandler(this.Browse);
             // 
-            // btnECheckCoreBrowse
+            // btnCoreBrowse
             // 
-            this.btnECheckCoreBrowse.Location = new System.Drawing.Point(317, 163);
-            this.btnECheckCoreBrowse.Name = "btnECheckCoreBrowse";
-            this.btnECheckCoreBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnECheckCoreBrowse.TabIndex = 2;
-            this.btnECheckCoreBrowse.Text = "Browse...";
-            this.btnECheckCoreBrowse.UseVisualStyleBackColor = true;
-            this.btnECheckCoreBrowse.Click += new System.EventHandler(this.Browse);
+            this.btnCoreBrowse.Location = new System.Drawing.Point(317, 163);
+            this.btnCoreBrowse.Name = "btnCoreBrowse";
+            this.btnCoreBrowse.Size = new System.Drawing.Size(75, 23);
+            this.btnCoreBrowse.TabIndex = 2;
+            this.btnCoreBrowse.Text = "Browse...";
+            this.btnCoreBrowse.UseVisualStyleBackColor = true;
+            this.btnCoreBrowse.Click += new System.EventHandler(this.Browse);
             // 
             // btnECheckBrowse
             // 
@@ -158,40 +158,36 @@
             this.tbQAFolderPath.Name = "tbQAFolderPath";
             this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
             this.tbQAFolderPath.TabIndex = 9;
-            this.tbQAFolderPath.Text = "E:\\Development\\QA\\";
+            this.tbQAFolderPath.Text = "E:\\Ogrest\\";
             this.tbQAFolderPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbQAFolderPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbQAFolderPath.Leave += new System.EventHandler(this.tb_Leave);
             // 
-            // tbECheckServicePath
+            // tbServicePath
             // 
-            this.tbECheckServicePath.AllowDrop = true;
-            this.tbECheckServicePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbECheckServicePath.Location = new System.Drawing.Point(12, 200);
-            this.tbECheckServicePath.Multiline = true;
-            this.tbECheckServicePath.Name = "tbECheckServicePath";
-            this.tbECheckServicePath.Size = new System.Drawing.Size(380, 32);
-            this.tbECheckServicePath.TabIndex = 9;
-            this.tbECheckServicePath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-Check\\E-Check\\master\\AppServer\\ServiceHostNew" +
-    "\\ServiceHostNew\\bin\\Debug\\";
-            this.tbECheckServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
-            this.tbECheckServicePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
-            this.tbECheckServicePath.Leave += new System.EventHandler(this.tb_Leave);
+            this.tbServicePath.AllowDrop = true;
+            this.tbServicePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbServicePath.Location = new System.Drawing.Point(12, 200);
+            this.tbServicePath.Multiline = true;
+            this.tbServicePath.Name = "tbServicePath";
+            this.tbServicePath.Size = new System.Drawing.Size(380, 32);
+            this.tbServicePath.TabIndex = 9;
+            this.tbServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
+            this.tbServicePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            this.tbServicePath.Leave += new System.EventHandler(this.tb_Leave);
             // 
-            // tbECheckCorePath
+            // tbCorePath
             // 
-            this.tbECheckCorePath.AllowDrop = true;
-            this.tbECheckCorePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbECheckCorePath.Location = new System.Drawing.Point(12, 129);
-            this.tbECheckCorePath.Multiline = true;
-            this.tbECheckCorePath.Name = "tbECheckCorePath";
-            this.tbECheckCorePath.Size = new System.Drawing.Size(380, 32);
-            this.tbECheckCorePath.TabIndex = 9;
-            this.tbECheckCorePath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-CheckCore\\E-CheckCore\\E-CheckCoreConsoleHost\\" +
-    "bin\\Debug\\";
-            this.tbECheckCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
-            this.tbECheckCorePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
-            this.tbECheckCorePath.Leave += new System.EventHandler(this.tb_Leave);
+            this.tbCorePath.AllowDrop = true;
+            this.tbCorePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCorePath.Location = new System.Drawing.Point(12, 129);
+            this.tbCorePath.Multiline = true;
+            this.tbCorePath.Name = "tbCorePath";
+            this.tbCorePath.Size = new System.Drawing.Size(380, 32);
+            this.tbCorePath.TabIndex = 9;
+            this.tbCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
+            this.tbCorePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            this.tbCorePath.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // tbECheckPath
             // 
@@ -202,20 +198,9 @@
             this.tbECheckPath.Name = "tbECheckPath";
             this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
             this.tbECheckPath.TabIndex = 9;
-            this.tbECheckPath.Text = "C:\\Development\\Workspaces\\SmartIT\\E-Check\\E-Check\\master\\WinClient\\E-Check\\bin\\De" +
-    "bug\\";
             this.tbECheckPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbECheckPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbECheckPath.Leave += new System.EventHandler(this.tb_Leave);
-            // 
-            // btnLocate
-            // 
-            this.btnLocate.Location = new System.Drawing.Point(296, 13);
-            this.btnLocate.Name = "btnLocate";
-            this.btnLocate.Size = new System.Drawing.Size(75, 23);
-            this.btnLocate.TabIndex = 10;
-            this.btnLocate.Text = "Locate";
-            this.btnLocate.UseVisualStyleBackColor = true;
             // 
             // pbAccessDenied
             // 
@@ -248,6 +233,15 @@
             this.lblTaskName.TabIndex = 13;
             this.lblTaskName.Text = "Task Name:";
             // 
+            // btnLocate
+            // 
+            this.btnLocate.Location = new System.Drawing.Point(296, 13);
+            this.btnLocate.Name = "btnLocate";
+            this.btnLocate.Size = new System.Drawing.Size(75, 23);
+            this.btnLocate.TabIndex = 10;
+            this.btnLocate.Text = "Locate";
+            this.btnLocate.UseVisualStyleBackColor = true;
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -258,18 +252,18 @@
             this.Controls.Add(this.pbAccessDenied);
             this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.tbECheckPath);
-            this.Controls.Add(this.tbECheckCorePath);
-            this.Controls.Add(this.tbECheckServicePath);
+            this.Controls.Add(this.tbCorePath);
+            this.Controls.Add(this.tbServicePath);
             this.Controls.Add(this.tbQAFolderPath);
             this.Controls.Add(this.btnPublish);
             this.Controls.Add(this.btnECheckBrowse);
-            this.Controls.Add(this.btnECheckCoreBrowse);
-            this.Controls.Add(this.btnECheckServiceBrowse);
+            this.Controls.Add(this.btnCoreBrowse);
+            this.Controls.Add(this.btnServiceBrowse);
             this.Controls.Add(this.btnQAFolderBrowse);
             this.Controls.Add(this.lblQAFolderPath);
             this.Controls.Add(this.lblQAFolder);
-            this.Controls.Add(this.lblECheckService);
-            this.Controls.Add(this.lblECheckCore);
+            this.Controls.Add(this.lblService);
+            this.Controls.Add(this.lblCore);
             this.Controls.Add(this.lblECheck);
             this.Name = "FormPublisher";
             this.Text = "Publisher";
@@ -284,18 +278,18 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.HelpProvider helpProvider;
         private System.Windows.Forms.Label lblECheck;
-        private System.Windows.Forms.Label lblECheckCore;
-        private System.Windows.Forms.Label lblECheckService;
+        private System.Windows.Forms.Label lblCore;
+        private System.Windows.Forms.Label lblService;
         private System.Windows.Forms.Label lblQAFolder;
         private System.Windows.Forms.Label lblQAFolderPath;
         private System.Windows.Forms.Button btnQAFolderBrowse;
-        private System.Windows.Forms.Button btnECheckServiceBrowse;
-        private System.Windows.Forms.Button btnECheckCoreBrowse;
+        private System.Windows.Forms.Button btnServiceBrowse;
+        private System.Windows.Forms.Button btnCoreBrowse;
         private System.Windows.Forms.Button btnECheckBrowse;
         private System.Windows.Forms.Button btnPublish;
         private System.Windows.Forms.TextBox tbQAFolderPath;
-        private System.Windows.Forms.TextBox tbECheckServicePath;
-        private System.Windows.Forms.TextBox tbECheckCorePath;
+        private System.Windows.Forms.TextBox tbServicePath;
+        private System.Windows.Forms.TextBox tbCorePath;
         private System.Windows.Forms.TextBox tbECheckPath;
         private MenuButton btnLocate;
         private System.Windows.Forms.PictureBox pbAccessDenied;
