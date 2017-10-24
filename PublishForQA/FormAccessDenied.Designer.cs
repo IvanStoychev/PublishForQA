@@ -35,6 +35,9 @@
             // 
             // lbAccessDenied
             // 
+            this.lbAccessDenied.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbAccessDenied.FormattingEnabled = true;
             this.lbAccessDenied.Location = new System.Drawing.Point(12, 27);
             this.lbAccessDenied.Name = "lbAccessDenied";
@@ -61,6 +64,7 @@
             this.Controls.Add(this.lblAccessDenied);
             this.Controls.Add(this.lbAccessDenied);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormAccessDenied";
             this.Text = "Access Denied Folders";
