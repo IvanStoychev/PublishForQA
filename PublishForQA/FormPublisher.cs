@@ -183,38 +183,39 @@ namespace PublishForQA
 
         private void btnPublish_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
+
             #region Validation
-            //For clarity and "just in case", we add a slash
-            //at the end of paths that don't have one.
+            //For clarity and "just in case", we add a slash at the end of paths that don't have one.
+            //And we check if the paths ends with in "bin\Debug" folder.
+            List<TextBox> tbNoBinDebugList = new List<TextBox>();
             foreach (var tb in tbECheckList)
             {   
                 if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
-            }
-            if (!tbQAFolderPath.Text.EndsWith("\\")) tbQAFolderPath.Text = tbQAFolderPath.Text + "\\";
-
-            //We check if each path ends in "\\bin\\debug\\"
-            List<TextBox> tbNoBinDebugList = new List<TextBox>();
-            foreach (var tb in tbECheckList)
-            {
                 //Considering the previous validation all paths should end in "\\" but
-                //just in case we also check for "\\bin\\debug".
+                //just in case we also check for "\\bin\\debug", as well.
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\") && !tb.Text.ToLower().EndsWith("\\bin\\debug"))
                 {
                     tbNoBinDebugList.Add(tb);
                 }
             }
-
+            if (!tbQAFolderPath.Text.EndsWith("\\")) tbQAFolderPath.Text = tbQAFolderPath.Text + "\\";
+            
             if (tbNoBinDebugList.Count > 0)
             {
                 StringBuilder stringBuilder = new StringBuilder("The following paths don't end with a \"bin\\Debug\" folder:" + System.Environment.NewLine + System.Environment.NewLine);
                 foreach (var tb in tbNoBinDebugList)
                 {
-                    stringBuilder.AppendLine(tb.Name.Replace("tbECheck", "E-Check ").Replace("Path", ""));
+                    stringBuilder.AppendLine(tb.Name.Replace("tb", "").Replace("Path", ""));
 
                 }
                 stringBuilder.Append(System.Environment.NewLine + "Are you sure you wish to proceed?");
                 DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo);
-                if (confirm == DialogResult.No) return;
+                if (confirm == DialogResult.No)
+                {
+                    this.Cursor = Cursors.Default;
+                    return;
+                }
             }
             #endregion
 
@@ -243,6 +244,8 @@ namespace PublishForQA
                     File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
             }
             #endregion
+
+            this.Cursor = Cursors.Default;
         }
     }
 
