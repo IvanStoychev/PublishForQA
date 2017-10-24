@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTooManyResults));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.lblResults = new System.Windows.Forms.Label();
             this.pECheck = new System.Windows.Forms.Panel();
@@ -147,6 +148,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(457, 501);
             this.Controls.Add(this.tlpMain);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "FormTooManyResults";
             this.Text = "Choose Paths";

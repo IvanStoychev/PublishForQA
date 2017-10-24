@@ -247,6 +247,11 @@ namespace PublishForQA
 
             this.Cursor = Cursors.Default;
         }
+
+        private void pbHelp_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class MenuButton : Button

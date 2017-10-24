@@ -99,7 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\E-CheckVersions.xml" />
-    <EmbeddedResource Include="Resources\Security Denied.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cnrdelete_all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon-help-circled-128.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

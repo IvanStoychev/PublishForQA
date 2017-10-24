@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAccessDenied));
             this.lbAccessDenied = new System.Windows.Forms.ListBox();
             this.lblAccessDenied = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -59,6 +60,7 @@
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.lblAccessDenied);
             this.Controls.Add(this.lbAccessDenied);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "FormAccessDenied";
             this.Text = "Access Denied Folders";

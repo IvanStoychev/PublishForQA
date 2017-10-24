@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPublisher));
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.lblECheck = new System.Windows.Forms.Label();
@@ -45,10 +46,12 @@
             this.tbServicePath = new System.Windows.Forms.TextBox();
             this.tbCorePath = new System.Windows.Forms.TextBox();
             this.tbECheckPath = new System.Windows.Forms.TextBox();
-            this.pbAccessDenied = new System.Windows.Forms.PictureBox();
             this.tbTaskName = new System.Windows.Forms.TextBox();
             this.lblTaskName = new System.Windows.Forms.Label();
             this.btnLocate = new PublishForQA.MenuButton();
+            this.pbHelp = new System.Windows.Forms.PictureBox();
+            this.pbAccessDenied = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
             this.SuspendLayout();
             // 
@@ -202,18 +205,6 @@
             this.tbECheckPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbECheckPath.Leave += new System.EventHandler(this.tb_Leave);
             // 
-            // pbAccessDenied
-            // 
-            this.pbAccessDenied.Image = global::PublishForQA.Properties.Resources.AccessDeniedIcon;
-            this.pbAccessDenied.Location = new System.Drawing.Point(265, 12);
-            this.pbAccessDenied.Name = "pbAccessDenied";
-            this.pbAccessDenied.Size = new System.Drawing.Size(25, 25);
-            this.pbAccessDenied.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbAccessDenied.TabIndex = 11;
-            this.pbAccessDenied.TabStop = false;
-            this.pbAccessDenied.Visible = false;
-            this.pbAccessDenied.Click += new System.EventHandler(this.pbAccessDenied_Click);
-            // 
             // tbTaskName
             // 
             this.tbTaskName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -242,11 +233,35 @@
             this.btnLocate.Text = "Locate";
             this.btnLocate.UseVisualStyleBackColor = true;
             // 
+            // pbHelp
+            // 
+            this.pbHelp.Image = global::PublishForQA.Properties.Resources.icon_help_circled_128;
+            this.pbHelp.Location = new System.Drawing.Point(1, 1);
+            this.pbHelp.Name = "pbHelp";
+            this.pbHelp.Size = new System.Drawing.Size(18, 18);
+            this.pbHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbHelp.TabIndex = 14;
+            this.pbHelp.TabStop = false;
+            this.pbHelp.Click += new System.EventHandler(this.pbHelp_Click);
+            // 
+            // pbAccessDenied
+            // 
+            this.pbAccessDenied.Image = global::PublishForQA.Properties.Resources.cnrdelete_all;
+            this.pbAccessDenied.Location = new System.Drawing.Point(265, 12);
+            this.pbAccessDenied.Name = "pbAccessDenied";
+            this.pbAccessDenied.Size = new System.Drawing.Size(25, 25);
+            this.pbAccessDenied.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAccessDenied.TabIndex = 11;
+            this.pbAccessDenied.TabStop = false;
+            this.pbAccessDenied.Visible = false;
+            this.pbAccessDenied.Click += new System.EventHandler(this.pbAccessDenied_Click);
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 433);
+            this.Controls.Add(this.pbHelp);
             this.Controls.Add(this.lblTaskName);
             this.Controls.Add(this.tbTaskName);
             this.Controls.Add(this.pbAccessDenied);
@@ -265,8 +280,10 @@
             this.Controls.Add(this.lblService);
             this.Controls.Add(this.lblCore);
             this.Controls.Add(this.lblECheck);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPublisher";
             this.Text = "Publisher";
+            ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -295,6 +312,7 @@
         private System.Windows.Forms.PictureBox pbAccessDenied;
         private System.Windows.Forms.TextBox tbTaskName;
         private System.Windows.Forms.Label lblTaskName;
+        private System.Windows.Forms.PictureBox pbHelp;
     }
 }
 
