@@ -41,7 +41,9 @@ namespace PublishForQA
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
                            .ToList();
 
+            pbAccessDenied.Visible = false;
             this.Cursor = Cursors.WaitCursor;
+            AccessDeniedFolders.Clear();
 
             //For each Fixed or Removable storage drive on the system we search for folders
             //named after the selected version and "E-CheckCore".
@@ -140,7 +142,7 @@ namespace PublishForQA
 
         private void pbAccessDenied_Click(object sender, EventArgs e)
         {
-            FormAccessDenied accessDenied = new FormAccessDenied();
+            FormAccessDenied accessDenied = new FormAccessDenied(AccessDeniedFolders);
             accessDenied.ShowDialog();
         }
 

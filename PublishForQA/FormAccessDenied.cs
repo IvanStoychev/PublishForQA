@@ -12,10 +12,10 @@ namespace PublishForQA
 {
     public partial class FormAccessDenied : Form
     {
-        public FormAccessDenied()
+        public FormAccessDenied(List<string> accessDeniedFolders)
         {
             InitializeComponent();
-            lbAccessDenied.DataSource = FormPublisher.AccessDeniedFolders;
+            lbAccessDenied.DataSource = accessDeniedFolders;
         }
 
         private void lbAccessDenied_KeyDown(object sender, KeyEventArgs e)
