@@ -127,9 +127,15 @@ namespace PublishForQA
 
         private void Browse(object sender, EventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            folderBrowserDialog.ShowDialog();
-            textBox.Text = folderBrowserDialog.SelectedPath + "\\";
+            //First we get the TextBox, corresponding to the pressed button.
+            //Then we set the selected path of the FolderBrowserDialog to the text of said TextBox.
+            //If the TextBox has invalid text it will just default to "Desktop".
+            //Lastly if the user clicked "OK" we set the TextBox text to be the selected path and add
+            //a backslash to its end (by use of shorthand "if... then... else" statement) if it already doesn't have one.
+            Control control = sender as Control;
+            TextBox textBox = this.Controls.Find(control.Name.Replace("btn", "tb").Replace("Browse", "Path"), false).OfType<TextBox>().FirstOrDefault();
+            folderBrowserDialog.SelectedPath = textBox.Text;
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK) textBox.Text = folderBrowserDialog.SelectedPath.EndsWith("\\") ? folderBrowserDialog.SelectedPath : folderBrowserDialog.SelectedPath + "\\";
         }
 
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -250,7 +256,24 @@ namespace PublishForQA
 
         private void pbHelp_Click(object sender, EventArgs e)
         {
+            ttECheck.Show("The path to the E-Check version winclient's debug folder,\nwhich you want to copy from.", tbECheckPath);
+            ttCore.Show("The path to the E-Check Core's debug folder,\nwhich you want to copy from.", tbCorePath);
+            ttService.Show("The path to the E-Check version service's debug folder,\nwhich you want to copy from.", tbServicePath);
+            ttQAFolder.Show("The path to your QA folder, where you want to copy to.\nWorks with mapped network drives.", tbQAFolderPath);
+            ttTaskName.Show("The name of the task you are currently working on.\nThis will be used as the name of the folder all the files will be copied to.", tbTaskName, tbTaskName.Width/2, tbTaskName.Height/2 - 10);
+            ttPublish.Show("Clicking this button will first check if all paths end with a \"bin\\debug\" folder,\nprompt, if needed, and copy all the files from the debug folders to your QAfolder\\TaskName.", btnPublish);
+            ttLocate.Show("Clicking this button will open a context menu with all current E-Check versions. Choosing one will initiate a search\non all fixed and removable drives for folders with the version name. If found, and if a \"debug\" folder exists,\nthe path to the corresponding debug folders will be automatically entered into the textboxes below.", btnLocate, btnLocate.Width / 2, btnLocate.Height / 2 - 10);
+        }
 
+        private void FormPublisher_Click(object sender, EventArgs e)
+        {
+            ttCore.Hide(this);
+            ttECheck.Hide(this);
+            ttService.Hide(this);
+            ttQAFolder.Hide(this);
+            ttTaskName.Hide(this);
+            ttPublish.Hide(this);
+            ttLocate.Hide(this);
         }
     }
 
