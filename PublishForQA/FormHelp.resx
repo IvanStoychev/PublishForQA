@@ -119,8 +119,23 @@
   </resheader>
   <data name="label1.Text" xml:space="preserve">
     <value>This program will copy all files and folders (preserving directory structure) from the three listed "Debug" folders (E-Check debug folder, E-Check Core debug folder and E-Check Service debug folder).
+To close the help tooltips click anywhere on the form control. (outisde the textboxes)
 
-You can enter the paths to the folders manually or you can select them by clicking the "Browse..." button below each text box. In compliance with Windows directory path regulations you are prevented from entering the following characters: ", /, ?, |, :, *, &lt;, &gt;</value>
+You can enter the paths to the folders manually or you can select them by clicking the "Browse..." button below each text box.
+In compliance with Windows directory path regulations you are prevented from entering the following characters: "  /  ?  |  :  *  &lt; &gt;
+
+Clicking the "Locate" button opens a context menu with all versions of E-Check. Clicking one of them will start a recursive search on all fixed and removable drives for the directory named after the version you chose.
+
+The search looks for folders whose name is the same as the version you chose and for which the following directories exist:
+"~\master\WinClient\E-Check\bin\Debug\"
+"~\master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\"
+
+Since "E-CheckCore" is the same for all E-Check versions every search for a particular version also searches for "E-CheckCore" going by the same rules but checking for the existence of a folder "~\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\".
+
+If only one result is found the paths to said "Debug" directories are automatically entered into the corresponding text boxes.
+If multiple results are found, either for the version or for E-CheckCore, an additional dialog is opened that prompts the user to select which folder to use.
+
+In case access was denied to any folders an icon will appear to the left of the "Locate" button, clicking it will show a list of those folders.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

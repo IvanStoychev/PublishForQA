@@ -256,6 +256,7 @@ namespace PublishForQA
 
         private void pbHelp_Click(object sender, EventArgs e)
         {
+            new FormHelp().ShowDialog();
             ttECheck.Show("The path to the E-Check version winclient's debug folder,\nwhich you want to copy from.", tbECheckPath);
             ttCore.Show("The path to the E-Check Core's debug folder,\nwhich you want to copy from.", tbCorePath);
             ttService.Show("The path to the E-Check version service's debug folder,\nwhich you want to copy from.", tbServicePath);
