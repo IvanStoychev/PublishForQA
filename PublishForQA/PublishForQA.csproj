@@ -51,6 +51,12 @@
     <Compile Include="FormAccessDenied.Designer.cs">
       <DependentUpon>FormAccessDenied.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHelp.Designer.cs">
+      <DependentUpon>FormHelp.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPublisher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +73,9 @@
     </Compile>
     <EmbeddedResource Include="FormAccessDenied.resx">
       <DependentUpon>FormAccessDenied.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormHelp.resx">
+      <DependentUpon>FormHelp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPublisher.resx">
       <DependentUpon>FormPublisher.cs</DependentUpon>
@@ -99,7 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\E-CheckVersions.xml" />
-    <EmbeddedResource Include="Resources\Security Denied.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cnrdelete_all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon-help-circled-128.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
