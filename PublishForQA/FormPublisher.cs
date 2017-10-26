@@ -122,8 +122,10 @@ namespace PublishForQA
 
             if (eCheckPath.Count > 1 || corePath.Count > 1)
             {
-                FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPath, corePath);
-                formTooManyResults.ShowDialog();
+                using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPath, corePath))
+                {
+                    formTooManyResults.ShowDialog();
+                }
             }
         }
 
@@ -148,8 +150,10 @@ namespace PublishForQA
 
         private void pbAccessDenied_Click(object sender, EventArgs e)
         {
-            FormAccessDenied accessDenied = new FormAccessDenied(AccessDeniedFolders);
-            accessDenied.ShowDialog();
+            using (FormAccessDenied accessDenied = new FormAccessDenied(AccessDeniedFolders))
+            {
+                accessDenied.ShowDialog();
+            }
         }
 
         private void tb_KeyPress(object sender, KeyPressEventArgs e)
@@ -258,7 +262,10 @@ namespace PublishForQA
 
         private void pbHelp_Click(object sender, EventArgs e)
         {
-            new FormHelp().ShowDialog();
+            using (FormHelp formHelp = new FormHelp())
+            {
+                formHelp.ShowDialog();
+            }
             ttECheck.Show("The path to the E-Check version winclient's debug folder,\nwhich you want to copy from.", tbECheckPath);
             ttCore.Show("The path to the E-Check Core's debug folder,\nwhich you want to copy from.", tbCorePath);
             ttService.Show("The path to the E-Check version service's debug folder,\nwhich you want to copy from.", tbServicePath);
