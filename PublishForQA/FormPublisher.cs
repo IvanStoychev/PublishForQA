@@ -305,6 +305,14 @@ namespace PublishForQA
             }
             tbECheckList.Remove(tbQAFolderPath);
         }
+
+        private void pbLoad_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+            }
+        }
     }
 
     public class MenuButton : Button

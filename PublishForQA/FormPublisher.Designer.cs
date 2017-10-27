@@ -58,9 +58,12 @@
             this.pbSave = new System.Windows.Forms.PictureBox();
             this.pbHelp = new System.Windows.Forms.PictureBox();
             this.pbAccessDenied = new System.Windows.Forms.PictureBox();
+            this.pbLoad = new System.Windows.Forms.PictureBox();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
             this.SuspendLayout();
             // 
             // tbECheckPath
@@ -324,11 +327,30 @@
             this.pbAccessDenied.Visible = false;
             this.pbAccessDenied.Click += new System.EventHandler(this.pbAccessDenied_Click);
             // 
+            // pbLoad
+            // 
+            this.pbLoad.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pbLoad.Image = global::PublishForQA.Properties.Resources.Custom_Icon_Design_Pretty_Office_9_Open_file;
+            this.pbLoad.Location = new System.Drawing.Point(266, 12);
+            this.pbLoad.Name = "pbLoad";
+            this.pbLoad.Size = new System.Drawing.Size(25, 25);
+            this.pbLoad.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbLoad.TabIndex = 15;
+            this.pbLoad.TabStop = false;
+            this.pbLoad.Click += new System.EventHandler(this.pbLoad_Click);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "CSV files|*.csv";
+            this.openFileDialog.InitialDirectory = "~";
+            this.openFileDialog.RestoreDirectory = true;
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 433);
+            this.Controls.Add(this.pbLoad);
             this.Controls.Add(this.pbSave);
             this.Controls.Add(this.pbHelp);
             this.Controls.Add(this.lblTaskName);
@@ -355,6 +377,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,6 +413,8 @@
         private System.Windows.Forms.ToolTip ttPublish;
         private System.Windows.Forms.ToolTip ttLocate;
         private System.Windows.Forms.PictureBox pbSave;
+        private System.Windows.Forms.PictureBox pbLoad;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 
