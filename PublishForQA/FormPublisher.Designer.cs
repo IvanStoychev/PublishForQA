@@ -54,12 +54,12 @@
             this.ttTaskName = new System.Windows.Forms.ToolTip(this.components);
             this.ttPublish = new System.Windows.Forms.ToolTip(this.components);
             this.ttLocate = new System.Windows.Forms.ToolTip(this.components);
-            this.btnLocate = new PublishForQA.MenuButton();
             this.pbSave = new System.Windows.Forms.PictureBox();
             this.pbHelp = new System.Windows.Forms.PictureBox();
             this.pbAccessDenied = new System.Windows.Forms.PictureBox();
             this.pbLoad = new System.Windows.Forms.PictureBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnLocate = new PublishForQA.MenuButton();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
@@ -281,16 +281,6 @@
             this.ttLocate.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.ttLocate.ToolTipTitle = "Locate button";
             // 
-            // btnLocate
-            // 
-            this.btnLocate.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnLocate.Location = new System.Drawing.Point(296, 13);
-            this.btnLocate.Name = "btnLocate";
-            this.btnLocate.Size = new System.Drawing.Size(75, 23);
-            this.btnLocate.TabIndex = 10;
-            this.btnLocate.Text = "Locate";
-            this.btnLocate.UseVisualStyleBackColor = true;
-            // 
             // pbSave
             // 
             this.pbSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -341,9 +331,18 @@
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "CSV files|*.csv";
-            this.openFileDialog.InitialDirectory = "~";
+            this.openFileDialog.Filter = "Text files|*.txt";
             this.openFileDialog.RestoreDirectory = true;
+            // 
+            // btnLocate
+            // 
+            this.btnLocate.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnLocate.Location = new System.Drawing.Point(296, 13);
+            this.btnLocate.Name = "btnLocate";
+            this.btnLocate.Size = new System.Drawing.Size(75, 23);
+            this.btnLocate.TabIndex = 10;
+            this.btnLocate.Text = "Locate";
+            this.btnLocate.UseVisualStyleBackColor = true;
             // 
             // FormPublisher
             // 

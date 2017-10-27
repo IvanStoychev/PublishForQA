@@ -14,6 +14,7 @@ namespace PublishForQA
 {
     public partial class FormPublisher : Form
     {
+        const char Separator = ';';
         public static List<string> AccessDeniedFolders = new List<string>();
         public static List<TextBox> tbECheckList = new List<TextBox>();
 
@@ -308,10 +309,31 @@ namespace PublishForQA
 
         private void pbLoad_Click(object sender, EventArgs e)
         {
-            //openFileDialog.InitialDirectory = Application.StartupPath;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Test");
+                string line;
+                StreamReader file = new StreamReader(openFileDialog.FileName);
+                while ((line = file.ReadLine()) != null)
+                {
+                    switch (line.Substring(0, line.IndexOf(Separator)))
+                    {
+                        case "tbECheckPath":
+                            tbECheckPath.Text = line.Substring(line.IndexOf(Separator) + 2);
+                            break;
+                        case "tbCorePath":
+                            tbCorePath.Text = line.Substring(line.IndexOf(Separator) + 2);
+                            break;
+                        case "tbServicePath":
+                            tbServicePath.Text = line.Substring(line.IndexOf(Separator) + 2);
+                            break;
+                        case "tbQAFolderPath":
+                            tbQAFolderPath.Text = line.Substring(line.IndexOf(Separator) + 2);
+                            break;
+                        default:
+                            MessageBox.Show("Malformed save file.\nLoading failed.", "Loading failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
+                }
             }
         }
     }
