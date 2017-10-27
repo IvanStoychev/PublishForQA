@@ -54,10 +54,10 @@
             this.ttTaskName = new System.Windows.Forms.ToolTip(this.components);
             this.ttPublish = new System.Windows.Forms.ToolTip(this.components);
             this.ttLocate = new System.Windows.Forms.ToolTip(this.components);
+            this.btnLocate = new PublishForQA.MenuButton();
             this.pbSave = new System.Windows.Forms.PictureBox();
             this.pbHelp = new System.Windows.Forms.PictureBox();
             this.pbAccessDenied = new System.Windows.Forms.PictureBox();
-            this.btnLocate = new PublishForQA.MenuButton();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
@@ -278,11 +278,21 @@
             this.ttLocate.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.ttLocate.ToolTipTitle = "Locate button";
             // 
+            // btnLocate
+            // 
+            this.btnLocate.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnLocate.Location = new System.Drawing.Point(296, 13);
+            this.btnLocate.Name = "btnLocate";
+            this.btnLocate.Size = new System.Drawing.Size(75, 23);
+            this.btnLocate.TabIndex = 10;
+            this.btnLocate.Text = "Locate";
+            this.btnLocate.UseVisualStyleBackColor = true;
+            // 
             // pbSave
             // 
             this.pbSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.pbSave.Image = global::PublishForQA.Properties.Resources.Save;
-            this.pbSave.Location = new System.Drawing.Point(234, 12);
+            this.pbSave.Location = new System.Drawing.Point(236, 12);
             this.pbSave.Name = "pbSave";
             this.pbSave.Size = new System.Drawing.Size(25, 25);
             this.pbSave.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -305,7 +315,7 @@
             // 
             this.pbAccessDenied.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.pbAccessDenied.Image = global::PublishForQA.Properties.Resources.cnrdelete_all;
-            this.pbAccessDenied.Location = new System.Drawing.Point(265, 12);
+            this.pbAccessDenied.Location = new System.Drawing.Point(374, 12);
             this.pbAccessDenied.Name = "pbAccessDenied";
             this.pbAccessDenied.Size = new System.Drawing.Size(25, 25);
             this.pbAccessDenied.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -313,16 +323,6 @@
             this.pbAccessDenied.TabStop = false;
             this.pbAccessDenied.Visible = false;
             this.pbAccessDenied.Click += new System.EventHandler(this.pbAccessDenied_Click);
-            // 
-            // btnLocate
-            // 
-            this.btnLocate.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnLocate.Location = new System.Drawing.Point(296, 13);
-            this.btnLocate.Name = "btnLocate";
-            this.btnLocate.Size = new System.Drawing.Size(75, 23);
-            this.btnLocate.TabIndex = 10;
-            this.btnLocate.Text = "Locate";
-            this.btnLocate.UseVisualStyleBackColor = true;
             // 
             // FormPublisher
             // 
