@@ -285,6 +285,26 @@ namespace PublishForQA
             ttPublish.Hide(this);
             ttLocate.Hide(this);
         }
+
+        private void pbSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                File.Delete("E:\\PublishForQA.csv");
+            }
+            catch (System.IO.IOException)
+            {
+                MessageBox.Show("The save file is locked by another process.\nSaving failed.");
+                return;
+            }
+
+            tbECheckList.Add(tbQAFolderPath);
+            foreach (TextBox tb in tbECheckList)
+            {
+                File.AppendAllText("E:\\PublishForQA.csv", tb.Name + ": " + tb.Text + System.Environment.NewLine);
+            }
+            tbECheckList.Remove(tbQAFolderPath);
+        }
     }
 
     public class MenuButton : Button

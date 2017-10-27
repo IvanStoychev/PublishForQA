@@ -115,5 +115,8 @@
   <ItemGroup>
     <None Include="Resources\icon-help-circled-128.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
