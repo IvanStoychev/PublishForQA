@@ -291,7 +291,7 @@ namespace PublishForQA
         {
             try
             {
-                File.Delete("E:\\PublishForQA.csv");
+                File.Delete("E:\\PublishForQA.txt");
             }
             catch (System.IO.IOException)
             {
@@ -302,7 +302,7 @@ namespace PublishForQA
             tbECheckList.Add(tbQAFolderPath);
             foreach (TextBox tb in tbECheckList)
             {
-                File.AppendAllText("E:\\PublishForQA.csv", tb.Name + ": " + tb.Text + System.Environment.NewLine);
+                File.AppendAllText("E:\\PublishForQA.txt", tb.Name + ": " + tb.Text + System.Environment.NewLine);
             }
             tbECheckList.Remove(tbQAFolderPath);
         }
