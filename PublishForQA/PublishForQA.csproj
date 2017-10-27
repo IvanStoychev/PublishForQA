@@ -121,5 +121,8 @@
   <ItemGroup>
     <None Include="Resources\Custom-Icon-Design-Pretty-Office-9-Open-file.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\load-md.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

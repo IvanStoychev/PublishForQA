@@ -308,9 +308,10 @@ namespace PublishForQA
 
         private void pbLoad_Click(object sender, EventArgs e)
         {
+            //openFileDialog.InitialDirectory = Application.StartupPath;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-
+                MessageBox.Show("Test");
             }
         }
     }
