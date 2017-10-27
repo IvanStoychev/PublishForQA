@@ -294,7 +294,7 @@ namespace PublishForQA
             }
             catch (System.IO.IOException)
             {
-                MessageBox.Show("The save file is locked by another process.\nSaving failed.");
+                MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed",MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
