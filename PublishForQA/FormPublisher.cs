@@ -301,7 +301,7 @@ namespace PublishForQA
             tbECheckList.Add(tbQAFolderPath);
             foreach (TextBox tb in tbECheckList)
             {
-                File.AppendAllText("E:\\PublishForQA.txt", tb.Name + ": " + tb.Text + System.Environment.NewLine);
+                File.AppendAllText("E:\\PublishForQA.txt", tb.Name + Separator + " " + tb.Text + System.Environment.NewLine);
             }
             tbECheckList.Remove(tbQAFolderPath);
         }
