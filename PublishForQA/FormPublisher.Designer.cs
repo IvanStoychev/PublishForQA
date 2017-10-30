@@ -284,7 +284,7 @@
             // pbSave
             // 
             this.pbSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pbSave.Image = global::PublishForQA.Properties.Resources.input_25064_960_720;
+            this.pbSave.Image = global::PublishForQA.Properties.Resources.Save;
             this.pbSave.Location = new System.Drawing.Point(234, 12);
             this.pbSave.Name = "pbSave";
             this.pbSave.Size = new System.Drawing.Size(25, 25);
@@ -320,7 +320,7 @@
             // pbLoad
             // 
             this.pbLoad.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pbLoad.Image = global::PublishForQA.Properties.Resources.load_md;
+            this.pbLoad.Image = global::PublishForQA.Properties.Resources.Load;
             this.pbLoad.Location = new System.Drawing.Point(266, 12);
             this.pbLoad.Name = "pbLoad";
             this.pbLoad.Size = new System.Drawing.Size(25, 25);

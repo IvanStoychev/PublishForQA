@@ -168,7 +168,6 @@ namespace PublishForQA
                     e.KeyChar == '/' ||
                     e.KeyChar == '?' ||
                     e.KeyChar == '|' ||
-                    e.KeyChar == ':' ||
                     e.KeyChar == '*' ||
                     e.KeyChar == '<' ||
                     e.KeyChar == '>'
