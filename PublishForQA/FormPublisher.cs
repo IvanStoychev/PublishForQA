@@ -205,6 +205,9 @@ namespace PublishForQA
             CursorChange();
 
             #region Validation
+
+            #region Bin\Debug
+
             //For clarity and "just in case", we add a slash at the end of paths that don't have one.
             //And we check if the paths ends with in "bin\Debug" folder.
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
@@ -221,6 +224,7 @@ namespace PublishForQA
                 }
             }
 
+            //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (tbNoBinDebugList.Count == 1)
             {
                 DialogResult confirm = MessageBox.Show("The path of " + NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.\nAre you sure you wish to proceed?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -246,32 +250,42 @@ namespace PublishForQA
                 }
             }
 
+            #endregion
+
+            #region Directory Exists
+
+            List<TextBox> doesNotExist = new List<TextBox>();
+            //For each TextBox we check if its listed directory exists and alert the user and stop execution if it does not.
             foreach (var tb in TextBoxesList)
             {
-                List<TextBox> doesNotExist = new List<TextBox>();
                 if (!Directory.Exists(tb.Text))
                 {
                     doesNotExist.Add(tb);
                 }
-                if (doesNotExist.Count == 1)
-                {
-                    MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb","").Replace("Path","") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    CursorChange();
-                    return;
-                }
-                else if (doesNotExist.Count > 1)
-                {
-                    StringBuilder stringBuilder = new StringBuilder("The following directories do not exist:" + Environment.NewLine + Environment.NewLine);
-                    foreach (var txtb in tbNoBinDebugList)
-                    {
-                        stringBuilder.AppendLine(NameReplace(txtb));
-                    }
-                    stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
-                    MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    CursorChange();
-                    return;
-                }
             }
+
+            //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
+            if (doesNotExist.Count == 1)
+            {
+                MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb", "").Replace("Path", "") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CursorChange();
+                return;
+            }
+            else if (doesNotExist.Count > 1)
+            {
+                StringBuilder stringBuilder = new StringBuilder("The directories for the following do not exist:" + Environment.NewLine + Environment.NewLine);
+                foreach (var txtb in tbNoBinDebugList)
+                {
+                    stringBuilder.AppendLine(NameReplace(txtb));
+                }
+                stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
+                MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CursorChange();
+                return;
+            }
+
+            #endregion
+
             #endregion
 
             string[] destinationPaths =
