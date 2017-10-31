@@ -220,13 +220,17 @@ namespace PublishForQA
                     tbNoBinDebugList.Add(tb);
                 }
             }
-            
-            if (tbNoBinDebugList.Count > 0)
+
+            if (tbNoBinDebugList.Count == 1)
+            {
+                MessageBox.Show("The path " + tbNoBinDebugList[0].Name.Replace( + "");
+            }
+            else if (tbNoBinDebugList.Count > 1)
             {
                 StringBuilder stringBuilder = new StringBuilder("The following paths don't end with a \"bin\\Debug\" folder:" + Environment.NewLine + Environment.NewLine);
                 foreach (var tb in tbNoBinDebugList)
                 {
-                    stringBuilder.AppendLine(tb.Name.Replace("tb", "").Replace("Path", ""));
+                    stringBuilder.AppendLine(NameReplace(tb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Are you sure you wish to proceed?");
                 DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -255,7 +259,7 @@ namespace PublishForQA
                     StringBuilder stringBuilder = new StringBuilder("The following directories do not exist:" + Environment.NewLine + Environment.NewLine);
                     foreach (var txtb in tbNoBinDebugList)
                     {
-                        stringBuilder.AppendLine(txtb.Name.Replace("tb", "").Replace("Path", ""));
+                        stringBuilder.AppendLine(NameReplace(txtb));
                     }
                     stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
                     MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -368,7 +372,7 @@ namespace PublishForQA
                     StringBuilder stringBuilder = new StringBuilder("The paths for the following TextBoxes:" + Environment.NewLine + Environment.NewLine);
                     foreach (var tb in notFoundBoxes)
                     {
-                        stringBuilder.AppendLine(tb.Name.Replace("tb", "").Replace("Path", " Path"));
+                        stringBuilder.AppendLine(NameReplace(tb));
                     }
                     stringBuilder.Append(Environment.NewLine + "could not be read from the save file.");
                     MessageBox.Show(stringBuilder.ToString(), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -386,6 +390,16 @@ namespace PublishForQA
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        /// <summary>
+        /// Converts the name of a TextBox. Removes all instances of "tb" and "Path".
+        /// </summary>
+        /// <param name="tb">The TextBox whose name should be converted</param>
+        /// <returns>A String instance of the TextBox name with no instances of "tb" and/or "Path"</returns>
+        private string NameReplace(TextBox tb)
+        {
+            return tb.Name.Replace("tb", "").Replace("Path", "");
         }
     }
 
