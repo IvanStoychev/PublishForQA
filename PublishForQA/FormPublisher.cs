@@ -50,7 +50,7 @@ namespace PublishForQA
                            .ToList();
 
             pbAccessDenied.Visible = false;
-            this.Cursor = Cursors.WaitCursor;
+            CursorChange();
             AccessDeniedFolders.Clear();
 
             //For each Fixed or Removable storage drive on the system we search for folders
@@ -94,7 +94,7 @@ namespace PublishForQA
                 pbAccessDenied.Visible = false;
             }
 
-            this.Cursor = Cursors.Default;
+            CursorChange();
 
             List<string> eCheckPath = ECheckresults.Where(x => Directory.Exists(x + @"\master\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList();
             List<string> corePath = Coreresults.Where(x => Directory.Exists(x + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList();
@@ -202,7 +202,7 @@ namespace PublishForQA
 
         private void btnPublish_Click(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
+            CursorChange();
 
             #region Validation
             //For clarity and "just in case", we add a slash at the end of paths that don't have one.
@@ -232,7 +232,7 @@ namespace PublishForQA
                 DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm == DialogResult.No)
                 {
-                    this.Cursor = Cursors.Default;
+                    CursorChange();
                     return;
                 }
             }
@@ -247,7 +247,7 @@ namespace PublishForQA
                 if (doesNotExist.Count == 1)
                 {
                     MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb","").Replace("Path","") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Cursor = Cursors.Default;
+                    CursorChange();
                     return;
                 }
                 else if (doesNotExist.Count > 1)
@@ -259,7 +259,7 @@ namespace PublishForQA
                     }
                     stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
                     MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Cursor = Cursors.Default;
+                    CursorChange();
                     return;
                 }
             }
@@ -291,7 +291,7 @@ namespace PublishForQA
             }
             #endregion
 
-            this.Cursor = Cursors.Default;
+            CursorChange();
         }
 
         private void pbHelp_Click(object sender, EventArgs e)
@@ -373,6 +373,18 @@ namespace PublishForQA
                     stringBuilder.Append(Environment.NewLine + "could not be read from the save file.");
                     MessageBox.Show(stringBuilder.ToString(), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+            }
+        }
+
+        private void CursorChange()
+        {
+            if (Cursor == Cursors.Default)
+            {
+                Cursor = Cursors.WaitCursor;
+            }
+            else
+            {
+                Cursor = Cursors.Default;
             }
         }
     }
