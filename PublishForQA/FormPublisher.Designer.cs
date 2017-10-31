@@ -47,13 +47,6 @@
             this.tbCorePath = new System.Windows.Forms.TextBox();
             this.tbTaskName = new System.Windows.Forms.TextBox();
             this.lblTaskName = new System.Windows.Forms.Label();
-            this.ttECheck = new System.Windows.Forms.ToolTip(this.components);
-            this.ttCore = new System.Windows.Forms.ToolTip(this.components);
-            this.ttService = new System.Windows.Forms.ToolTip(this.components);
-            this.ttQAFolder = new System.Windows.Forms.ToolTip(this.components);
-            this.ttTaskName = new System.Windows.Forms.ToolTip(this.components);
-            this.ttPublish = new System.Windows.Forms.ToolTip(this.components);
-            this.ttLocate = new System.Windows.Forms.ToolTip(this.components);
             this.pbSave = new System.Windows.Forms.PictureBox();
             this.pbHelp = new System.Windows.Forms.PictureBox();
             this.pbAccessDenied = new System.Windows.Forms.PictureBox();
@@ -246,41 +239,6 @@
             this.lblTaskName.TabIndex = 13;
             this.lblTaskName.Text = "Task Name:";
             // 
-            // ttECheck
-            // 
-            this.ttECheck.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.ttECheck.ToolTipTitle = "E-Check Debug Folder";
-            // 
-            // ttCore
-            // 
-            this.ttCore.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.ttCore.ToolTipTitle = "E-Check Core Debug Folder";
-            // 
-            // ttService
-            // 
-            this.ttService.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.ttService.ToolTipTitle = "E-Check Service Debug Folder";
-            // 
-            // ttQAFolder
-            // 
-            this.ttQAFolder.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.ttQAFolder.ToolTipTitle = "Your QA Folder";
-            // 
-            // ttTaskName
-            // 
-            this.ttTaskName.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.ttTaskName.ToolTipTitle = "Task Name";
-            // 
-            // ttPublish
-            // 
-            this.ttPublish.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.ttPublish.ToolTipTitle = "Publish button";
-            // 
-            // ttLocate
-            // 
-            this.ttLocate.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.ttLocate.ToolTipTitle = "Locate button";
-            // 
             // pbSave
             // 
             this.pbSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -372,7 +330,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPublisher";
             this.Text = "Publisher";
-            this.Click += new System.EventHandler(this.FormPublisher_Click);
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).EndInit();
@@ -404,13 +361,6 @@
         private System.Windows.Forms.TextBox tbTaskName;
         private System.Windows.Forms.Label lblTaskName;
         private System.Windows.Forms.PictureBox pbHelp;
-        private System.Windows.Forms.ToolTip ttECheck;
-        private System.Windows.Forms.ToolTip ttCore;
-        private System.Windows.Forms.ToolTip ttService;
-        private System.Windows.Forms.ToolTip ttQAFolder;
-        private System.Windows.Forms.ToolTip ttTaskName;
-        private System.Windows.Forms.ToolTip ttPublish;
-        private System.Windows.Forms.ToolTip ttLocate;
         private System.Windows.Forms.PictureBox pbSave;
         private System.Windows.Forms.PictureBox pbLoad;
         private System.Windows.Forms.OpenFileDialog openFileDialog;

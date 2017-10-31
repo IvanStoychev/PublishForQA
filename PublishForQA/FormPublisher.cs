@@ -14,16 +14,23 @@ namespace PublishForQA
 {
     public partial class FormPublisher : Form
     {
-        const char Separator = ';';
+        //This character will be used as a separator when writing the save file. We need it as a landmark
+        //to be able to tell our position when loading the save file.
+        const char Separator = '*';
         public static List<string> AccessDeniedFolders = new List<string>();
-        public static List<TextBox> tbECheckList = new List<TextBox>();
+        public static List<TextBox> TextBoxesList = new List<TextBox>();
 
         public FormPublisher()
         {   
             InitializeComponent();
-            tbECheckList.Add(tbECheckPath);
-            tbECheckList.Add(tbCorePath);
-            tbECheckList.Add(tbServicePath);
+            TextBoxesList.Add(tbECheckPath);
+            TextBoxesList.Add(tbCorePath);
+            TextBoxesList.Add(tbServicePath);
+            TextBoxesList.Add(tbQAFolderPath);
+            if (File.Exists("PublishForQA.txt"))
+            {
+                LoadFile("PublishForQA.txt");
+            }
         }
 
         /// <summary>
@@ -95,19 +102,19 @@ namespace PublishForQA
             //No results for either E-Check or E-CheckCore
             if (eCheckPath.Count < 1 && corePath.Count < 1)
             {
-                MessageBox.Show("Neither " + version + " nor E-CheckCore were found");
+                MessageBox.Show("Neither " + version + " nor E-CheckCore were found", "No results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             //No results for E-Check
             else if (eCheckPath.Count > 0 && corePath.Count < 1)
             {
-                MessageBox.Show(version + "was not found.");
+                MessageBox.Show(version + "was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             //No results for E-CheckCore
             else if (eCheckPath.Count < 1 && corePath.Count > 0)
             {
-                MessageBox.Show("E-CheckCore was not found.");
+                MessageBox.Show("E-CheckCore was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -201,8 +208,10 @@ namespace PublishForQA
             //For clarity and "just in case", we add a slash at the end of paths that don't have one.
             //And we check if the paths ends with in "bin\Debug" folder.
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
-            foreach (var tb in tbECheckList)
-            {   
+            foreach (var tb in TextBoxesList)
+            {
+                //We skip the check for the QA Folder TextBox.
+                if (tb == tbQAFolderPath) continue;
                 if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
                 //Considering the previous validation all paths should end in "\\" but
                 //just in case we also check for "\\bin\\debug", as well.
@@ -211,7 +220,6 @@ namespace PublishForQA
                     tbNoBinDebugList.Add(tb);
                 }
             }
-            if (!tbQAFolderPath.Text.EndsWith("\\")) tbQAFolderPath.Text = tbQAFolderPath.Text + "\\";
             
             if (tbNoBinDebugList.Count > 0)
             {
@@ -219,7 +227,6 @@ namespace PublishForQA
                 foreach (var tb in tbNoBinDebugList)
                 {
                     stringBuilder.AppendLine(tb.Name.Replace("tb", "").Replace("Path", ""));
-
                 }
                 stringBuilder.Append(System.Environment.NewLine + "Are you sure you wish to proceed?");
                 DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo);
@@ -229,6 +236,8 @@ namespace PublishForQA
                     return;
                 }
             }
+
+
             #endregion
 
             string[] destinationPaths =
@@ -266,24 +275,6 @@ namespace PublishForQA
             {
                 formHelp.ShowDialog();
             }
-            ttECheck.Show("The path to the E-Check version winclient's debug folder,\nwhich you want to copy from.", tbECheckPath);
-            ttCore.Show("The path to the E-Check Core's debug folder,\nwhich you want to copy from.", tbCorePath);
-            ttService.Show("The path to the E-Check version service's debug folder,\nwhich you want to copy from.", tbServicePath);
-            ttQAFolder.Show("The path to your QA folder, where you want to copy to.\nWorks with mapped network drives.", tbQAFolderPath);
-            ttTaskName.Show("The name of the task you are currently working on.\nThis will be used as the name of the folder all the files will be copied to.", tbTaskName, tbTaskName.Width/2, tbTaskName.Height/2 - 10);
-            ttPublish.Show("Clicking this button will first check if all paths end with a \"bin\\debug\" folder,\nprompt, if needed, and copy all the files from the debug folders to your QAfolder\\TaskName.", btnPublish);
-            ttLocate.Show("Clicking this button will open a context menu with all current E-Check versions. Choosing one will initiate a search\non all fixed and removable drives for folders with the version name. If found, and if a \"debug\" folder exists,\nthe path to the corresponding debug folders will be automatically entered into the textboxes below.", btnLocate, btnLocate.Width / 2, btnLocate.Height / 2 - 10);
-        }
-
-        private void FormPublisher_Click(object sender, EventArgs e)
-        {
-            ttCore.Hide(this);
-            ttECheck.Hide(this);
-            ttService.Hide(this);
-            ttQAFolder.Hide(this);
-            ttTaskName.Hide(this);
-            ttPublish.Hide(this);
-            ttLocate.Hide(this);
         }
 
         private void pbSave_Click(object sender, EventArgs e)
@@ -298,40 +289,64 @@ namespace PublishForQA
                 return;
             }
 
-            tbECheckList.Add(tbQAFolderPath);
-            foreach (TextBox tb in tbECheckList)
+            foreach (TextBox tb in TextBoxesList)
             {
                 File.AppendAllText("E:\\PublishForQA.txt", tb.Name + Separator + " " + tb.Text + System.Environment.NewLine);
             }
-            tbECheckList.Remove(tbQAFolderPath);
         }
 
         private void pbLoad_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string line;
-                StreamReader file = new StreamReader(openFileDialog.FileName);
+                LoadFile(openFileDialog.FileName);
+            }
+        }
+
+        /// <summary>
+        /// Reads the given file line by line and attempts to retrieve the values for all TextBoxes.
+        /// It will display a MessageBox with all TextBoxes for whom it could not find a value.
+        /// </summary>
+        /// <param name="filePath"></param>
+        private void LoadFile(string filePath)
+        {
+            //We will use this list to tell if a value for a TextBox was missing in the save file.
+            List<TextBox> notFoundBoxes = new List<TextBox>();
+            notFoundBoxes.AddRange(TextBoxesList);
+            string line;
+            using (StreamReader file = new StreamReader(filePath))
+            {
                 while ((line = file.ReadLine()) != null)
                 {
-                    switch (line.Substring(0, line.IndexOf(Separator)))
+                    try
                     {
-                        case "tbECheckPath":
-                            tbECheckPath.Text = line.Substring(line.IndexOf(Separator) + 2);
-                            break;
-                        case "tbCorePath":
-                            tbCorePath.Text = line.Substring(line.IndexOf(Separator) + 2);
-                            break;
-                        case "tbServicePath":
-                            tbServicePath.Text = line.Substring(line.IndexOf(Separator) + 2);
-                            break;
-                        case "tbQAFolderPath":
-                            tbQAFolderPath.Text = line.Substring(line.IndexOf(Separator) + 2);
-                            break;
-                        default:
-                            MessageBox.Show("Malformed save file.\nLoading failed.", "Loading failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
+                        //We get the substring from the beginning of the line to the first occurance of our separator. That
+                        //should be the name of one of our TextBoxes. If we can match the substring to a TextBox that means
+                        //we have a value for it and we take it out of the list "notFoundBoxes". Thus in the end we have a
+                        //list of only the TextBoxes we couldn't find a value for.
+                        TextBox tb = this.Controls.Find(line.Substring(0, line.IndexOf(Separator)), false).OfType<TextBox>().FirstOrDefault();
+                        if (tb == null) continue;
+                        tb.Text = line.Substring(line.IndexOf(Separator) + 2);
+                        notFoundBoxes.Remove(tb);
                     }
+                    catch (System.ArgumentOutOfRangeException)
+                    {
+
+                    }
+                }
+                if (notFoundBoxes.Count == 1)
+                {
+                    MessageBox.Show("The path for " + notFoundBoxes[0].Name.Replace("tb", "").Replace("Path", " Path") + " could not be read from the file.", "Warning",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (notFoundBoxes.Count > 1)
+                {
+                    StringBuilder stringBuilder = new StringBuilder("The paths for the following TextBoxes:" + System.Environment.NewLine + System.Environment.NewLine);
+                    foreach (var tb in notFoundBoxes)
+                    {
+                        stringBuilder.AppendLine(tb.Name.Replace("tb", "").Replace("Path", " Path"));
+                    }
+                    stringBuilder.Append(System.Environment.NewLine + "could not be read from the save file.");
+                    MessageBox.Show(stringBuilder.ToString(), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
