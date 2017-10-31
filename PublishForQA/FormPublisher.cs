@@ -223,7 +223,12 @@ namespace PublishForQA
 
             if (tbNoBinDebugList.Count == 1)
             {
-                MessageBox.Show("The path " + tbNoBinDebugList[0].Name.Replace( + "");
+                DialogResult confirm = MessageBox.Show("The path of " + NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.\nAre you sure you wish to proceed?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    CursorChange();
+                    return;
+                }
             }
             else if (tbNoBinDebugList.Count > 1)
             {
