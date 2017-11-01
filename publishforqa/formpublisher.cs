@@ -87,7 +87,9 @@ namespace PublishForQA
         {
             CursorChange();
 
-            if (HasBinDebug()) if(DoDirectoriesExist()) CopyPixelOperation();
+            if (HasBinDebug())
+                if (DoDirectoriesExist())
+                    CopyFilesAndDirectories();
 
             CursorChange();
         }
@@ -156,7 +158,6 @@ namespace PublishForQA
                 DialogResult confirm = MessageBox.Show("The path of " + NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.\nAre you sure you wish to proceed?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm == DialogResult.No)
                 {
-                    CursorChange();
                     return false;
                 }
             }
@@ -171,7 +172,6 @@ namespace PublishForQA
                 DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm == DialogResult.No)
                 {
-                    CursorChange();
                     return false;
                 }
             }
@@ -199,7 +199,6 @@ namespace PublishForQA
             if (doesNotExist.Count == 1)
             {
                 MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb", "").Replace("Path", "") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                CursorChange();
                 return false;
             }
             else if (doesNotExist.Count > 1)
@@ -211,7 +210,6 @@ namespace PublishForQA
                 }
                 stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
                 MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                CursorChange();
                 return false;
             }
 
