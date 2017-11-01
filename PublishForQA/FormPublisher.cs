@@ -86,11 +86,45 @@ namespace PublishForQA
         private void btnPublish_Click(object sender, EventArgs e)
         {
             CursorChange();
+            if (HasBinDebug()) if(DoesDirectoryExist()) CopyPixelOperation();
 
-            #region Validation
+            string[] destinationPaths =
+                {
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
+                };
+            string[] sourcePaths =
+                {
+                tbECheckPath.Text,
+                tbCorePath.Text,
+                tbServicePath.Text
+                };
+            
+            #region Copying
+            for (int i = 0; i < 3; i++)
+            {
+                //First we create the directory structure
+                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
 
-            #region Bin\Debug
+                //Then we copy all files, overwriting any existing ones
+                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
+            }
+            #endregion
 
+            CursorChange();
+        }
+
+        /// <summary>
+        /// Checks whether all paths end with a "bin\Debug" folder and alerts the user with an OKCancel MessageBox if any do not
+        /// </summary>
+        /// <returns>"True" if all paths have a "bin\Debug" folder or the user chose to ignore any that do not. "False" if the
+        /// user decides to halt operation after being alerted.</returns>
+        /// <remarks>The MessageBox lists all TextBoxes that do not end with a "bin\Debug" folder</remarks>
+        private bool HasBinDebug()
+        {
             //For clarity and "just in case", we add a slash at the end of paths that don't have one.
             //And we check if the paths ends with in "bin\Debug" folder.
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
@@ -114,7 +148,7 @@ namespace PublishForQA
                 if (confirm == DialogResult.No)
                 {
                     CursorChange();
-                    return;
+                    return false;
                 }
             }
             else if (tbNoBinDebugList.Count > 1)
@@ -129,14 +163,15 @@ namespace PublishForQA
                 if (confirm == DialogResult.No)
                 {
                     CursorChange();
-                    return;
+                    return false;
                 }
             }
 
-            #endregion
+            return true;
+        }
 
-            #region Directory Exists
-
+        private bool DoesDirectoryExist()
+        {
             List<TextBox> doesNotExist = new List<TextBox>();
             //For each TextBox we check if its listed directory exists and alert the user and stop execution if it does not.
             foreach (var tb in TextBoxesList)
@@ -166,38 +201,6 @@ namespace PublishForQA
                 CursorChange();
                 return;
             }
-
-            #endregion
-
-            #endregion
-
-            string[] destinationPaths =
-                {
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
-                };
-            string[] sourcePaths =
-                {
-                tbECheckPath.Text,
-                tbCorePath.Text,
-                tbServicePath.Text
-                };
-            
-            #region Copying
-            for (int i = 0; i < 3; i++)
-            {
-                //First we create the directory structure
-                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
-                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
-
-                //Then we copy all files, overwriting any existing ones
-                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
-                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
-            }
-            #endregion
-
-            CursorChange();
         }
 
         private void pbHelp_Click(object sender, EventArgs e)
