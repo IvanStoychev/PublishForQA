@@ -86,33 +86,8 @@ namespace PublishForQA
         private void btnPublish_Click(object sender, EventArgs e)
         {
             CursorChange();
+
             if (HasBinDebug()) if(DoDirectoriesExist()) CopyPixelOperation();
-
-            string[] destinationPaths =
-                {
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
-                };
-            string[] sourcePaths =
-                {
-                tbECheckPath.Text,
-                tbCorePath.Text,
-                tbServicePath.Text
-                };
-            
-            #region Copying
-            for (int i = 0; i < 3; i++)
-            {
-                //First we create the directory structure
-                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
-                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
-
-                //Then we copy all files, overwriting any existing ones
-                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
-                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
-            }
-            #endregion
 
             CursorChange();
         }
@@ -241,6 +216,39 @@ namespace PublishForQA
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Recreates the directory structure at the target location and copies all files from the source recursively.
+        /// </summary>
+        private void CopyFilesAndDirectories()
+        {
+            //We create an array of strings which will be the targets of the copy operation.
+            //They consist of the user's pointed QA Folder and the name of each folder needed for QA.
+            string[] destinationPaths =
+                {
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
+                };
+            //We set the sources, corresponding to the target paths, from the respective TextBoxes.
+            string[] sourcePaths =
+                {
+                tbECheckPath.Text,
+                tbCorePath.Text,
+                tbServicePath.Text
+                };
+
+            for (int i = 0; i < 3; i++)
+            {
+                //First we create the directory structure
+                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
+
+                //Then we copy all files, overwriting any existing ones
+                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
+            }
         }
 
         /// <summary>
