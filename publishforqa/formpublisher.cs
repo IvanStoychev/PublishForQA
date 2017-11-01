@@ -86,7 +86,7 @@ namespace PublishForQA
         private void btnPublish_Click(object sender, EventArgs e)
         {
             CursorChange();
-            if (HasBinDebug()) if(DoesDirectoryExist()) CopyPixelOperation();
+            if (HasBinDebug()) if(DoDirectoriesExist()) CopyPixelOperation();
 
             string[] destinationPaths =
                 {
@@ -170,7 +170,12 @@ namespace PublishForQA
             return true;
         }
 
-        private bool DoesDirectoryExist()
+
+        /// <summary>
+        /// Checks whether the listed directories in all TextBoxes exist and alerts the user and stops execution if any do not
+        /// </summary>
+        /// <returns>"True" if all directories exist, otherwise "False"</returns>
+        private bool DoDirectoriesExist()
         {
             List<TextBox> doesNotExist = new List<TextBox>();
             //For each TextBox we check if its listed directory exists and alert the user and stop execution if it does not.
@@ -187,20 +192,22 @@ namespace PublishForQA
             {
                 MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb", "").Replace("Path", "") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CursorChange();
-                return;
+                return false;
             }
             else if (doesNotExist.Count > 1)
             {
                 StringBuilder stringBuilder = new StringBuilder("The directories for the following do not exist:" + Environment.NewLine + Environment.NewLine);
-                foreach (var txtb in tbNoBinDebugList)
+                foreach (var txtb in doesNotExist)
                 {
                     stringBuilder.AppendLine(NameReplace(txtb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
                 MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CursorChange();
-                return;
+                return false;
             }
+
+            return true;
         }
 
         private void pbHelp_Click(object sender, EventArgs e)
