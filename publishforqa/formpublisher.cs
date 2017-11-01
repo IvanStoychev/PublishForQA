@@ -32,6 +32,207 @@ namespace PublishForQA
                 LoadFile("PublishForQA.txt");
             }
         }
+        
+        public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ((FormPublisher)Form.ActiveForm).btnLocate.Menu.Close();
+            ((FormPublisher)Form.ActiveForm).Locate(e.ClickedItem.ToString());
+        }
+
+        private void pbAccessDenied_Click(object sender, EventArgs e)
+        {
+            using (FormAccessDenied accessDenied = new FormAccessDenied(AccessDeniedFolders))
+            {
+                accessDenied.ShowDialog();
+            }
+        }
+
+        private void tb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //If an IllegalPath character or the Enter key would be entered in the
+            //textboxes, we prevent it by setting the "Handled" property to "true".
+            e.Handled =
+                (
+                    e.KeyChar == (char)Keys.Return ||
+                    e.KeyChar == '"' ||
+                    e.KeyChar == '/' ||
+                    e.KeyChar == '?' ||
+                    e.KeyChar == '|' ||
+                    e.KeyChar == '*' ||
+                    e.KeyChar == '<' ||
+                    e.KeyChar == '>'
+                );
+
+            //There is a special case for the "Task Name" textbox
+            if (sender.Equals(tbTaskName) && e.KeyChar == '\\') e.Handled = true;
+
+            //If the pressed key is the "Enter" key we call the textbox "Leave" event.
+            if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
+        }
+
+        //This event is only used to emulate "Control + A" select all text behaviour
+        private void tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (e.Control && e.KeyCode == Keys.A) tb.SelectAll();
+        }
+
+        private void tb_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text.EndsWith(".")) tb.Text = tb.Text.TrimEnd('.');
+        }
+
+        private void btnPublish_Click(object sender, EventArgs e)
+        {
+            CursorChange();
+
+            #region Validation
+
+            #region Bin\Debug
+
+            //For clarity and "just in case", we add a slash at the end of paths that don't have one.
+            //And we check if the paths ends with in "bin\Debug" folder.
+            List<TextBox> tbNoBinDebugList = new List<TextBox>();
+            foreach (var tb in TextBoxesList)
+            {
+                //We skip the check for the QA Folder TextBox.
+                if (tb == tbQAFolderPath) continue;
+                if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
+                //Considering the previous validation all paths should end in "\\" but
+                //just in case we also check for "\\bin\\debug", as well.
+                if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\") && !tb.Text.ToLower().EndsWith("\\bin\\debug"))
+                {
+                    tbNoBinDebugList.Add(tb);
+                }
+            }
+
+            //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
+            if (tbNoBinDebugList.Count == 1)
+            {
+                DialogResult confirm = MessageBox.Show("The path of " + NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.\nAre you sure you wish to proceed?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    CursorChange();
+                    return;
+                }
+            }
+            else if (tbNoBinDebugList.Count > 1)
+            {
+                StringBuilder stringBuilder = new StringBuilder("The following paths don't end with a \"bin\\Debug\" folder:" + Environment.NewLine + Environment.NewLine);
+                foreach (var tb in tbNoBinDebugList)
+                {
+                    stringBuilder.AppendLine(NameReplace(tb));
+                }
+                stringBuilder.Append(Environment.NewLine + "Are you sure you wish to proceed?");
+                DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    CursorChange();
+                    return;
+                }
+            }
+
+            #endregion
+
+            #region Directory Exists
+
+            List<TextBox> doesNotExist = new List<TextBox>();
+            //For each TextBox we check if its listed directory exists and alert the user and stop execution if it does not.
+            foreach (var tb in TextBoxesList)
+            {
+                if (!Directory.Exists(tb.Text))
+                {
+                    doesNotExist.Add(tb);
+                }
+            }
+
+            //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
+            if (doesNotExist.Count == 1)
+            {
+                MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb", "").Replace("Path", "") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CursorChange();
+                return;
+            }
+            else if (doesNotExist.Count > 1)
+            {
+                StringBuilder stringBuilder = new StringBuilder("The directories for the following do not exist:" + Environment.NewLine + Environment.NewLine);
+                foreach (var txtb in tbNoBinDebugList)
+                {
+                    stringBuilder.AppendLine(NameReplace(txtb));
+                }
+                stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
+                MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CursorChange();
+                return;
+            }
+
+            #endregion
+
+            #endregion
+
+            string[] destinationPaths =
+                {
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
+                };
+            string[] sourcePaths =
+                {
+                tbECheckPath.Text,
+                tbCorePath.Text,
+                tbServicePath.Text
+                };
+            
+            #region Copying
+            for (int i = 0; i < 3; i++)
+            {
+                //First we create the directory structure
+                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
+
+                //Then we copy all files, overwriting any existing ones
+                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
+                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
+            }
+            #endregion
+
+            CursorChange();
+        }
+
+        private void pbHelp_Click(object sender, EventArgs e)
+        {
+            using (FormHelp formHelp = new FormHelp())
+            {
+                formHelp.ShowDialog();
+            }
+        }
+
+        private void pbSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                File.Delete("E:\\PublishForQA.txt");
+            }
+            catch (System.IO.IOException)
+            {
+                MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            foreach (TextBox tb in TextBoxesList)
+            {
+                File.AppendAllText("E:\\PublishForQA.txt", tb.Name + Separator + " " + tb.Text + Environment.NewLine);
+            }
+        }
+
+        private void pbLoad_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                LoadFile(openFileDialog.FileName);
+            }
+        }
 
         /// <summary>
         /// Gets a list of all the folders of the fixed and removable drives on the system and searches through them for
@@ -150,188 +351,6 @@ namespace PublishForQA
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK) textBox.Text = folderBrowserDialog.SelectedPath.EndsWith("\\") ? folderBrowserDialog.SelectedPath : folderBrowserDialog.SelectedPath + "\\";
         }
 
-        public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            ((FormPublisher)Form.ActiveForm).btnLocate.Menu.Close();
-            ((FormPublisher)Form.ActiveForm).Locate(e.ClickedItem.ToString());
-        }
-
-        private void pbAccessDenied_Click(object sender, EventArgs e)
-        {
-            using (FormAccessDenied accessDenied = new FormAccessDenied(AccessDeniedFolders))
-            {
-                accessDenied.ShowDialog();
-            }
-        }
-
-        private void tb_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //If an IllegalPath character or the Enter key would be entered in the
-            //textboxes, we prevent it by setting the "Handled" property to "true".
-            e.Handled =
-                (
-                    e.KeyChar == (char)Keys.Return ||
-                    e.KeyChar == '"' ||
-                    e.KeyChar == '/' ||
-                    e.KeyChar == '?' ||
-                    e.KeyChar == '|' ||
-                    e.KeyChar == '*' ||
-                    e.KeyChar == '<' ||
-                    e.KeyChar == '>'
-                );
-
-            //There is a special case for the "Task Name" textbox
-            if (sender.Equals(tbTaskName) && e.KeyChar == '\\') e.Handled = true;
-
-            //If the pressed key is the "Enter" key we call the textbox "Leave" event.
-            if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
-        }
-
-        //This event is only used to emulate "Control + A" select all text behaviour
-        private void tb_KeyDown(object sender, KeyEventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-            if (e.Control && e.KeyCode == Keys.A) tb.SelectAll();
-        }
-
-        private void tb_Leave(object sender, EventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-            if (tb.Text.EndsWith(".")) tb.Text = tb.Text.TrimEnd('.');
-        }
-
-        private void btnPublish_Click(object sender, EventArgs e)
-        {
-            CursorChange();
-
-            #region Validation
-            //For clarity and "just in case", we add a slash at the end of paths that don't have one.
-            //And we check if the paths ends with in "bin\Debug" folder.
-            List<TextBox> tbNoBinDebugList = new List<TextBox>();
-            foreach (var tb in TextBoxesList)
-            {
-                //We skip the check for the QA Folder TextBox.
-                if (tb == tbQAFolderPath) continue;
-                if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
-                //Considering the previous validation all paths should end in "\\" but
-                //just in case we also check for "\\bin\\debug", as well.
-                if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\") && !tb.Text.ToLower().EndsWith("\\bin\\debug"))
-                {
-                    tbNoBinDebugList.Add(tb);
-                }
-            }
-
-            if (tbNoBinDebugList.Count == 1)
-            {
-                MessageBox.Show("The path " + tbNoBinDebugList[0].Name.Replace( + "");
-            }
-            else if (tbNoBinDebugList.Count > 1)
-            {
-                StringBuilder stringBuilder = new StringBuilder("The following paths don't end with a \"bin\\Debug\" folder:" + Environment.NewLine + Environment.NewLine);
-                foreach (var tb in tbNoBinDebugList)
-                {
-                    stringBuilder.AppendLine(tb.Name.Replace("tb", "").Replace("Path", ""));
-                }
-                stringBuilder.Append(Environment.NewLine + "Are you sure you wish to proceed?");
-                DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (confirm == DialogResult.No)
-                {
-                    CursorChange();
-                    return;
-                }
-            }
-
-            foreach (var tb in TextBoxesList)
-            {
-                List<TextBox> doesNotExist = new List<TextBox>();
-                if (!Directory.Exists(tb.Text))
-                {
-                    doesNotExist.Add(tb);
-                }
-                if (doesNotExist.Count == 1)
-                {
-                    MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb","").Replace("Path","") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    CursorChange();
-                    return;
-                }
-                else if (doesNotExist.Count > 1)
-                {
-                    StringBuilder stringBuilder = new StringBuilder("The following directories do not exist:" + Environment.NewLine + Environment.NewLine);
-                    foreach (var txtb in tbNoBinDebugList)
-                    {
-                        stringBuilder.AppendLine(txtb.Name.Replace("tb", "").Replace("Path", ""));
-                    }
-                    stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
-                    MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    CursorChange();
-                    return;
-                }
-            }
-            #endregion
-
-            string[] destinationPaths =
-                {
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
-                };
-            string[] sourcePaths =
-                {
-                tbECheckPath.Text,
-                tbCorePath.Text,
-                tbServicePath.Text
-                };
-            
-            #region Copying
-            for (int i = 0; i < 3; i++)
-            {
-                //First we create the directory structure
-                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
-                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
-
-                //Then we copy all files, overwriting any existing ones
-                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
-                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
-            }
-            #endregion
-
-            CursorChange();
-        }
-
-        private void pbHelp_Click(object sender, EventArgs e)
-        {
-            using (FormHelp formHelp = new FormHelp())
-            {
-                formHelp.ShowDialog();
-            }
-        }
-
-        private void pbSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                File.Delete("E:\\PublishForQA.txt");
-            }
-            catch (System.IO.IOException)
-            {
-                MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            foreach (TextBox tb in TextBoxesList)
-            {
-                File.AppendAllText("E:\\PublishForQA.txt", tb.Name + Separator + " " + tb.Text + Environment.NewLine);
-            }
-        }
-
-        private void pbLoad_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                LoadFile(openFileDialog.FileName);
-            }
-        }
-
         /// <summary>
         /// Reads the given file line by line and attempts to retrieve the values for all TextBoxes.
         /// It will display a MessageBox with all TextBoxes for whom it could not find a value.
@@ -372,7 +391,7 @@ namespace PublishForQA
                     StringBuilder stringBuilder = new StringBuilder("The paths for the following TextBoxes:" + Environment.NewLine + Environment.NewLine);
                     foreach (var tb in notFoundBoxes)
                     {
-                        stringBuilder.AppendLine(tb.Name.Replace("tb", "").Replace("Path", " Path"));
+                        stringBuilder.AppendLine(NameReplace(tb));
                     }
                     stringBuilder.Append(Environment.NewLine + "could not be read from the save file.");
                     MessageBox.Show(stringBuilder.ToString(), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -390,6 +409,16 @@ namespace PublishForQA
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        /// <summary>
+        /// Converts the name of a TextBox. Removes all instances of "tb" and "Path".
+        /// </summary>
+        /// <param name="tb">The TextBox whose name should be converted</param>
+        /// <returns>A String instance of the TextBox name with no instances of "tb" and/or "Path"</returns>
+        private string NameReplace(TextBox tb)
+        {
+            return tb.Name.Replace("tb", "").Replace("Path", "");
         }
     }
 
