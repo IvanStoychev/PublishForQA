@@ -96,10 +96,7 @@ namespace PublishForQA
 
         private void pbHelp_Click(object sender, EventArgs e)
         {
-            using (FormHelp formHelp = new FormHelp())
-            {
-                formHelp.ShowDialog();
-            }
+            
         }
 
         private void pbSave_Click(object sender, EventArgs e)
@@ -189,7 +186,7 @@ namespace PublishForQA
             //For each TextBox we check if its listed directory exists and alert the user and stop execution if it does not.
             foreach (var tb in TextBoxesList)
             {
-                if (!Directory.Exists(tb.Text))
+                if (!Directory.Exists(tb.Text) || tb.Text == "")
                 {
                     doesNotExist.Add(tb);
                 }
