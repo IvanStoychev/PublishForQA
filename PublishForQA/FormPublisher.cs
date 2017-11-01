@@ -32,124 +32,7 @@ namespace PublishForQA
                 LoadFile("PublishForQA.txt");
             }
         }
-
-        /// <summary>
-        /// Gets a list of all the folders of the fixed and removable drives on the system and searches through them for
-        /// a folder named as the passed version parameter.
-        /// </summary>
-        /// <param name="version">The folder name of the E-Check version to search for</param>
-        /// <remarks>The method also keeps a list of all folders that access was denied to</remarks>
-        private void Locate(string version)
-        {
-            List<DriveInfo> drives = new List<DriveInfo>();
-            List<string> ECheckresults = new List<string>();
-            List<string> Coreresults = new List<string>();
-            drives.AddRange(DriveInfo.GetDrives());
-            drives = drives
-                           .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
-                           .ToList();
-
-            pbAccessDenied.Visible = false;
-            CursorChange();
-            AccessDeniedFolders.Clear();
-
-            //For each Fixed or Removable storage drive on the system we search for folders
-            //named after the selected version and "E-CheckCore".
-            //We also create a list of all folders to which access was denied to.
-            foreach (var drive in drives)
-            {
-                List<string> folders = new List<string>();
-                folders.AddRange(Directory.GetDirectories(drive.Name));
-                foreach (var folder in folders)
-                {
-                    try
-                    {
-                        ECheckresults.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
-                        Coreresults.AddRange(Directory.GetDirectories(folder, "E-CheckCore", SearchOption.AllDirectories));
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex is System.UnauthorizedAccessException)
-                        {
-                            AccessDeniedFolders.Add(ex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }
-            }
-
-            //If there were any folders that access was denied to we show the
-            //button which opens the dialog which lists them.
-            if (AccessDeniedFolders.Count > 0)
-            {
-                AccessDeniedFolders = AccessDeniedFolders.Distinct().ToList();
-                AccessDeniedFolders.Sort();
-                pbAccessDenied.Visible = true;
-            }
-            else
-            {
-                pbAccessDenied.Visible = false;
-            }
-
-            CursorChange();
-
-            List<string> eCheckPath = ECheckresults.Where(x => Directory.Exists(x + @"\master\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList();
-            List<string> corePath = Coreresults.Where(x => Directory.Exists(x + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList();
-
-            //No results for either E-Check or E-CheckCore
-            if (eCheckPath.Count < 1 && corePath.Count < 1)
-            {
-                MessageBox.Show("Neither " + version + " nor E-CheckCore were found", "No results", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            //No results for E-Check
-            else if (eCheckPath.Count > 0 && corePath.Count < 1)
-            {
-                MessageBox.Show(version + "was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            //No results for E-CheckCore
-            else if (eCheckPath.Count < 1 && corePath.Count > 0)
-            {
-                MessageBox.Show("E-CheckCore was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (eCheckPath.Count == 1)
-            {
-                tbECheckPath.Text = Path.Combine(eCheckPath[0], @"master\WinClient\E-Check\bin\Debug\");
-                tbServicePath.Text = Path.Combine(eCheckPath[0], @"master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
-            }
-            if (corePath.Count == 1)
-            {
-                tbCorePath.Text = Path.Combine(corePath[0], @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
-            }
-
-            if (eCheckPath.Count > 1 || corePath.Count > 1)
-            {
-                using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPath, corePath))
-                {
-                    formTooManyResults.ShowDialog();
-                }
-            }
-        }
-
-        private void Browse(object sender, EventArgs e)
-        {
-            //First we get the TextBox, corresponding to the pressed button.
-            //Then we set the selected path of the FolderBrowserDialog to the text of said TextBox.
-            //If the TextBox has invalid text it will just default to "Desktop".
-            //Lastly if the user clicked "OK" we set the TextBox text to be the selected path and add
-            //a backslash to its end (by use of shorthand "if... then... else" statement) if it already doesn't have one.
-            Control control = sender as Control;
-            TextBox textBox = this.Controls.Find(control.Name.Replace("btn", "tb").Replace("Browse", "Path"), false).OfType<TextBox>().FirstOrDefault();
-            folderBrowserDialog.SelectedPath = textBox.Text;
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK) textBox.Text = folderBrowserDialog.SelectedPath.EndsWith("\\") ? folderBrowserDialog.SelectedPath : folderBrowserDialog.SelectedPath + "\\";
-        }
-
+        
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ((FormPublisher)Form.ActiveForm).btnLocate.Menu.Close();
@@ -349,6 +232,123 @@ namespace PublishForQA
             {
                 LoadFile(openFileDialog.FileName);
             }
+        }
+
+        /// <summary>
+        /// Gets a list of all the folders of the fixed and removable drives on the system and searches through them for
+        /// a folder named as the passed version parameter.
+        /// </summary>
+        /// <param name="version">The folder name of the E-Check version to search for</param>
+        /// <remarks>The method also keeps a list of all folders that access was denied to</remarks>
+        private void Locate(string version)
+        {
+            List<DriveInfo> drives = new List<DriveInfo>();
+            List<string> ECheckresults = new List<string>();
+            List<string> Coreresults = new List<string>();
+            drives.AddRange(DriveInfo.GetDrives());
+            drives = drives
+                           .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
+                           .ToList();
+
+            pbAccessDenied.Visible = false;
+            CursorChange();
+            AccessDeniedFolders.Clear();
+
+            //For each Fixed or Removable storage drive on the system we search for folders
+            //named after the selected version and "E-CheckCore".
+            //We also create a list of all folders to which access was denied to.
+            foreach (var drive in drives)
+            {
+                List<string> folders = new List<string>();
+                folders.AddRange(Directory.GetDirectories(drive.Name));
+                foreach (var folder in folders)
+                {
+                    try
+                    {
+                        ECheckresults.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
+                        Coreresults.AddRange(Directory.GetDirectories(folder, "E-CheckCore", SearchOption.AllDirectories));
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is System.UnauthorizedAccessException)
+                        {
+                            AccessDeniedFolders.Add(ex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            //If there were any folders that access was denied to we show the
+            //button which opens the dialog which lists them.
+            if (AccessDeniedFolders.Count > 0)
+            {
+                AccessDeniedFolders = AccessDeniedFolders.Distinct().ToList();
+                AccessDeniedFolders.Sort();
+                pbAccessDenied.Visible = true;
+            }
+            else
+            {
+                pbAccessDenied.Visible = false;
+            }
+
+            CursorChange();
+
+            List<string> eCheckPath = ECheckresults.Where(x => Directory.Exists(x + @"\master\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList();
+            List<string> corePath = Coreresults.Where(x => Directory.Exists(x + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList();
+
+            //No results for either E-Check or E-CheckCore
+            if (eCheckPath.Count < 1 && corePath.Count < 1)
+            {
+                MessageBox.Show("Neither " + version + " nor E-CheckCore were found", "No results", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //No results for E-Check
+            else if (eCheckPath.Count > 0 && corePath.Count < 1)
+            {
+                MessageBox.Show(version + "was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            //No results for E-CheckCore
+            else if (eCheckPath.Count < 1 && corePath.Count > 0)
+            {
+                MessageBox.Show("E-CheckCore was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (eCheckPath.Count == 1)
+            {
+                tbECheckPath.Text = Path.Combine(eCheckPath[0], @"master\WinClient\E-Check\bin\Debug\");
+                tbServicePath.Text = Path.Combine(eCheckPath[0], @"master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
+            }
+            if (corePath.Count == 1)
+            {
+                tbCorePath.Text = Path.Combine(corePath[0], @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
+            }
+
+            if (eCheckPath.Count > 1 || corePath.Count > 1)
+            {
+                using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPath, corePath))
+                {
+                    formTooManyResults.ShowDialog();
+                }
+            }
+        }
+
+        private void Browse(object sender, EventArgs e)
+        {
+            //First we get the TextBox, corresponding to the pressed button.
+            //Then we set the selected path of the FolderBrowserDialog to the text of said TextBox.
+            //If the TextBox has invalid text it will just default to "Desktop".
+            //Lastly if the user clicked "OK" we set the TextBox text to be the selected path and add
+            //a backslash to its end (by use of shorthand "if... then... else" statement) if it already doesn't have one.
+            Control control = sender as Control;
+            TextBox textBox = this.Controls.Find(control.Name.Replace("btn", "tb").Replace("Browse", "Path"), false).OfType<TextBox>().FirstOrDefault();
+            folderBrowserDialog.SelectedPath = textBox.Text;
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK) textBox.Text = folderBrowserDialog.SelectedPath.EndsWith("\\") ? folderBrowserDialog.SelectedPath : folderBrowserDialog.SelectedPath + "\\";
         }
 
         /// <summary>
