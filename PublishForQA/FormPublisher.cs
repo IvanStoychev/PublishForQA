@@ -87,7 +87,9 @@ namespace PublishForQA
         {
             CursorChange();
 
-            if (HasBinDebug()) if(DoDirectoriesExist()) CopyPixelOperation();
+            if (HasBinDebug())
+                if (DoDirectoriesExist())
+                    CopyFilesAndDirectories();
 
             CursorChange();
         }
