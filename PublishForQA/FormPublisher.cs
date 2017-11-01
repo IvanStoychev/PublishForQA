@@ -117,6 +117,40 @@ namespace PublishForQA
             CursorChange();
         }
 
+        private void pbHelp_Click(object sender, EventArgs e)
+        {
+            using (FormHelp formHelp = new FormHelp())
+            {
+                formHelp.ShowDialog();
+            }
+        }
+
+        private void pbSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                File.Delete("E:\\PublishForQA.txt");
+            }
+            catch (System.IO.IOException)
+            {
+                MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            foreach (TextBox tb in TextBoxesList)
+            {
+                File.AppendAllText("E:\\PublishForQA.txt", tb.Name + Separator + " " + tb.Text + Environment.NewLine);
+            }
+        }
+
+        private void pbLoad_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                LoadFile(openFileDialog.FileName);
+            }
+        }
+
         /// <summary>
         /// Checks whether all paths end with a "bin\Debug" folder and alerts the user with an OKCancel MessageBox if any do not
         /// </summary>
@@ -169,8 +203,7 @@ namespace PublishForQA
 
             return true;
         }
-
-
+        
         /// <summary>
         /// Checks whether the listed directories in all TextBoxes exist and alerts the user and stops execution if any do not
         /// </summary>
@@ -208,40 +241,6 @@ namespace PublishForQA
             }
 
             return true;
-        }
-
-        private void pbHelp_Click(object sender, EventArgs e)
-        {
-            using (FormHelp formHelp = new FormHelp())
-            {
-                formHelp.ShowDialog();
-            }
-        }
-
-        private void pbSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                File.Delete("E:\\PublishForQA.txt");
-            }
-            catch (System.IO.IOException)
-            {
-                MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            foreach (TextBox tb in TextBoxesList)
-            {
-                File.AppendAllText("E:\\PublishForQA.txt", tb.Name + Separator + " " + tb.Text + Environment.NewLine);
-            }
-        }
-
-        private void pbLoad_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                LoadFile(openFileDialog.FileName);
-            }
         }
 
         /// <summary>
