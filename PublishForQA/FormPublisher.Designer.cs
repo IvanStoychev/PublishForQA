@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPublisher));
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.tbECheckPath = new System.Windows.Forms.TextBox();
             this.lblECheck = new System.Windows.Forms.Label();
             this.lblCore = new System.Windows.Forms.Label();
@@ -64,11 +63,9 @@
             this.tbECheckPath.AllowDrop = true;
             this.tbECheckPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tbECheckPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.helpProvider.SetHelpString(this.tbECheckPath, "");
             this.tbECheckPath.Location = new System.Drawing.Point(12, 58);
             this.tbECheckPath.Multiline = true;
             this.tbECheckPath.Name = "tbECheckPath";
-            this.helpProvider.SetShowHelp(this.tbECheckPath, true);
             this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
             this.tbECheckPath.TabIndex = 9;
             this.tbECheckPath.Tag = "";
@@ -342,7 +339,6 @@
         #endregion
 
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.HelpProvider helpProvider;
         private System.Windows.Forms.Label lblECheck;
         private System.Windows.Forms.Label lblCore;
         private System.Windows.Forms.Label lblService;

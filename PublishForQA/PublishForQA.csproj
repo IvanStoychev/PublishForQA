@@ -116,6 +116,7 @@
     <None Include="Resources\Load.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\PublishforQA.chm" />
     <None Include="Resources\Save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
