@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lblGeneralBody.Text" xml:space="preserve">
+    <value>This program will copy all files and folders (preserving directory structure) from the three listed "Debug" folders (E-Check Debug Folder, E-Check Core Debug Folder and E-Check Service Debug Folder)
+to the chosen QA folder when you click the "Publish" button.
+
+
+It does so by first creating a new folder, inside the given QA folder, with a name of the provided "Task Name". Then it creates three empty folders:
+"E-Check", "E-Check Core" and "E-Check Service" and copies all files from the respective debug folders into them.
+
+     The program will override any files and folders without prompting.
+
+You can choose each folder by clicking the "Browse..." button below each text box or you can enter the paths manually.
+In compliance with Windows directory path regulations you are prevented from entering the following characters: "  /  ?  |  *  &lt; &gt;
+
+     If you wish for the program to automatically find a certain E-Check version on your computer, use the "Locate" button.
+
+Since, by default, files should be copied from the debug directories the program will check if each of the three "E-Check" paths ends with a "bin\Debug" folder.
+
+If any do not - you will be alerted to the fact and promted if you wish to continue.
+If all paths end in "bin\Debug" or you wish to continue despite that, the program will verify if all listed directories exist. If any do not or empty values are provided you will be alerted and nothing will be copied.</value>
+  </data>
+  <data name="lblLocateButtonBody.Text" xml:space="preserve">
+    <value>Clicking the "Locate" button opens a context menu with all versions of E-Check. Clicking one of them will start a recursive search on all fixed and removable drives for the directory named like the version you chose.
+The search looks for folders with said name and for which the following directories exist:
+"~\master\WinClient\E-Check\bin\Debug\"
+"~\master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\"
+
+Since "E-CheckCore" is the same for all E-Check versions every search for a particular version also searches for "E-CheckCore", where exists a folder "~\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\".
+
+If only one result is found the paths to said "Debug" directories are automatically entered into the corresponding text boxes.
+If multiple results are found, either for the version or for E-CheckCore, an additional dialog is opened that prompts the user to select which folder to use.
+In case access was denied to any folders an icon will appear to the right of the "Locate" button, clicking it will show a list of those folders.</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>This program will copy all files and folders (preserving directory structure) from the three listed "Debug" folders (E-Check Debug Folder, E-Check Core Debug Folder and E-Check Service Debug Folder)
+to the chosen QA folder when you click the "Publish" button.
+
+
+It does so by first creating a new folder, inside the given QA folder, with a name of the provided "Task Name". Then it creates three empty folders:
+"E-Check", "E-Check Core" and "E-Check Service" and copies all files from the respective debug folders into them.
+
+     The program will override any files and folders without prompting.
+
+You can choose each folder by clicking the "Browse..." button below each text box or you can enter the paths manually.
+In compliance with Windows directory path regulations you are prevented from entering the following characters: "  /  ?  |  *  &lt; &gt;
+
+     If you wish for the program to automatically find a certain E-Check version on your computer, use the "Locate" button.
+
+Since, by default, files should be copied from the debug directories the program will check if each of the three "E-Check" paths ends with a "bin\Debug" folder.
+
+If any do not - you will be alerted to the fact and promted if you wish to continue.
+If all paths end in "bin\Debug" or you wish to continue despite that, the program will verify if all listed directories exist. If any do not or empty values are provided you will be alerted and nothing will be copied.</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>This program will copy all files and folders (preserving directory structure) from the three listed "Debug" folders (E-Check Debug Folder, E-Check Core Debug Folder and E-Check Service Debug Folder)
+to the chosen QA folder when you click the "Publish" button.
+
+
+It does so by first creating a new folder, inside the given QA folder, with a name of the provided "Task Name". Then it creates three empty folders:
+"E-Check", "E-Check Core" and "E-Check Service" and copies all files from the respective debug folders into them.
+
+     The program will override any files and folders without prompting.
+
+You can choose each folder by clicking the "Browse..." button below each text box or you can enter the paths manually.
+In compliance with Windows directory path regulations you are prevented from entering the following characters: "  /  ?  |  *  &lt; &gt;
+
+     If you wish for the program to automatically find a certain E-Check version on your computer, use the "Locate" button.
+
+Since, by default, files should be copied from the debug directories the program will check if each of the three "E-Check" paths ends with a "bin\Debug" folder.
+
+If any do not - you will be alerted to the fact and promted if you wish to continue.
+If all paths end in "bin\Debug" or you wish to continue despite that, the program will verify if all listed directories exist. If any do not or empty values are provided you will be alerted and nothing will be copied.</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>This program will copy all files and folders (preserving directory structure) from the three listed "Debug" folders (E-Check Debug Folder, E-Check Core Debug Folder and E-Check Service Debug Folder)
+to the chosen QA folder when you click the "Publish" button.
+
+
+It does so by first creating a new folder, inside the given QA folder, with a name of the provided "Task Name". Then it creates three empty folders:
+"E-Check", "E-Check Core" and "E-Check Service" and copies all files from the respective debug folders into them.
+
+     The program will override any files and folders without prompting.
+
+You can choose each folder by clicking the "Browse..." button below each text box or you can enter the paths manually.
+In compliance with Windows directory path regulations you are prevented from entering the following characters: "  /  ?  |  *  &lt; &gt;
+
+     If you wish for the program to automatically find a certain E-Check version on your computer, use the "Locate" button.
+
+Since, by default, files should be copied from the debug directories the program will check if each of the three "E-Check" paths ends with a "bin\Debug" folder.
+
+If any do not - you will be alerted to the fact and promted if you wish to continue.
+If all paths end in "bin\Debug" or you wish to continue despite that, the program will verify if all listed directories exist. If any do not or empty values are provided you will be alerted and nothing will be copied.</value>
+  </data>
+</root>

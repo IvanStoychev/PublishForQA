@@ -96,16 +96,7 @@ namespace PublishForQA
 
         private void pbHelp_Click(object sender, EventArgs e)
         {
-            string path = @"E:\Ogrest\PublishforQA.chm";
-            //using (File.Create(path, 100, FileOptions.DeleteOnClose)) { File.WriteAllBytes(path, PublishForQA.Properties.Resources.PublishforQA); }
-            //FileStream stream = File.Create(path, 100, FileOptions.DeleteOnClose);
-            //stream.Write(PublishForQA.Properties.Resources.PublishforQA, 0, PublishForQA.Properties.Resources.PublishforQA.Length);
-            //File.WriteAllBytes(path, PublishForQA.Properties.Resources.PublishforQA);
-            FileStream jj = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete, 512);
-            jj.Write(PublishForQA.Properties.Resources.PublishforQA, 0, PublishForQA.Properties.Resources.PublishforQA.Length);
-            jj.Dispose();
-            Help.ShowHelp(this, path);
-            //File.Delete(path);
+            
         }
 
         private void pbSave_Click(object sender, EventArgs e)
