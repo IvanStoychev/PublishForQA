@@ -64,7 +64,7 @@ namespace PublishForQA
                 );
 
             //There is a special case for the "Task Name" textbox
-            if (sender.Equals(tbTaskName) && e.KeyChar == '\\') e.Handled = true;
+            if (sender.Equals(tbTaskName) && (e.KeyChar == '\\' || e.KeyChar == ':')) e.Handled = true;
 
             //If the pressed key is the "Enter" key we call the textbox "Leave" event.
             if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
