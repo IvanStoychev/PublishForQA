@@ -16,5 +16,10 @@ namespace PublishForQA
         {
             InitializeComponent();
         }
+
+        private void linklblGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/IvanStoychev/PublishForQA");
+        }
     }
 }

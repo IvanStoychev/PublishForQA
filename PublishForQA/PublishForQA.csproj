@@ -48,7 +48,7 @@
     <Compile Include="FormHelp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormHelp.Designer.cs">
+    <Compile Include="FormHelp.designer.cs">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </Compile>
     <Compile Include="FormAccessDenied.cs">
