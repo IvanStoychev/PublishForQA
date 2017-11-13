@@ -96,7 +96,19 @@ namespace PublishForQA
 
         private void pbHelp_Click(object sender, EventArgs e)
         {
-            
+            //We check if there already is an open FormHelp.
+            //This is done by getting all open forms of type "FormHelp". Since at most there should be only one
+            //we use "FirstOrDefault()" in this way we will either get the open one or null. If we get null then
+            //there must be no open help forms (and we got "Default") so we open one.
+            //ELSE we set the focus to the one that was returned by "First".
+            if (Application.OpenForms.OfType<FormHelp>().FirstOrDefault() == null)
+            {
+                new FormHelp().Show();
+            }
+            else
+            {
+                Application.OpenForms.OfType<FormHelp>().First().Focus();
+            }
         }
 
         private void pbSave_Click(object sender, EventArgs e)
