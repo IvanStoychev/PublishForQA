@@ -44,7 +44,6 @@
             this.tbQAFolderPath = new System.Windows.Forms.TextBox();
             this.tbServicePath = new System.Windows.Forms.TextBox();
             this.tbCorePath = new System.Windows.Forms.TextBox();
-            this.tbTaskName = new System.Windows.Forms.TextBox();
             this.lblTaskName = new System.Windows.Forms.Label();
             this.pbSave = new System.Windows.Forms.PictureBox();
             this.pbHelp = new System.Windows.Forms.PictureBox();
@@ -52,6 +51,7 @@
             this.pbLoad = new System.Windows.Forms.PictureBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnLocate = new PublishForQA.MenuButton();
+            this.tbTaskName = new PublishForQA.TaskNameTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
@@ -215,17 +215,6 @@
             this.tbCorePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbCorePath.Leave += new System.EventHandler(this.tb_Leave);
             // 
-            // tbTaskName
-            // 
-            this.tbTaskName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTaskName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbTaskName.Location = new System.Drawing.Point(27, 347);
-            this.tbTaskName.Name = "tbTaskName";
-            this.tbTaskName.Size = new System.Drawing.Size(350, 20);
-            this.tbTaskName.TabIndex = 12;
-            this.tbTaskName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
-            this.tbTaskName.Leave += new System.EventHandler(this.tb_Leave);
-            // 
             // lblTaskName
             // 
             this.lblTaskName.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -299,16 +288,26 @@
             this.btnLocate.Text = "Locate";
             this.btnLocate.UseVisualStyleBackColor = true;
             // 
+            // tbTaskName
+            // 
+            this.tbTaskName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbTaskName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbTaskName.Location = new System.Drawing.Point(27, 347);
+            this.tbTaskName.Name = "tbTaskName";
+            this.tbTaskName.Size = new System.Drawing.Size(350, 20);
+            this.tbTaskName.TabIndex = 16;
+            this.tbTaskName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 433);
+            this.Controls.Add(this.tbTaskName);
             this.Controls.Add(this.pbLoad);
             this.Controls.Add(this.pbSave);
             this.Controls.Add(this.pbHelp);
             this.Controls.Add(this.lblTaskName);
-            this.Controls.Add(this.tbTaskName);
             this.Controls.Add(this.pbAccessDenied);
             this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.tbECheckPath);
@@ -354,12 +353,12 @@
         private System.Windows.Forms.TextBox tbECheckPath;
         private MenuButton btnLocate;
         private System.Windows.Forms.PictureBox pbAccessDenied;
-        private System.Windows.Forms.TextBox tbTaskName;
         private System.Windows.Forms.Label lblTaskName;
         private System.Windows.Forms.PictureBox pbHelp;
         private System.Windows.Forms.PictureBox pbSave;
         private System.Windows.Forms.PictureBox pbLoad;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private TaskNameTextBox tbTaskName;
     }
 }
 

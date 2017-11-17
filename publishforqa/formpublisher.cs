@@ -512,4 +512,35 @@ namespace PublishForQA
             }
         }
     }
+
+    class TaskNameTextBox : TextBox
+    {
+        //We capture the "paste" event, so that we can eliminate any
+        //illegal characters being copy-pasted into the TextBox.
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x302 && Clipboard.ContainsText())
+            {
+                this.SelectedText = ReplaceIllegalChars(Clipboard.GetText());
+                return;
+            }
+            base.WndProc(ref m);
+        }
+
+        //For readability we remove each character separately.
+        private string ReplaceIllegalChars(string str)
+        {
+            str = str.Replace(":", string.Empty);
+            str = str.Replace("\"", string.Empty);
+            str = str.Replace("\\", string.Empty);
+            str = str.Replace("/", string.Empty);
+            str = str.Replace("?", string.Empty);
+            str = str.Replace("|", string.Empty);
+            str = str.Replace("*", string.Empty);
+            str = str.Replace("<", string.Empty);
+            str = str.Replace(">", string.Empty);
+
+            return str;
+        }
+    }
 }
