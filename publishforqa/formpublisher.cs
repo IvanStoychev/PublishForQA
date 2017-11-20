@@ -28,7 +28,8 @@ namespace PublishForQA
                 LoadFile("PublishForQA.txt");
             }
         }
-        
+
+        #region Events of controls
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ((FormPublisher)Form.ActiveForm).btnLocate.Menu.Close();
@@ -132,7 +133,8 @@ namespace PublishForQA
                 LoadFile(openFileDialog.FileName);
             }
         }
-
+        #endregion
+        
         /// <summary>
         /// Checks whether all paths end with a "bin\Debug" folder and alerts the user with an OKCancel MessageBox if any do not
         /// </summary>
