@@ -45,17 +45,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomControls.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHelp.designer.cs">
+      <DependentUpon>FormHelp.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAccessDenied.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormAccessDenied.Designer.cs">
       <DependentUpon>FormAccessDenied.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormHelp.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormHelp.Designer.cs">
-      <DependentUpon>FormHelp.cs</DependentUpon>
     </Compile>
     <Compile Include="FormPublisher.cs">
       <SubType>Form</SubType>
@@ -71,11 +74,11 @@
     <Compile Include="FormTooManyResults.Designer.cs">
       <DependentUpon>FormTooManyResults.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="FormAccessDenied.resx">
-      <DependentUpon>FormAccessDenied.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormHelp.resx">
       <DependentUpon>FormHelp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAccessDenied.resx">
+      <DependentUpon>FormAccessDenied.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPublisher.resx">
       <DependentUpon>FormPublisher.cs</DependentUpon>
@@ -125,7 +128,14 @@
     <None Include="Resources\Load.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\PublishforQA.chm" />
     <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

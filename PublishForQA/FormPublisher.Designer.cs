@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPublisher));
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.tbECheckPath = new System.Windows.Forms.TextBox();
             this.lblECheck = new System.Windows.Forms.Label();
             this.lblCore = new System.Windows.Forms.Label();
             this.lblService = new System.Windows.Forms.Label();
@@ -42,10 +40,6 @@
             this.btnCoreBrowse = new System.Windows.Forms.Button();
             this.btnECheckBrowse = new System.Windows.Forms.Button();
             this.btnPublish = new System.Windows.Forms.Button();
-            this.tbQAFolderPath = new System.Windows.Forms.TextBox();
-            this.tbServicePath = new System.Windows.Forms.TextBox();
-            this.tbCorePath = new System.Windows.Forms.TextBox();
-            this.tbTaskName = new System.Windows.Forms.TextBox();
             this.lblTaskName = new System.Windows.Forms.Label();
             this.pbSave = new System.Windows.Forms.PictureBox();
             this.pbHelp = new System.Windows.Forms.PictureBox();
@@ -53,28 +47,16 @@
             this.pbLoad = new System.Windows.Forms.PictureBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnLocate = new PublishForQA.MenuButton();
+            this.tbTaskName = new PublishForQA.TextBoxFormPublisher();
+            this.tbQAFolderPath = new PublishForQA.TextBoxFormPublisher();
+            this.tbServicePath = new PublishForQA.TextBoxFormPublisher();
+            this.tbCorePath = new PublishForQA.TextBoxFormPublisher();
+            this.tbECheckPath = new PublishForQA.TextBoxFormPublisher();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tbECheckPath
-            // 
-            this.tbECheckPath.AllowDrop = true;
-            this.tbECheckPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbECheckPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.helpProvider.SetHelpString(this.tbECheckPath, "");
-            this.tbECheckPath.Location = new System.Drawing.Point(12, 58);
-            this.tbECheckPath.Multiline = true;
-            this.tbECheckPath.Name = "tbECheckPath";
-            this.helpProvider.SetShowHelp(this.tbECheckPath, true);
-            this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
-            this.tbECheckPath.TabIndex = 9;
-            this.tbECheckPath.Tag = "";
-            this.tbECheckPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
-            this.tbECheckPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
-            this.tbECheckPath.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // lblECheck
             // 
@@ -172,63 +154,6 @@
             this.btnPublish.UseVisualStyleBackColor = false;
             this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
             // 
-            // tbQAFolderPath
-            // 
-            this.tbQAFolderPath.AllowDrop = true;
-            this.tbQAFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbQAFolderPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbQAFolderPath.Location = new System.Drawing.Point(12, 271);
-            this.tbQAFolderPath.Multiline = true;
-            this.tbQAFolderPath.Name = "tbQAFolderPath";
-            this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
-            this.tbQAFolderPath.TabIndex = 9;
-            this.tbQAFolderPath.Tag = "";
-            this.tbQAFolderPath.Text = "E:\\Ogrest\\";
-            this.tbQAFolderPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
-            this.tbQAFolderPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
-            this.tbQAFolderPath.Leave += new System.EventHandler(this.tb_Leave);
-            // 
-            // tbServicePath
-            // 
-            this.tbServicePath.AllowDrop = true;
-            this.tbServicePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbServicePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbServicePath.Location = new System.Drawing.Point(12, 200);
-            this.tbServicePath.Multiline = true;
-            this.tbServicePath.Name = "tbServicePath";
-            this.tbServicePath.Size = new System.Drawing.Size(380, 32);
-            this.tbServicePath.TabIndex = 9;
-            this.tbServicePath.Tag = "";
-            this.tbServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
-            this.tbServicePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
-            this.tbServicePath.Leave += new System.EventHandler(this.tb_Leave);
-            // 
-            // tbCorePath
-            // 
-            this.tbCorePath.AllowDrop = true;
-            this.tbCorePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbCorePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbCorePath.Location = new System.Drawing.Point(12, 129);
-            this.tbCorePath.Multiline = true;
-            this.tbCorePath.Name = "tbCorePath";
-            this.tbCorePath.Size = new System.Drawing.Size(380, 32);
-            this.tbCorePath.TabIndex = 9;
-            this.tbCorePath.Tag = "";
-            this.tbCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
-            this.tbCorePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
-            this.tbCorePath.Leave += new System.EventHandler(this.tb_Leave);
-            // 
-            // tbTaskName
-            // 
-            this.tbTaskName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTaskName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbTaskName.Location = new System.Drawing.Point(27, 347);
-            this.tbTaskName.Name = "tbTaskName";
-            this.tbTaskName.Size = new System.Drawing.Size(350, 20);
-            this.tbTaskName.TabIndex = 12;
-            this.tbTaskName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
-            this.tbTaskName.Leave += new System.EventHandler(this.tb_Leave);
-            // 
             // lblTaskName
             // 
             this.lblTaskName.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -302,22 +227,76 @@
             this.btnLocate.Text = "Locate";
             this.btnLocate.UseVisualStyleBackColor = true;
             // 
+            // tbTaskName
+            // 
+            this.tbTaskName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbTaskName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbTaskName.Location = new System.Drawing.Point(27, 347);
+            this.tbTaskName.Name = "tbTaskName";
+            this.tbTaskName.Size = new System.Drawing.Size(350, 20);
+            this.tbTaskName.TabIndex = 16;
+            this.tbTaskName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
+            // 
+            // tbQAFolderPath
+            // 
+            this.tbQAFolderPath.AllowDrop = true;
+            this.tbQAFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbQAFolderPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbQAFolderPath.Location = new System.Drawing.Point(12, 271);
+            this.tbQAFolderPath.Multiline = true;
+            this.tbQAFolderPath.Name = "tbQAFolderPath";
+            this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
+            this.tbQAFolderPath.TabIndex = 17;
+            // 
+            // tbServicePath
+            // 
+            this.tbServicePath.AllowDrop = true;
+            this.tbServicePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbServicePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbServicePath.Location = new System.Drawing.Point(12, 200);
+            this.tbServicePath.Multiline = true;
+            this.tbServicePath.Name = "tbServicePath";
+            this.tbServicePath.Size = new System.Drawing.Size(380, 32);
+            this.tbServicePath.TabIndex = 18;
+            // 
+            // tbCorePath
+            // 
+            this.tbCorePath.AllowDrop = true;
+            this.tbCorePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbCorePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCorePath.Location = new System.Drawing.Point(12, 129);
+            this.tbCorePath.Multiline = true;
+            this.tbCorePath.Name = "tbCorePath";
+            this.tbCorePath.Size = new System.Drawing.Size(380, 32);
+            this.tbCorePath.TabIndex = 19;
+            // 
+            // tbECheckPath
+            // 
+            this.tbECheckPath.AllowDrop = true;
+            this.tbECheckPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbECheckPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbECheckPath.Location = new System.Drawing.Point(12, 58);
+            this.tbECheckPath.Multiline = true;
+            this.tbECheckPath.Name = "tbECheckPath";
+            this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
+            this.tbECheckPath.TabIndex = 20;
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 433);
-            this.Controls.Add(this.pbLoad);
-            this.Controls.Add(this.pbSave);
-            this.Controls.Add(this.pbHelp);
-            this.Controls.Add(this.lblTaskName);
-            this.Controls.Add(this.tbTaskName);
-            this.Controls.Add(this.pbAccessDenied);
-            this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.tbECheckPath);
             this.Controls.Add(this.tbCorePath);
             this.Controls.Add(this.tbServicePath);
             this.Controls.Add(this.tbQAFolderPath);
+            this.Controls.Add(this.tbTaskName);
+            this.Controls.Add(this.pbLoad);
+            this.Controls.Add(this.pbSave);
+            this.Controls.Add(this.pbHelp);
+            this.Controls.Add(this.lblTaskName);
+            this.Controls.Add(this.pbAccessDenied);
+            this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.btnPublish);
             this.Controls.Add(this.btnECheckBrowse);
             this.Controls.Add(this.btnCoreBrowse);
@@ -342,7 +321,6 @@
         #endregion
 
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.HelpProvider helpProvider;
         private System.Windows.Forms.Label lblECheck;
         private System.Windows.Forms.Label lblCore;
         private System.Windows.Forms.Label lblService;
@@ -352,18 +330,18 @@
         private System.Windows.Forms.Button btnCoreBrowse;
         private System.Windows.Forms.Button btnECheckBrowse;
         private System.Windows.Forms.Button btnPublish;
-        private System.Windows.Forms.TextBox tbQAFolderPath;
-        private System.Windows.Forms.TextBox tbServicePath;
-        private System.Windows.Forms.TextBox tbCorePath;
-        private System.Windows.Forms.TextBox tbECheckPath;
         private MenuButton btnLocate;
         private System.Windows.Forms.PictureBox pbAccessDenied;
-        private System.Windows.Forms.TextBox tbTaskName;
         private System.Windows.Forms.Label lblTaskName;
         private System.Windows.Forms.PictureBox pbHelp;
         private System.Windows.Forms.PictureBox pbSave;
         private System.Windows.Forms.PictureBox pbLoad;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private TextBoxFormPublisher tbTaskName;
+        private TextBoxFormPublisher tbQAFolderPath;
+        private TextBoxFormPublisher tbServicePath;
+        private TextBoxFormPublisher tbCorePath;
+        private TextBoxFormPublisher tbECheckPath;
     }
 }
 

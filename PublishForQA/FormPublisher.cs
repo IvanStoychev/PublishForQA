@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-using System.Xml;
-using System.Xml.Linq;
 using System.Text;
 
 namespace PublishForQA
@@ -64,7 +60,7 @@ namespace PublishForQA
                 );
 
             //There is a special case for the "Task Name" textbox
-            if (sender.Equals(tbTaskName) && e.KeyChar == '\\') e.Handled = true;
+            if (sender.Equals(tbTaskName) && (e.KeyChar == '\\' || e.KeyChar == ':')) e.Handled = true;
 
             //If the pressed key is the "Enter" key we call the textbox "Leave" event.
             if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
@@ -96,9 +92,18 @@ namespace PublishForQA
 
         private void pbHelp_Click(object sender, EventArgs e)
         {
-            using (FormHelp formHelp = new FormHelp())
+            //We check if there already is an open FormHelp.
+            //This is done by getting all open forms of type "FormHelp". Since at most there should be only one
+            //we use "FirstOrDefault()" in this way we will either get the open one or null. If we get null then
+            //there must be no open help forms (and we got "Default") so we open one.
+            //ELSE we set the focus to the one that was returned by "First".
+            if (Application.OpenForms.OfType<FormHelp>().FirstOrDefault() == null)
             {
-                formHelp.ShowDialog();
+                new FormHelp().Show();
+            }
+            else
+            {
+                Application.OpenForms.OfType<FormHelp>().First().Focus();
             }
         }
 
@@ -106,17 +111,17 @@ namespace PublishForQA
         {
             try
             {
-                File.Delete("E:\\PublishForQA.txt");
+                File.Delete("PublishForQA.txt");
             }
             catch (System.IO.IOException)
             {
-                MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             foreach (TextBox tb in TextBoxesList)
             {
-                File.AppendAllText("E:\\PublishForQA.txt", tb.Name + Separator + " " + tb.Text + Environment.NewLine);
+                File.AppendAllText("PublishForQA.txt", tb.Name + Separator + " " + tb.Text + Environment.NewLine);
             }
         }
 
@@ -158,7 +163,6 @@ namespace PublishForQA
                 DialogResult confirm = MessageBox.Show("The path of " + NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.\nAre you sure you wish to proceed?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm == DialogResult.No)
                 {
-                    CursorChange();
                     return false;
                 }
             }
@@ -173,7 +177,6 @@ namespace PublishForQA
                 DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm == DialogResult.No)
                 {
-                    CursorChange();
                     return false;
                 }
             }
@@ -191,7 +194,7 @@ namespace PublishForQA
             //For each TextBox we check if its listed directory exists and alert the user and stop execution if it does not.
             foreach (var tb in TextBoxesList)
             {
-                if (!Directory.Exists(tb.Text))
+                if (!Directory.Exists(tb.Text) || tb.Text == "")
                 {
                     doesNotExist.Add(tb);
                 }
@@ -201,7 +204,6 @@ namespace PublishForQA
             if (doesNotExist.Count == 1)
             {
                 MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb", "").Replace("Path", "") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                CursorChange();
                 return false;
             }
             else if (doesNotExist.Count > 1)
@@ -213,7 +215,6 @@ namespace PublishForQA
                 }
                 stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
                 MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                CursorChange();
                 return false;
             }
 
@@ -438,73 +439,6 @@ namespace PublishForQA
         private string NameReplace(TextBox tb)
         {
             return tb.Name.Replace("tb", "").Replace("Path", "");
-        }
-    }
-
-    public class MenuButton : Button
-    {
-        [DefaultValue(null)]
-        public ContextMenuStrip Menu { get; set; }
-
-        [DefaultValue(false)]
-        public bool ShowMenuUnderCursor { get; set; }
-
-        public MenuButton()
-        {
-            ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
-            contextMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(FormPublisher.contextMenuStrip_ItemClicked);
-            Menu = contextMenuStrip;
-            string result = string.Empty;
-            using (Stream stream = this.GetType().Assembly.GetManifestResourceStream("PublishForQA.Resources.E-CheckVersions.xml"))
-            {
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    result = streamReader.ReadToEnd();
-                }
-            }
-            XmlReader reader = XmlReader.Create(new StringReader(result));
-            var doc = XDocument.Load(reader);
-            List<XElement> elements = doc.Root.Elements("Version").ToList();
-            foreach (var element in elements)
-            {
-                contextMenuStrip.Items.Add(element.Value);
-            }
-        }
-
-        protected override void OnMouseDown(MouseEventArgs mevent)
-        {
-            base.OnMouseDown(mevent);
-
-            if (Menu != null && mevent.Button == MouseButtons.Left)
-            {
-                Point menuLocation;
-
-                if (ShowMenuUnderCursor)
-                {
-                    menuLocation = mevent.Location;
-                }
-                else
-                {
-                    menuLocation = new Point(0, Height);
-                }
-
-                Menu.Show(this, menuLocation);
-            }
-        }
-
-        protected override void OnPaint(PaintEventArgs pevent)
-        {
-            base.OnPaint(pevent);
-
-            if (Menu != null)
-            {
-                int arrowX = ClientRectangle.Width - 14;
-                int arrowY = ClientRectangle.Height / 2 - 1;
-
-                Brush brush = Enabled ? SystemBrushes.ControlText : SystemBrushes.ButtonShadow;
-                Point[] arrows = new Point[] { new Point(arrowX, arrowY), new Point(arrowX + 7, arrowY), new Point(arrowX + 3, arrowY + 4) };
-                pevent.Graphics.FillPolygon(brush, arrows);
-            }
         }
     }
 }
