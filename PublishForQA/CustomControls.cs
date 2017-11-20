@@ -76,7 +76,7 @@ namespace PublishForQA
         }
     }
 
-    public class TaskNameTextBox : TextBox
+    public class TextBoxFormPublisher : TextBox
     {
         //We capture the "paste" event, so that we can eliminate any
         //illegal characters being copy-pasted into the TextBox.
@@ -93,9 +93,12 @@ namespace PublishForQA
         //For readability we remove each character separately.
         private string ReplaceIllegalChars(string str)
         {
-            str = str.Replace(":", string.Empty);
+            if (this.Name == "tbTaskName")
+            {
+                str = str.Replace(":", string.Empty);
+                str = str.Replace("\\", string.Empty);
+            }
             str = str.Replace("\"", string.Empty);
-            str = str.Replace("\\", string.Empty);
             str = str.Replace("/", string.Empty);
             str = str.Replace("?", string.Empty);
             str = str.Replace("|", string.Empty);
