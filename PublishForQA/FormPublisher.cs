@@ -85,7 +85,7 @@ namespace PublishForQA
             CursorChange();
 
             if (HasBinDebug())
-                if (DoDirectoriesExist())
+                if (DirectoriesExist())
                     CopyFilesAndDirectories();
 
             CursorChange();
@@ -134,7 +134,41 @@ namespace PublishForQA
             }
         }
         #endregion
-        
+
+        /// <summary>
+        /// Checks whether all paths have at most a single colon character.
+        /// </summary>
+        /// <returns>"True" if all paths contain no more than a single colon character per path, otherwise "False".</returns>
+        private bool PathsAreLegal()
+        {
+            //This list will hold all text boxes whose paths contain more than one colon character.
+            List<TextBox> pathIsIllegal = new List<TextBox>();
+            //For each TextBox we check if the position of the last colon character is greater than 1.
+            //If it is that means it is located further than where it should be for a drive letter
+            //which in all likelyhood is wrong, so we add it to the list.
+            foreach (var tb in TextBoxesList)
+            {
+                if (tb.Text.LastIndexOf(':') > 1) pathIsIllegal.Add(tb);
+            }
+
+            if (pathIsIllegal.Count == 1)
+            {
+                DialogResult fixPath = MessageBox.Show("The path of " + NameReplace(pathIsIllegal[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (fixPath == DialogResult.No)
+                {
+                    return false;
+                }
+                else
+                {
+                    pathIsIllegal[0]
+                }
+            }
+            else if (pathIsIllegal.Count > 1)
+            {
+
+            }
+        }
+
         /// <summary>
         /// Checks whether all paths end with a "bin\Debug" folder and alerts the user with an OKCancel MessageBox if any do not
         /// </summary>
@@ -143,17 +177,16 @@ namespace PublishForQA
         /// <remarks>The MessageBox lists all TextBoxes that do not end with a "bin\Debug" folder</remarks>
         private bool HasBinDebug()
         {
-            //For clarity and "just in case", we add a slash at the end of paths that don't have one.
             //And we check if the paths ends with in "bin\Debug" folder.
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
             foreach (var tb in TextBoxesList)
             {
                 //We skip the check for the QA Folder TextBox.
                 if (tb == tbQAFolderPath) continue;
+                //For clarity and "just in case", we add a slash at the end of paths that don't have one.
                 if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
-                //Considering the previous validation all paths should end in "\\" but
-                //just in case we also check for "\\bin\\debug", as well.
-                if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\") && !tb.Text.ToLower().EndsWith("\\bin\\debug"))
+
+                if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\"))
                 {
                     tbNoBinDebugList.Add(tb);
                 }
@@ -190,10 +223,11 @@ namespace PublishForQA
         /// Checks whether the listed directories in all TextBoxes exist and alerts the user and stops execution if any do not
         /// </summary>
         /// <returns>"True" if all directories exist, otherwise "False"</returns>
-        private bool DoDirectoriesExist()
+        private bool DirectoriesExist()
         {
+            //This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> doesNotExist = new List<TextBox>();
-            //For each TextBox we check if its listed directory exists and alert the user and stop execution if it does not.
+            //For each TextBox we check if its listed directory exists and add it to the list if it does not.
             foreach (var tb in TextBoxesList)
             {
                 if (!Directory.Exists(tb.Text) || tb.Text == "")
