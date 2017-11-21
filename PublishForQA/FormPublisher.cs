@@ -17,7 +17,7 @@ namespace PublishForQA
         public static List<TextBox> TextBoxesList = new List<TextBox>();
 
         public FormPublisher()
-        {   
+        {
             InitializeComponent();
             TextBoxesList.Add(tbECheckPath);
             TextBoxesList.Add(tbCorePath);

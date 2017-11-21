@@ -78,21 +78,35 @@ namespace PublishForQA
 
     public class TextBoxFormPublisher : TextBox
     {
+        public TextBoxFormPublisher()
+        {
+            CheckForIllegalCrossThreadCalls = false;
+        }
+
         //We capture the "paste" event, so that we can eliminate any
         //illegal characters being copy-pasted into the TextBox.
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == 0x302 && Clipboard.ContainsText())
+            if (m.Msg == 0x302 && Clipboard.ContainsText() && ContainsIllegalChars(Clipboard.GetText()))
             {
+                FormPublisher parentForm = Application.OpenForms.OfType<FormPublisher>().FirstOrDefault();
+                parentForm.errorProvider.SetError(this, "The text you tried to paste contained some illegal characters so they were removed.");
+                System.Threading.Tasks.Task.Delay(5000).ContinueWith(t => parentForm.errorProvider.Dispose());
                 this.SelectedText = ReplaceIllegalChars(Clipboard.GetText());
                 return;
             }
             base.WndProc(ref m);
         }
 
-        //For readability we remove each character separately.
+        /// <summary>
+        /// Removes all illegal path characters from the text string, taking into account
+        /// the "Task Name" TextBox.
+        /// </summary>
+        /// <param name="str">A string to remove illegal path characters from</param>
+        /// <returns>The string with no illegal path characters</returns>
         private string ReplaceIllegalChars(string str)
         {
+            //For readability we remove each character separately.
             if (this.Name == "tbTaskName")
             {
                 str = str.Replace(":", string.Empty);
@@ -107,6 +121,29 @@ namespace PublishForQA
             str = str.Replace(">", string.Empty);
 
             return str;
+        }
+
+        /// <summary>
+        /// Checks if the provided string contains illegal path characters, taking into
+        /// account the "Task Name" TextBox.
+        /// </summary>
+        /// <param name="text">The sting to be checked</param>
+        /// <returns>"True" if the string contains illegal path characters, "False" otherwise</returns>
+        private bool ContainsIllegalChars(string text)
+        {
+            if (
+            text.Contains("\"") ||
+            text.Contains("/") ||
+            text.Contains("?") ||
+            text.Contains("|") ||
+            text.Contains("*") ||
+            text.Contains("<") ||
+            text.Contains(">") ||
+            (this.Name == "tbTaskName" && text.Contains(":")) ||
+            (this.Name == "tbTaskName" && text.Contains("\\"))
+                ) return true;
+
+            return false;
         }
     }
 }
