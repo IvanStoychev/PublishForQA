@@ -169,7 +169,7 @@ namespace PublishForQA
             }
             else if (pathIsIllegal.Count > 1)
             {
-                StringBuilder stringBuilder = new StringBuilder("The following paths look illegal, because they contain a ':' character where they shouldn't:" + Environment.NewLine + Environment.NewLine);
+                StringBuilder stringBuilder = new StringBuilder("The following paths look illegal because they contain a ':' character where they shouldn't:" + Environment.NewLine + Environment.NewLine);
                 foreach (var tb in pathIsIllegal)
                 {
                     stringBuilder.AppendLine(NameReplace(tb));

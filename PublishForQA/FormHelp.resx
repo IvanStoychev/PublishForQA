@@ -166,7 +166,8 @@ Upon choosing the file the program will populate all TextBox values that can be 
      on your own risk.</value>
   </data>
   <data name="lblPublishButtonBody.Text" xml:space="preserve">
-    <value>Clicking the "Publish" button will first check if all paths end in "bin\Debug".
+    <value>Clicking the "Publish" button will first check if all paths are legal in that they have at most a single ':' (colon) character. If they have more than one you will be alerted and prompted if you wish to fix it automatically. You cannot proceed with copying without fixing it either automatically or manually.
+Afterwards all paths will be checked if they end in "bin\Debug".
 If any do not you will be prompted if you wish to proceed.
 
 Then the program will verify if all listed folders exist.

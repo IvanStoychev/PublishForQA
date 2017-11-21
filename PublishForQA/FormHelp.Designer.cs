@@ -454,7 +454,7 @@
             // pbPublishButtonWarning
             // 
             this.pbPublishButtonWarning.Image = global::PublishForQA.Properties.Resources.warning;
-            this.pbPublishButtonWarning.Location = new System.Drawing.Point(0, 65);
+            this.pbPublishButtonWarning.Location = new System.Drawing.Point(0, 118);
             this.pbPublishButtonWarning.Name = "pbPublishButtonWarning";
             this.pbPublishButtonWarning.Size = new System.Drawing.Size(16, 16);
             this.pbPublishButtonWarning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -464,7 +464,7 @@
             // lblPublishButtonWarning
             // 
             this.lblPublishButtonWarning.AutoSize = true;
-            this.lblPublishButtonWarning.Location = new System.Drawing.Point(15, 67);
+            this.lblPublishButtonWarning.Location = new System.Drawing.Point(15, 121);
             this.lblPublishButtonWarning.Name = "lblPublishButtonWarning";
             this.lblPublishButtonWarning.Size = new System.Drawing.Size(307, 13);
             this.lblPublishButtonWarning.TabIndex = 7;
@@ -543,7 +543,7 @@
             // pbGitHubInfo
             // 
             this.pbGitHubInfo.Image = global::PublishForQA.Properties.Resources.info;
-            this.pbGitHubInfo.Location = new System.Drawing.Point(0, 25);
+            this.pbGitHubInfo.Location = new System.Drawing.Point(0, 37);
             this.pbGitHubInfo.Name = "pbGitHubInfo";
             this.pbGitHubInfo.Size = new System.Drawing.Size(16, 16);
             this.pbGitHubInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -557,8 +557,8 @@
             this.lblGitHubBody.Name = "lblGitHubBody";
             this.lblGitHubBody.Size = new System.Drawing.Size(355, 393);
             this.lblGitHubBody.TabIndex = 3;
-            this.lblGitHubBody.Text = "You can find this project\'s GitHub\r\n\r\n     Any ideas, help and reviews are apprec" +
-    "iated.";
+            this.lblGitHubBody.Text = "You can find this project\'s GitHub\r\nYou are welcome to post any issues and sugges" +
+    "tions.\r\n\r\n     Any ideas, help and reviews are appreciated.";
             // 
             // FormHelp
             // 
