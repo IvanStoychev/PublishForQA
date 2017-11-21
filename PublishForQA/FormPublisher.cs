@@ -84,9 +84,10 @@ namespace PublishForQA
         {
             CursorChange();
 
-            if (HasBinDebug())
-                if (DirectoriesExist())
-                    CopyFilesAndDirectories();
+            if (PathsAreLegal())
+                if (HasBinDebug())
+                    if (DirectoriesExist())
+                        CopyFilesAndDirectories();
 
             CursorChange();
         }
@@ -153,20 +154,45 @@ namespace PublishForQA
 
             if (pathIsIllegal.Count == 1)
             {
-                DialogResult fixPath = MessageBox.Show("The path of " + NameReplace(pathIsIllegal[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult fixPath = MessageBox.Show("The path of " + NameReplace(pathIsIllegal[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (fixPath == DialogResult.No)
                 {
                     return false;
                 }
                 else
                 {
-                    pathIsIllegal[0]
+                    int firstColon = pathIsIllegal[0].Text.IndexOf(':');
+                    pathIsIllegal[0].Text = pathIsIllegal[0].Text.Replace(":", "");
+                    pathIsIllegal[0].Text = pathIsIllegal[0].Text.Insert(firstColon, ":");
+                    return true;
                 }
             }
             else if (pathIsIllegal.Count > 1)
             {
-
+                StringBuilder stringBuilder = new StringBuilder("The following paths look illegal, because they contain a ':' character where they shouldn't:" + Environment.NewLine + Environment.NewLine);
+                foreach (var tb in pathIsIllegal)
+                {
+                    stringBuilder.AppendLine(NameReplace(tb));
+                }
+                stringBuilder.Append(Environment.NewLine + "Copying cannot proceed like this.\nWould you like to fix it by removing all ':' characters in each path but the first one and continue?");
+                DialogResult fixPath = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (fixPath == DialogResult.No)
+                {
+                    return false;
+                }
+                else
+                {
+                    foreach (var tb in pathIsIllegal)
+                    {
+                        int firstColon = tb.Text.IndexOf(':');
+                        tb.Text = tb.Text.Replace(":", "");
+                        tb.Text = tb.Text.Insert(firstColon, ":");
+                    }
+                    return true;
+                }
             }
+
+            return true;
         }
 
         /// <summary>
