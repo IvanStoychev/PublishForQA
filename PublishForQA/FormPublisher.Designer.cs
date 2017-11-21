@@ -52,12 +52,10 @@
             this.tbQAFolderPath = new PublishForQA.TextBoxFormPublisher();
             this.tbTaskName = new PublishForQA.TextBoxFormPublisher();
             this.btnLocate = new PublishForQA.MenuButton();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // lblECheck
@@ -297,11 +295,6 @@
             this.btnLocate.Text = "Locate";
             this.btnLocate.UseVisualStyleBackColor = true;
             // 
-            // errorProvider
-            // 
-            this.errorProvider.ContainerControl = this;
-            this.errorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider.Icon")));
-            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,7 +327,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -364,7 +356,6 @@
         private TextBoxFormPublisher tbServicePath;
         private TextBoxFormPublisher tbCorePath;
         private TextBoxFormPublisher tbECheckPath;
-        public System.Windows.Forms.ErrorProvider errorProvider;
     }
 }
 

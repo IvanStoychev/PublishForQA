@@ -89,9 +89,9 @@ namespace PublishForQA
         {
             if (m.Msg == 0x302 && Clipboard.ContainsText() && ContainsIllegalChars(Clipboard.GetText()))
             {
-                FormPublisher parentForm = Application.OpenForms.OfType<FormPublisher>().FirstOrDefault();
-                parentForm.errorProvider.SetError(this, "The text you tried to paste contained some illegal characters so they were removed.");
-                System.Threading.Tasks.Task.Delay(5000).ContinueWith(t => parentForm.errorProvider.Dispose());
+                ErrorProvider errorProvider = new ErrorProvider(Application.OpenForms.OfType<FormPublisher>().FirstOrDefault());
+                errorProvider.SetError(this, "The text you tried to paste contained some illegal characters so they were removed.");
+                System.Threading.Tasks.Task.Delay(5000).ContinueWith(t => errorProvider.Dispose());
                 this.SelectedText = ReplaceIllegalChars(Clipboard.GetText());
                 return;
             }
