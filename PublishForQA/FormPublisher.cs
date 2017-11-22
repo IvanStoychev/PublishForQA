@@ -84,10 +84,13 @@ namespace PublishForQA
         {
             CursorChange();
 
+            //Four subsequent checks before beginning the copy operation.
+            //Ordered in this way for readability.
             if (PathsAreLegal())
                 if (HasBinDebug())
                     if (DirectoriesExist())
-                        CopyFilesAndDirectories();
+                        if(HasNetworkAccess())
+                            CopyFilesAndDirectories();
 
             CursorChange();
         }
@@ -284,6 +287,36 @@ namespace PublishForQA
         }
 
         /// <summary>
+        /// Checks whether the user has write permissions for the network folder
+        /// </summary>
+        /// <returns>"True" if the user can write to the folder, otherwise "False"</returns>
+        private bool HasNetworkAccess()
+        {
+            try
+            {
+                //This will raise an exception if the path is read only or the user
+                //does not have access to view the permissions.
+                Directory.GetAccessControl(tbQAFolderPath.Text);
+                return true;
+            }
+            catch (UnauthorizedAccessException UAex)
+            {
+                MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message, "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (InvalidOperationException IOex)
+            {
+                MessageBox.Show("Invalid operation:\n" + IOex.Message, "Invalid Operation Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Unknown exception occured", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Recreates the directory structure at the target location and copies all files from the source recursively.
         /// </summary>
         private void CopyFilesAndDirectories()
@@ -316,10 +349,22 @@ namespace PublishForQA
                     foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
                         File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
                 }
+                //We previously already checked for network access but just in case something changes
+                //while the copy operation is in progress we try to catch a UnauthorizedAccessException again.
                 catch (System.UnauthorizedAccessException UAex)
                 {
                     MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message, "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
+                catch (IOException IOex)
+                {
+                    MessageBox.Show("IO exception occurred:\n" + IOex.Message, "IOException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Unknown exception occured", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw;
                 }
             }
         }
