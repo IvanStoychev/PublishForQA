@@ -367,6 +367,8 @@ namespace PublishForQA
                     throw;
                 }
             }
+
+            MessageBox.Show("Copy operation completed successfully!", "Operation finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
