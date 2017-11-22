@@ -306,13 +306,21 @@ namespace PublishForQA
 
             for (int i = 0; i < 3; i++)
             {
-                //First we create the directory structure
-                foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
-                    Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
+                try
+                {
+                    //First we create the directory structure
+                    foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
+                        Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
 
-                //Then we copy all files, overwriting any existing ones
-                foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
-                    File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
+                    //Then we copy all files, overwriting any existing ones
+                    foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
+                        File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
+                }
+                catch (System.UnauthorizedAccessException UAex)
+                {
+                    MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message, "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
         }
 
