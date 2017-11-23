@@ -270,8 +270,13 @@ namespace PublishForQA
             {
                 if (doesNotExist[0] == tbQAFolderPath)
                 {
-                    DialogResult create = MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                    if (create == DialogResult.No)
+                    DialogResult create = MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist. Would you like to create it?", "Path error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                    if (create == DialogResult.Yes)
+                    {
+                        CreateQAFolder();
+                        DirectoriesExist();
+                    }
+                    else
                     {
                         return false;
                     }
