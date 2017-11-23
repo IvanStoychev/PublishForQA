@@ -411,9 +411,9 @@ namespace PublishForQA
                     MessageBox.Show("IO exception occurred:\n" + IOex.Message, "IOException", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Unknown exception occured", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Unknown exception occured:\n" + ex.Message, "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     throw;
                 }
             }
