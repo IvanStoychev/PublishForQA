@@ -332,6 +332,35 @@ namespace PublishForQA
             }
         }
 
+        private bool CreateQAFolder()
+        {
+            try
+            {
+                Directory.CreateDirectory(tbQAFolderPath.Text);
+                return true;
+            }
+            catch (PathTooLongException)
+            {
+                MessageBox.Show("The path entered for the QA Folder is too long.\nPaths must be less than 248 characters and file names must be less than 260 characters.", "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have sufficient permissions in the location you want the folder to be created in.", "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Test");
+                return false;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Test");
+                return false;
+            }
+        }
+
         /// <summary>
         /// Recreates the directory structure at the target location and copies all files from the source recursively.
         /// </summary>
