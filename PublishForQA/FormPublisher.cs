@@ -268,8 +268,19 @@ namespace PublishForQA
             //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (doesNotExist.Count == 1)
             {
-                MessageBox.Show("The directory for " + doesNotExist[0].Name.Replace("tb", "").Replace("Path", "") + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                if (doesNotExist[0] == tbQAFolderPath)
+                {
+                    DialogResult create = MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                    if (create == DialogResult.No)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
             else if (doesNotExist.Count > 1)
             {
@@ -521,7 +532,7 @@ namespace PublishForQA
                 }
                 if (notFoundBoxes.Count == 1)
                 {
-                    MessageBox.Show("The path for " + notFoundBoxes[0].Name.Replace("tb", "").Replace("Path", " Path") + " could not be read from the file.", "Warning",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("The path for " + NameReplace(notFoundBoxes[0]) + " could not be read from the file.", "Warning",MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else if (notFoundBoxes.Count > 1)
                 {
