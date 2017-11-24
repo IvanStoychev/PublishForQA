@@ -268,14 +268,13 @@ namespace PublishForQA
             //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (doesNotExist.Count == 1)
             {
-                //If the QA folder does not exist we prompt the user to create it.
+                //If the folder that does not exist is the QA one we prompt the user to create it.
                 if (doesNotExist[0] == tbQAFolderPath)
                 {
                     DialogResult create = MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
                     if (create == DialogResult.Yes) //User chose to create the directory.
                     {
-                        CreateQAFolder();
-                        DirectoriesExist();
+                        return CreateQAFolder();
                     }
                     else if (create == DialogResult.Cancel) //User chose to abort the operation.
                     {
@@ -337,6 +336,10 @@ namespace PublishForQA
             }
         }
 
+        /// <summary>
+        /// Attempts to create a folder at the designated QA Folder path.
+        /// </summary>
+        /// <returns>"True" if creation was successful, "False" otherwise</returns>
         private bool CreateQAFolder()
         {
             try
