@@ -268,22 +268,26 @@ namespace PublishForQA
             //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (doesNotExist.Count == 1)
             {
+                //If the folder that does not exist is the QA one we prompt the user to create it.
                 if (doesNotExist[0] == tbQAFolderPath)
                 {
-                    DialogResult create = MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist. Would you like to create it?", "Path error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                    if (create == DialogResult.Yes)
+                    DialogResult create = MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
+                    if (create == DialogResult.Yes) //User chose to create the directory.
                     {
-                        CreateQAFolder();
-                        DirectoriesExist();
+                        return CreateQAFolder();
                     }
-                    else
+                    else if (create == DialogResult.Cancel) //User chose to abort the operation.
                     {
                         return false;
+                    }
+                    else //User chose to not create the direcotry.
+                    {
+                        return true;
                     }
                 }
                 else
                 {
-                    MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist. Please check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist.\nPlease check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -329,6 +333,39 @@ namespace PublishForQA
             {
                 MessageBox.Show("Unknown exception occured.\n" + ex.Message, "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Attempts to create a folder at the designated QA Folder path.
+        /// </summary>
+        /// <returns>"True" if creation was successful, "False" otherwise</returns>
+        private bool CreateQAFolder()
+        {
+            try
+            {
+                Directory.CreateDirectory(tbQAFolderPath.Text);
+                return true;
+            }
+            catch (PathTooLongException)
+            {
+                MessageBox.Show("The path entered for the QA Folder is too long.\nPaths must be less than 248 characters and file names must be less than 260 characters.\n\nOperation failed.", "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have sufficient permissions in the location you want the folder to be created in.\n\nOperation failed.", "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (IOException IOex)
+            {
+                MessageBox.Show("An IO exception has occurred:\n" + IOex.Message + "\n\nOperation failed.", "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
 
