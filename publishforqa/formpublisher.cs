@@ -552,6 +552,9 @@ namespace PublishForQA
             }
         }
 
+        /// <summary>
+        /// Changes the mouse cursor between "WaitCursor" and "Default"
+        /// </summary>
         private void CursorChange()
         {
             if (Cursor == Cursors.Default)
