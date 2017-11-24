@@ -325,9 +325,9 @@ namespace PublishForQA
                 MessageBox.Show("Invalid operation:\n" + IOex.Message, "Invalid Operation Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Unknown exception occured", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unknown exception occured.\n" + ex.Message, "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
