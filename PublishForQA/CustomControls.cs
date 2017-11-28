@@ -119,6 +119,8 @@ namespace PublishForQA
             str = str.Replace("*", string.Empty);
             str = str.Replace("<", string.Empty);
             str = str.Replace(">", string.Empty);
+            str = str.Replace("\r", string.Empty);
+            str = str.Replace("\n", string.Empty);
 
             return str;
         }
@@ -139,6 +141,8 @@ namespace PublishForQA
             text.Contains("*") ||
             text.Contains("<") ||
             text.Contains(">") ||
+            text.Contains("\r") ||
+            text.Contains("\n") ||
             (this.Name == "tbTaskName" && text.Contains(":")) ||
             (this.Name == "tbTaskName" && text.Contains("\\"))
                 ) return true;
