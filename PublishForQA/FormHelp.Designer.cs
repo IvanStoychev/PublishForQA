@@ -34,8 +34,8 @@
             this.tlpGeneral = new System.Windows.Forms.TableLayoutPanel();
             this.lblGeneralTitle = new System.Windows.Forms.Label();
             this.pGeneral = new System.Windows.Forms.Panel();
-            this.pbGeneralInfo = new System.Windows.Forms.PictureBox();
-            this.pbGeneralWarning = new System.Windows.Forms.PictureBox();
+            this.pbGeneralInfoPaste = new System.Windows.Forms.PictureBox();
+            this.pbGeneralWarningOverride = new System.Windows.Forms.PictureBox();
             this.lblQAPaths = new System.Windows.Forms.Label();
             this.lblGeneralBody = new System.Windows.Forms.Label();
             this.tpLocateButton = new System.Windows.Forms.TabPage();
@@ -61,7 +61,6 @@
             this.lblPublishButtonTitle = new System.Windows.Forms.Label();
             this.pPublishButton = new System.Windows.Forms.Panel();
             this.pbPublishButtonWarning = new System.Windows.Forms.PictureBox();
-            this.lblPublishButtonWarning = new System.Windows.Forms.Label();
             this.lblPublishButtonBody = new System.Windows.Forms.Label();
             this.tpGitHub = new System.Windows.Forms.TabPage();
             this.tlpGitHub = new System.Windows.Forms.TableLayoutPanel();
@@ -70,12 +69,13 @@
             this.linklblGitHub = new System.Windows.Forms.LinkLabel();
             this.pbGitHubInfo = new System.Windows.Forms.PictureBox();
             this.lblGitHubBody = new System.Windows.Forms.Label();
+            this.pbGeneralInfoLocate = new System.Windows.Forms.PictureBox();
             this.tabControl.SuspendLayout();
             this.tpGeneral.SuspendLayout();
             this.tlpGeneral.SuspendLayout();
             this.pGeneral.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralWarning)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoPaste)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralWarningOverride)).BeginInit();
             this.tpLocateButton.SuspendLayout();
             this.tlpLocateButton.SuspendLayout();
             this.pLocateButton.SuspendLayout();
@@ -95,6 +95,7 @@
             this.tlpGitHub.SuspendLayout();
             this.pGitHub.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGitHubInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoLocate)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -108,7 +109,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(375, 471);
+            this.tabControl.Size = new System.Drawing.Size(375, 513);
             this.tabControl.TabIndex = 0;
             // 
             // tpGeneral
@@ -117,7 +118,7 @@
             this.tpGeneral.Location = new System.Drawing.Point(4, 22);
             this.tpGeneral.Name = "tpGeneral";
             this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tpGeneral.Size = new System.Drawing.Size(367, 445);
+            this.tpGeneral.Size = new System.Drawing.Size(367, 487);
             this.tpGeneral.TabIndex = 0;
             this.tpGeneral.Text = "General";
             this.tpGeneral.UseVisualStyleBackColor = true;
@@ -134,7 +135,7 @@
             this.tlpGeneral.RowCount = 2;
             this.tlpGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpGeneral.Size = new System.Drawing.Size(361, 439);
+            this.tlpGeneral.Size = new System.Drawing.Size(361, 481);
             this.tlpGeneral.TabIndex = 0;
             // 
             // lblGeneralTitle
@@ -152,35 +153,36 @@
             // 
             // pGeneral
             // 
-            this.pGeneral.Controls.Add(this.pbGeneralInfo);
-            this.pGeneral.Controls.Add(this.pbGeneralWarning);
+            this.pGeneral.Controls.Add(this.pbGeneralInfoLocate);
+            this.pGeneral.Controls.Add(this.pbGeneralInfoPaste);
+            this.pGeneral.Controls.Add(this.pbGeneralWarningOverride);
             this.pGeneral.Controls.Add(this.lblQAPaths);
             this.pGeneral.Controls.Add(this.lblGeneralBody);
             this.pGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pGeneral.Location = new System.Drawing.Point(3, 43);
             this.pGeneral.Name = "pGeneral";
-            this.pGeneral.Size = new System.Drawing.Size(355, 393);
+            this.pGeneral.Size = new System.Drawing.Size(355, 435);
             this.pGeneral.TabIndex = 1;
             // 
-            // pbGeneralInfo
+            // pbGeneralInfoPaste
             // 
-            this.pbGeneralInfo.Image = global::PublishForQA.Properties.Resources.info;
-            this.pbGeneralInfo.Location = new System.Drawing.Point(0, 232);
-            this.pbGeneralInfo.Name = "pbGeneralInfo";
-            this.pbGeneralInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbGeneralInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbGeneralInfo.TabIndex = 6;
-            this.pbGeneralInfo.TabStop = false;
+            this.pbGeneralInfoPaste.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbGeneralInfoPaste.Location = new System.Drawing.Point(0, 232);
+            this.pbGeneralInfoPaste.Name = "pbGeneralInfoPaste";
+            this.pbGeneralInfoPaste.Size = new System.Drawing.Size(16, 16);
+            this.pbGeneralInfoPaste.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbGeneralInfoPaste.TabIndex = 6;
+            this.pbGeneralInfoPaste.TabStop = false;
             // 
-            // pbGeneralWarning
+            // pbGeneralWarningOverride
             // 
-            this.pbGeneralWarning.Image = global::PublishForQA.Properties.Resources.warning;
-            this.pbGeneralWarning.Location = new System.Drawing.Point(0, 141);
-            this.pbGeneralWarning.Name = "pbGeneralWarning";
-            this.pbGeneralWarning.Size = new System.Drawing.Size(16, 16);
-            this.pbGeneralWarning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbGeneralWarning.TabIndex = 5;
-            this.pbGeneralWarning.TabStop = false;
+            this.pbGeneralWarningOverride.Image = global::PublishForQA.Properties.Resources.warning;
+            this.pbGeneralWarningOverride.Location = new System.Drawing.Point(0, 141);
+            this.pbGeneralWarningOverride.Name = "pbGeneralWarningOverride";
+            this.pbGeneralWarningOverride.Size = new System.Drawing.Size(16, 16);
+            this.pbGeneralWarningOverride.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbGeneralWarningOverride.TabIndex = 5;
+            this.pbGeneralWarningOverride.TabStop = false;
             // 
             // lblQAPaths
             // 
@@ -198,7 +200,7 @@
             this.lblGeneralBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblGeneralBody.Location = new System.Drawing.Point(0, 0);
             this.lblGeneralBody.Name = "lblGeneralBody";
-            this.lblGeneralBody.Size = new System.Drawing.Size(355, 393);
+            this.lblGeneralBody.Size = new System.Drawing.Size(355, 435);
             this.lblGeneralBody.TabIndex = 3;
             this.lblGeneralBody.Text = resources.GetString("lblGeneralBody.Text");
             // 
@@ -208,7 +210,7 @@
             this.tpLocateButton.Location = new System.Drawing.Point(4, 22);
             this.tpLocateButton.Name = "tpLocateButton";
             this.tpLocateButton.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLocateButton.Size = new System.Drawing.Size(367, 445);
+            this.tpLocateButton.Size = new System.Drawing.Size(367, 487);
             this.tpLocateButton.TabIndex = 1;
             this.tpLocateButton.Text = "Locate Button";
             this.tpLocateButton.UseVisualStyleBackColor = true;
@@ -225,7 +227,7 @@
             this.tlpLocateButton.RowCount = 2;
             this.tlpLocateButton.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpLocateButton.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpLocateButton.Size = new System.Drawing.Size(361, 439);
+            this.tlpLocateButton.Size = new System.Drawing.Size(361, 481);
             this.tlpLocateButton.TabIndex = 1;
             // 
             // lblLocateButtonTitle
@@ -248,7 +250,7 @@
             this.pLocateButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pLocateButton.Location = new System.Drawing.Point(3, 43);
             this.pLocateButton.Name = "pLocateButton";
-            this.pLocateButton.Size = new System.Drawing.Size(355, 393);
+            this.pLocateButton.Size = new System.Drawing.Size(355, 435);
             this.pLocateButton.TabIndex = 1;
             // 
             // pbLocateButtonInfo
@@ -266,7 +268,7 @@
             this.lblLocateButtonBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblLocateButtonBody.Location = new System.Drawing.Point(0, 0);
             this.lblLocateButtonBody.Name = "lblLocateButtonBody";
-            this.lblLocateButtonBody.Size = new System.Drawing.Size(355, 393);
+            this.lblLocateButtonBody.Size = new System.Drawing.Size(355, 435);
             this.lblLocateButtonBody.TabIndex = 3;
             this.lblLocateButtonBody.Text = resources.GetString("lblLocateButtonBody.Text");
             // 
@@ -276,7 +278,7 @@
             this.tpSavingAndLoading.Location = new System.Drawing.Point(4, 22);
             this.tpSavingAndLoading.Name = "tpSavingAndLoading";
             this.tpSavingAndLoading.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSavingAndLoading.Size = new System.Drawing.Size(367, 445);
+            this.tpSavingAndLoading.Size = new System.Drawing.Size(367, 487);
             this.tpSavingAndLoading.TabIndex = 2;
             this.tpSavingAndLoading.Text = "Saving and Loading";
             this.tpSavingAndLoading.UseVisualStyleBackColor = true;
@@ -293,7 +295,7 @@
             this.tlpSavingAndLoading.RowCount = 2;
             this.tlpSavingAndLoading.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpSavingAndLoading.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSavingAndLoading.Size = new System.Drawing.Size(361, 439);
+            this.tlpSavingAndLoading.Size = new System.Drawing.Size(361, 481);
             this.tlpSavingAndLoading.TabIndex = 1;
             // 
             // lblSavingAndLoadingTitle
@@ -322,7 +324,7 @@
             this.pSavingAndLoading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pSavingAndLoading.Location = new System.Drawing.Point(3, 43);
             this.pSavingAndLoading.Name = "pSavingAndLoading";
-            this.pSavingAndLoading.Size = new System.Drawing.Size(355, 393);
+            this.pSavingAndLoading.Size = new System.Drawing.Size(355, 435);
             this.pSavingAndLoading.TabIndex = 1;
             // 
             // lblLoadButtonTitle
@@ -368,7 +370,7 @@
             // pbSaveButtonInfo
             // 
             this.pbSaveButtonInfo.Image = global::PublishForQA.Properties.Resources.info;
-            this.pbSaveButtonInfo.Location = new System.Drawing.Point(0, 89);
+            this.pbSaveButtonInfo.Location = new System.Drawing.Point(0, 90);
             this.pbSaveButtonInfo.Name = "pbSaveButtonInfo";
             this.pbSaveButtonInfo.Size = new System.Drawing.Size(16, 16);
             this.pbSaveButtonInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -378,7 +380,7 @@
             // pbLoadButtonInfo
             // 
             this.pbLoadButtonInfo.Image = global::PublishForQA.Properties.Resources.info;
-            this.pbLoadButtonInfo.Location = new System.Drawing.Point(0, 290);
+            this.pbLoadButtonInfo.Location = new System.Drawing.Point(0, 291);
             this.pbLoadButtonInfo.Name = "pbLoadButtonInfo";
             this.pbLoadButtonInfo.Size = new System.Drawing.Size(16, 16);
             this.pbLoadButtonInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -407,7 +409,7 @@
             this.tpPublishButton.Location = new System.Drawing.Point(4, 22);
             this.tpPublishButton.Name = "tpPublishButton";
             this.tpPublishButton.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPublishButton.Size = new System.Drawing.Size(367, 445);
+            this.tpPublishButton.Size = new System.Drawing.Size(367, 487);
             this.tpPublishButton.TabIndex = 3;
             this.tpPublishButton.Text = "Publish Button";
             this.tpPublishButton.UseVisualStyleBackColor = true;
@@ -424,7 +426,7 @@
             this.tlpPublishButton.RowCount = 2;
             this.tlpPublishButton.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpPublishButton.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpPublishButton.Size = new System.Drawing.Size(361, 439);
+            this.tlpPublishButton.Size = new System.Drawing.Size(361, 481);
             this.tlpPublishButton.TabIndex = 1;
             // 
             // lblPublishButtonTitle
@@ -443,39 +445,29 @@
             // pPublishButton
             // 
             this.pPublishButton.Controls.Add(this.pbPublishButtonWarning);
-            this.pPublishButton.Controls.Add(this.lblPublishButtonWarning);
             this.pPublishButton.Controls.Add(this.lblPublishButtonBody);
             this.pPublishButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPublishButton.Location = new System.Drawing.Point(3, 43);
             this.pPublishButton.Name = "pPublishButton";
-            this.pPublishButton.Size = new System.Drawing.Size(355, 393);
+            this.pPublishButton.Size = new System.Drawing.Size(355, 435);
             this.pPublishButton.TabIndex = 1;
             // 
             // pbPublishButtonWarning
             // 
             this.pbPublishButtonWarning.Image = global::PublishForQA.Properties.Resources.warning;
-            this.pbPublishButtonWarning.Location = new System.Drawing.Point(0, 118);
+            this.pbPublishButtonWarning.Location = new System.Drawing.Point(0, 128);
             this.pbPublishButtonWarning.Name = "pbPublishButtonWarning";
             this.pbPublishButtonWarning.Size = new System.Drawing.Size(16, 16);
             this.pbPublishButtonWarning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbPublishButtonWarning.TabIndex = 5;
             this.pbPublishButtonWarning.TabStop = false;
             // 
-            // lblPublishButtonWarning
-            // 
-            this.lblPublishButtonWarning.AutoSize = true;
-            this.lblPublishButtonWarning.Location = new System.Drawing.Point(15, 121);
-            this.lblPublishButtonWarning.Name = "lblPublishButtonWarning";
-            this.lblPublishButtonWarning.Size = new System.Drawing.Size(307, 13);
-            this.lblPublishButtonWarning.TabIndex = 7;
-            this.lblPublishButtonWarning.Text = "If any do not you will be alerted and copying will not commence.";
-            // 
             // lblPublishButtonBody
             // 
             this.lblPublishButtonBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblPublishButtonBody.Location = new System.Drawing.Point(0, 0);
             this.lblPublishButtonBody.Name = "lblPublishButtonBody";
-            this.lblPublishButtonBody.Size = new System.Drawing.Size(355, 393);
+            this.lblPublishButtonBody.Size = new System.Drawing.Size(355, 435);
             this.lblPublishButtonBody.TabIndex = 3;
             this.lblPublishButtonBody.Text = resources.GetString("lblPublishButtonBody.Text");
             // 
@@ -485,7 +477,7 @@
             this.tpGitHub.Location = new System.Drawing.Point(4, 22);
             this.tpGitHub.Name = "tpGitHub";
             this.tpGitHub.Padding = new System.Windows.Forms.Padding(3);
-            this.tpGitHub.Size = new System.Drawing.Size(367, 445);
+            this.tpGitHub.Size = new System.Drawing.Size(367, 487);
             this.tpGitHub.TabIndex = 4;
             this.tpGitHub.Text = "GitHub";
             this.tpGitHub.UseVisualStyleBackColor = true;
@@ -502,7 +494,7 @@
             this.tlpGitHub.RowCount = 2;
             this.tlpGitHub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpGitHub.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpGitHub.Size = new System.Drawing.Size(361, 439);
+            this.tlpGitHub.Size = new System.Drawing.Size(361, 481);
             this.tlpGitHub.TabIndex = 1;
             // 
             // lblGitHubTitle
@@ -526,7 +518,7 @@
             this.pGitHub.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pGitHub.Location = new System.Drawing.Point(3, 43);
             this.pGitHub.Name = "pGitHub";
-            this.pGitHub.Size = new System.Drawing.Size(355, 393);
+            this.pGitHub.Size = new System.Drawing.Size(355, 435);
             this.pGitHub.TabIndex = 1;
             // 
             // linklblGitHub
@@ -555,16 +547,26 @@
             this.lblGitHubBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblGitHubBody.Location = new System.Drawing.Point(0, 0);
             this.lblGitHubBody.Name = "lblGitHubBody";
-            this.lblGitHubBody.Size = new System.Drawing.Size(355, 393);
+            this.lblGitHubBody.Size = new System.Drawing.Size(355, 435);
             this.lblGitHubBody.TabIndex = 3;
             this.lblGitHubBody.Text = "You can find this project\'s GitHub\r\nYou are welcome to post any issues and sugges" +
     "tions.\r\n\r\n     Any ideas, help and reviews are appreciated.";
+            // 
+            // pbGeneralInfoLocate
+            // 
+            this.pbGeneralInfoLocate.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbGeneralInfoLocate.Location = new System.Drawing.Point(0, 271);
+            this.pbGeneralInfoLocate.Name = "pbGeneralInfoLocate";
+            this.pbGeneralInfoLocate.Size = new System.Drawing.Size(16, 16);
+            this.pbGeneralInfoLocate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbGeneralInfoLocate.TabIndex = 7;
+            this.pbGeneralInfoLocate.TabStop = false;
             // 
             // FormHelp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(375, 471);
+            this.ClientSize = new System.Drawing.Size(375, 513);
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -576,8 +578,8 @@
             this.tlpGeneral.PerformLayout();
             this.pGeneral.ResumeLayout(false);
             this.pGeneral.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralWarning)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoPaste)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralWarningOverride)).EndInit();
             this.tpLocateButton.ResumeLayout(false);
             this.tlpLocateButton.ResumeLayout(false);
             this.tlpLocateButton.PerformLayout();
@@ -596,7 +598,6 @@
             this.tlpPublishButton.ResumeLayout(false);
             this.tlpPublishButton.PerformLayout();
             this.pPublishButton.ResumeLayout(false);
-            this.pPublishButton.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPublishButtonWarning)).EndInit();
             this.tpGitHub.ResumeLayout(false);
             this.tlpGitHub.ResumeLayout(false);
@@ -604,6 +605,7 @@
             this.pGitHub.ResumeLayout(false);
             this.pGitHub.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGitHubInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoLocate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -621,8 +623,8 @@
         private System.Windows.Forms.Panel pGeneral;
         private System.Windows.Forms.Label lblQAPaths;
         private System.Windows.Forms.Label lblGeneralBody;
-        private System.Windows.Forms.PictureBox pbGeneralWarning;
-        private System.Windows.Forms.PictureBox pbGeneralInfo;
+        private System.Windows.Forms.PictureBox pbGeneralWarningOverride;
+        private System.Windows.Forms.PictureBox pbGeneralInfoPaste;
         private System.Windows.Forms.TableLayoutPanel tlpLocateButton;
         private System.Windows.Forms.Label lblLocateButtonTitle;
         private System.Windows.Forms.Panel pLocateButton;
@@ -649,8 +651,8 @@
         private System.Windows.Forms.Label lblSaveButtonBody;
         private System.Windows.Forms.PictureBox pbSaveButtonInfo;
         private System.Windows.Forms.Label lblLoadButtonBody;
-        private System.Windows.Forms.Label lblPublishButtonWarning;
         private System.Windows.Forms.LinkLabel linklblGitHub;
+        private System.Windows.Forms.PictureBox pbGeneralInfoLocate;
     }
 }
 

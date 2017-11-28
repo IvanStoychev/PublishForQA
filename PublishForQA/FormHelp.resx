@@ -128,7 +128,9 @@ It does so by first creating a new folder, inside the given QA folder, with a na
      The program will override any files and folders without prompting.
 
 You can choose each folder by clicking the "Browse..." button below each text box or you can enter the paths manually.
-In compliance with Windows directory path regulations you are prevented from entering the following characters: "  /  ?  |  *  &lt; &gt;
+In compliance with Windows directory path regulations you are prevented from entering the following characters: "  /  ?  |  *  &lt; &gt; and newlines
+
+     The program will automatically remove any illegal characters you try to paste into the text boxes, showing an error icon when it does so
 
      If you wish for the program to automatically find a certain E-Check version on your computer, use the "Locate" button.
 
@@ -153,7 +155,7 @@ If multiple results are found, either for the version or for E-CheckCore, an add
   <data name="lblLoadButtonBody.Text" xml:space="preserve">
     <value>Clicking the load button will open a FileDialog, which allows you to select a file to load.
 
-Upon choosing the file the program will populate all TextBox values that can be successfully read (a warning will be shown in the file is malformed/corrupted).
+Upon choosing the file the program will populate all TextBox values that can be successfully read (a warning will be shown if the file is malformed/corrupted).
 
      If a save file is present in the same directory as the program's
      executable on launch it will automatically be loaded.
@@ -172,13 +174,15 @@ If any do not you will be prompted if you wish to proceed.
 
 Then the program will verify if all listed folders exist.
 
+     If any do not you will be alerted and copying will not commence.
 
+Finally network access to the listed QA folder will be checked.
+(this is done since it is assumed your QA folder is on the "cow" network fileserver)
 
-If all directories exist and end in "bin\Debug" (or you chose to proceed,
-if they do not) the program will:
-1. Create a new folder in your pointed QA folder with the name of "Task Name", if you entered one.
-2. Create three folders in your QA folder: "E-Check", "E-Check Core" and "E-Check Service".
-3. Recreate the directory structure of each source folder into the corresponding folder in your QA folder.
+If all checks pass the program will:
+1. Create a new folder (or overwrite existing) in your pointed QA folder with the name of "Task Name", if you entered one.
+2. Create three folders in (Task Name): "E-Check", "E-Check Core" and "E-Check Service".
+3. Recreate the directory structure of each source folder into the corresponding folder.
 4. Copy all files from the source folders, overriding without prompting.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
