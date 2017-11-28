@@ -118,7 +118,7 @@ namespace PublishForQA
             {
                 File.Delete("PublishForQA.txt");
             }
-            catch (System.IO.IOException)
+            catch (IOException)
             {
                 MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -199,7 +199,7 @@ namespace PublishForQA
         }
 
         /// <summary>
-        /// Checks whether all paths end with a "bin\Debug" folder and alerts the user with an OKCancel MessageBox if any do not
+        /// Checks whether all paths end with a "bin\Debug" folder and alerts the user with an OKCancel MessageBox if any do not.
         /// </summary>
         /// <returns>"True" if all paths have a "bin\Debug" folder or the user chose to ignore any that do not. "False" if the
         /// user decides to halt operation after being alerted.</returns>
@@ -249,7 +249,7 @@ namespace PublishForQA
         }
         
         /// <summary>
-        /// Checks whether the listed directories in all TextBoxes exist and alerts the user and stops execution if any do not
+        /// Checks whether the listed directories in all TextBoxes exist and alerts the user and stops execution if any do not.
         /// </summary>
         /// <returns>"True" if all directories exist, otherwise "False"</returns>
         private bool DirectoriesExist()
@@ -307,7 +307,7 @@ namespace PublishForQA
         }
 
         /// <summary>
-        /// Checks whether the user has write permissions for the network folder
+        /// Checks whether the user has write permissions for the network folder.
         /// </summary>
         /// <returns>"True" if the user can write to the folder, otherwise "False"</returns>
         private bool HasNetworkAccess()
@@ -331,7 +331,7 @@ namespace PublishForQA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown exception occured.\n" + ex.Message, "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unknown exception occured when checking for access rights in QA Folder:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + "() method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
@@ -364,7 +364,7 @@ namespace PublishForQA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + "() method.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -394,29 +394,34 @@ namespace PublishForQA
             {
                 try
                 {
-                    //First we create the directory structure
+                    //First we create the directory structure.
                     foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
                         Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
 
-                    //Then we copy all files, overwriting any existing ones
+                    //Then we copy all files, overwriting any existing ones.
                     foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
                         File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
                 }
                 //We previously already checked for network access but just in case something changes
                 //while the copy operation is in progress we try to catch a UnauthorizedAccessException again.
-                catch (System.UnauthorizedAccessException UAex)
+                catch (UnauthorizedAccessException UAex)
                 {
-                    MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message, "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message + "\n\nCopy operation failed.", "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (PathTooLongException)
+                {
+                    MessageBox.Show("The path \"" + destinationPaths[i] + "\" is too long.\nPaths must be less than 248 characters and file names must be less than 260 characters.\n\nCopy operation failed.", "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (IOException IOex)
                 {
-                    MessageBox.Show("IO exception occurred:\n" + IOex.Message, "IOException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("IO exception occurred:\n" + IOex.Message + "\n\nCopy operation failed.", "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Unknown exception occured:\n" + ex.Message, "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Unknown exception occured:\n" + ex.Message + "\n\nCopy operation failed.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     throw;
                 }
             }
@@ -458,16 +463,14 @@ namespace PublishForQA
                         ECheckresults.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
                         Coreresults.AddRange(Directory.GetDirectories(folder, "E-CheckCore", SearchOption.AllDirectories));
                     }
+                    catch (UnauthorizedAccessException UAex)
+                    {
+                        AccessDeniedFolders.Add(UAex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
+                    }
                     catch (Exception ex)
                     {
-                        if (ex is System.UnauthorizedAccessException)
-                        {
-                            AccessDeniedFolders.Add(ex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + "() method.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw;
                     }
                 }
             }
@@ -543,7 +546,7 @@ namespace PublishForQA
 
         /// <summary>
         /// Reads the given file line by line and attempts to retrieve the values for all TextBoxes.
-        /// It will display a MessageBox with all TextBoxes for whom it could not find a value.
+        /// It will display a MessageBox with all TextBoxes for which it could not find a value.
         /// </summary>
         /// <param name="filePath"></param>
         private void LoadFile(string filePath)
@@ -590,7 +593,7 @@ namespace PublishForQA
         }
 
         /// <summary>
-        /// Changes the mouse cursor between "WaitCursor" and "Default"
+        /// Changes the mouse cursor between "WaitCursor" and "Default".
         /// </summary>
         private void CursorChange()
         {
