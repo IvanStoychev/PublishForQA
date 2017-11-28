@@ -140,6 +140,47 @@ namespace PublishForQA
         #endregion
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private bool NotEmpty()
+        {
+            List<TextBox> tbNoValue = new List<TextBox>();
+            foreach (var tb in TextBoxesList)
+            {
+                if (tb.Text.Length < 1)
+                {
+                    tbNoValue.Add(tb);
+                }
+            }
+
+            if (tbNoValue.Count == 1)
+            {
+                DialogResult confirm = MessageBox.Show(NameReplace(tbNoValue[0]) + " is empty.\n\nDo you wish to proceed without it?", "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    return false;
+                }
+            }
+            else if (tbNoValue.Count > 1)
+            {
+                StringBuilder stringBuilder = new StringBuilder("The following text boxes are empty:" + Environment.NewLine + Environment.NewLine);
+                foreach (var tb in tbNoValue)
+                {
+                    stringBuilder.AppendLine(NameReplace(tb));
+                }
+                stringBuilder.Append(Environment.NewLine + "Do you wish to proceed without them?");
+                DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Checks whether all paths have at most a single colon character.
         /// </summary>
         /// <returns>"True" if all paths contain no more than a single colon character per path, otherwise "False".</returns>
