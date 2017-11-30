@@ -14,6 +14,9 @@ WinForms and C# on .Net Framework 4.5.2
 - Verbose information on caught exceptions
 - Includes help documentation in itself
 
+# Upcoming Features
+All planned features and their status can be seen in the "Projects" tab.
+
 # Installation
 Single *.exe file, no installation required.
 
