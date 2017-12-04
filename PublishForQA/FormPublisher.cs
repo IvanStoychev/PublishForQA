@@ -554,10 +554,9 @@ namespace PublishForQA
             List<DriveInfo> drives = new List<DriveInfo>();
             List<string> ECheckresults = new List<string>();
             List<string> Coreresults = new List<string>();
-            drives.AddRange(DriveInfo.GetDrives());
-            drives = drives
+            drives.AddRange(DriveInfo.GetDrives()
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
-                           .ToList();
+                           .ToList());
 
             pbAccessDenied.Visible = false;
             CursorChange();
