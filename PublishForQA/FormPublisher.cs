@@ -148,15 +148,26 @@ namespace PublishForQA
         #endregion
 
         /// <summary>
-        /// Checks if any TextBox's value is empty and asks the user if he
-        /// would like to omit it if it is.
+        /// Checks if any TextBox's value is empty and asks the user if he would
+        /// like to omit it if it is.
         /// </summary>
         /// <returns>
         /// "True" if all text boxes have values or the user decided to skip those
         /// that do not. "False" if there are empty values and the user does not wish to continue.
         /// </returns>
+        /// <remarks>
+        /// The QA folder is mandatory and cannot be omitted.
+        /// </remarks>
         private bool NotEmpty()
         {
+            //First we check if the "QA Folder" TextBox is empty.
+            //Since it is mandatory we alert the user if it is.
+            if (tbQAFolderPath.Text.Length < 1)
+            {
+                MessageBox.Show("No value provided for your QA folder.\nIt is mandatory, operation cannot continue.", "No QA Folder entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             List<TextBox> tbNoValue = new List<TextBox>();
             foreach (var tb in TextBoxesList)
             {
@@ -166,6 +177,7 @@ namespace PublishForQA
                 }
             }
 
+            //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (tbNoValue.Count == 1)
             {
                 DialogResult confirm = MessageBox.Show(NameReplace(tbNoValue[0]) + " is empty.\n\nDo you wish to proceed without it?", "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -175,7 +187,8 @@ namespace PublishForQA
                 }
                 else
                 {
-                    //TextBoxesList
+                    TextBoxesList.Remove(tbNoValue[0]);
+                    return true;
                 }
             }
             else if (tbNoValue.Count > 1)
@@ -190,6 +203,14 @@ namespace PublishForQA
                 if (confirm == DialogResult.No)
                 {
                     return false;
+                }
+                else
+                {
+                    foreach (var tb in tbNoValue)
+                    {
+                        TextBoxesList.Remove(tb);
+                    }
+                    return true;
                 }
             }
 
