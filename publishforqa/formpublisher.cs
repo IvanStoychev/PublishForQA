@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Text;
+using System.ComponentModel;
 
 namespace PublishForQA
 {
@@ -13,7 +14,13 @@ namespace PublishForQA
         //This character will be used as a separator when writing the save file. We need it as a landmark
         //to be able to tell our position when loading the save file.
         const char Separator = '*';
+        /// <summary>
+        /// A list of all folders to which access was denied (usually system folders).
+        /// </summary>
         public static List<string> AccessDeniedFolders = new List<string>();
+        /// <summary>
+        /// A list of all text boxes on the form.
+        /// </summary>
         public static List<TextBox> TextBoxesList = new List<TextBox>();
 
         public FormPublisher()
@@ -84,13 +91,14 @@ namespace PublishForQA
         {
             CursorChange();
 
-            //Four subsequent checks before beginning the copy operation.
+            //Subsequent checks before beginning the copy operation.
             //Ordered in this way for readability.
-            if (PathsAreLegal())
-                if (HasBinDebug())
-                    if (DirectoriesExist())
-                        if(HasNetworkAccess())
-                            CopyFilesAndDirectories();
+            if (NotEmpty())
+                if (PathsAreLegal())
+                    if (HasBinDebug())
+                        if (DirectoriesExist())
+                            if(HasNetworkAccess())
+                                CopyFilesAndDirectories();
 
             CursorChange();
         }
@@ -140,40 +148,124 @@ namespace PublishForQA
         #endregion
 
         /// <summary>
+        /// Checks if any TextBox's value is empty and asks the user if he would
+        /// like to omit it if it is.
+        /// </summary>
+        /// <returns>
+        /// "True" if all text boxes have values or the user decided to skip those
+        /// that do not. "False" if there are empty values and the user does not wish to continue.
+        /// </returns>
+        /// <remarks>
+        /// The QA folder is mandatory and cannot be omitted.
+        /// </remarks>
+        private bool NotEmpty()
+        {
+            //First we check if the "QA Folder" TextBox is empty.
+            //Since it is mandatory we alert the user if it is.
+            if (tbQAFolderPath.Text.Length < 1)
+            {
+                MessageBox.Show("No value provided for your QA folder.\nIt is mandatory, operation cannot continue.", "No QA Folder entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            List<TextBox> tbNoValueList = new List<TextBox>();
+            foreach (var tb in TextBoxesList)
+            {
+                if (tb.Text.Length < 1)
+                {
+                    tbNoValueList.Add(tb);
+                }
+            }
+
+            //If there are no text boxes with no values we continue.
+            if (tbNoValueList.Count == 0)
+            {
+                return true;
+            }
+
+            //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
+            if (tbNoValueList.Count == 1)
+            {
+                DialogResult confirm = MessageBox.Show(NameReplace(tbNoValueList[0]) + " is empty.\n\nDo you wish to proceed without it?", "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    return false;
+                }
+                else
+                {
+                    TextBoxesList.Remove(tbNoValueList[0]);
+                    return true;
+                }
+            }
+            else if (tbNoValueList.Count > 1)
+            {
+                StringBuilder stringBuilder = new StringBuilder("The following text boxes are empty:" + Environment.NewLine + Environment.NewLine);
+                foreach (var tb in tbNoValueList)
+                {
+                    stringBuilder.AppendLine(NameReplace(tb));
+                }
+                stringBuilder.Append(Environment.NewLine + "Do you wish to proceed without them?");
+                DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    return false;
+                }
+                else
+                {
+                    foreach (var tb in tbNoValueList)
+                    {
+                        TextBoxesList.Remove(tb);
+                    }
+                    return true;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Checks whether all paths have at most a single colon character.
         /// </summary>
-        /// <returns>"True" if all paths contain no more than a single colon character per path, otherwise "False".</returns>
+        /// <returns>
+        /// "True" if all paths contain no more than a single colon character per path, otherwise "False".
+        /// </returns>
         private bool PathsAreLegal()
         {
             //This list will hold all text boxes whose paths contain more than one colon character.
-            List<TextBox> pathIsIllegal = new List<TextBox>();
+            List<TextBox> tbIllegalPathList = new List<TextBox>();
             //For each TextBox we check if the position of the last colon character is greater than 1.
             //If it is that means it is located further than where it should be for a drive letter
             //which in all likelyhood is wrong, so we add it to the list.
             foreach (var tb in TextBoxesList)
             {
-                if (tb.Text.LastIndexOf(':') > 1) pathIsIllegal.Add(tb);
+                if (tb.Text.LastIndexOf(':') > 1) tbIllegalPathList.Add(tb);
             }
 
-            if (pathIsIllegal.Count == 1)
+            //If there are no text boxes with illegal paths we continue.
+            if (tbIllegalPathList.Count == 0)
             {
-                DialogResult fixPath = MessageBox.Show("The path of " + NameReplace(pathIsIllegal[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                return true;
+            }
+
+            if (tbIllegalPathList.Count == 1)
+            {
+                DialogResult fixPath = MessageBox.Show("The path of " + NameReplace(tbIllegalPathList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (fixPath == DialogResult.No)
                 {
                     return false;
                 }
                 else
                 {
-                    int firstColon = pathIsIllegal[0].Text.IndexOf(':');
-                    pathIsIllegal[0].Text = pathIsIllegal[0].Text.Replace(":", "");
-                    pathIsIllegal[0].Text = pathIsIllegal[0].Text.Insert(firstColon, ":");
+                    int firstColon = tbIllegalPathList[0].Text.IndexOf(':');
+                    tbIllegalPathList[0].Text = tbIllegalPathList[0].Text.Replace(":", "");
+                    tbIllegalPathList[0].Text = tbIllegalPathList[0].Text.Insert(firstColon, ":");
                     return true;
                 }
             }
-            else if (pathIsIllegal.Count > 1)
+            else if (tbIllegalPathList.Count > 1)
             {
                 StringBuilder stringBuilder = new StringBuilder("The following paths look illegal because they contain a ':' character where they shouldn't:" + Environment.NewLine + Environment.NewLine);
-                foreach (var tb in pathIsIllegal)
+                foreach (var tb in tbIllegalPathList)
                 {
                     stringBuilder.AppendLine(NameReplace(tb));
                 }
@@ -185,7 +277,7 @@ namespace PublishForQA
                 }
                 else
                 {
-                    foreach (var tb in pathIsIllegal)
+                    foreach (var tb in tbIllegalPathList)
                     {
                         int firstColon = tb.Text.IndexOf(':');
                         tb.Text = tb.Text.Replace(":", "");
@@ -201,9 +293,13 @@ namespace PublishForQA
         /// <summary>
         /// Checks whether all paths end with a "bin\Debug" folder and alerts the user with an OKCancel MessageBox if any do not.
         /// </summary>
-        /// <returns>"True" if all paths have a "bin\Debug" folder or the user chose to ignore any that do not. "False" if the
-        /// user decides to halt operation after being alerted.</returns>
-        /// <remarks>The MessageBox lists all TextBoxes that do not end with a "bin\Debug" folder</remarks>
+        /// <returns>
+        /// "True" if all paths have a "bin\Debug" folder or the user chose to ignore any that do not. "False" if the
+        /// user decides to halt operation after being alerted.
+        /// </returns>
+        /// <remarks>
+        /// The MessageBox lists all TextBoxes that do not end with a "bin\Debug" folder.
+        /// </remarks>
         private bool HasBinDebug()
         {
             //And we check if the paths ends with in "bin\Debug" folder.
@@ -219,6 +315,12 @@ namespace PublishForQA
                 {
                     tbNoBinDebugList.Add(tb);
                 }
+            }
+
+            //If all text boxes end in "bin\Debug" we continue.
+            if (tbNoBinDebugList.Count == 0)
+            {
+                return true;
             }
 
             //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
@@ -251,27 +353,35 @@ namespace PublishForQA
         /// <summary>
         /// Checks whether the listed directories in all TextBoxes exist and alerts the user and stops execution if any do not.
         /// </summary>
-        /// <returns>"True" if all directories exist, otherwise "False"</returns>
+        /// <returns>
+        /// "True" if all directories exist, otherwise "False".
+        /// </returns>
         private bool DirectoriesExist()
         {
             //This list will hold all text boxes whose listed directories do not exist.
-            List<TextBox> doesNotExist = new List<TextBox>();
+            List<TextBox> tbDoesNotExistList = new List<TextBox>();
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
             foreach (var tb in TextBoxesList)
             {
                 if (!Directory.Exists(tb.Text) || tb.Text == "")
                 {
-                    doesNotExist.Add(tb);
+                    tbDoesNotExistList.Add(tb);
                 }
             }
 
+            //If all directories exist we continue.
+            if (tbDoesNotExistList.Count == 0)
+            {
+                return true;
+            }
+
             //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
-            if (doesNotExist.Count == 1)
+            if (tbDoesNotExistList.Count == 1)
             {
                 //If the folder that does not exist is the QA one we prompt the user to create it.
-                if (doesNotExist[0] == tbQAFolderPath)
+                if (tbDoesNotExistList[0] == tbQAFolderPath)
                 {
-                    DialogResult create = MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
+                    DialogResult create = MessageBox.Show("The directory for " + NameReplace(tbDoesNotExistList[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
                     if (create == DialogResult.Yes) //User chose to create the directory.
                     {
                         return CreateQAFolder();
@@ -287,14 +397,14 @@ namespace PublishForQA
                 }
                 else
                 {
-                    MessageBox.Show("The directory for " + NameReplace(doesNotExist[0]) + " does not exist.\nPlease check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The directory for " + NameReplace(tbDoesNotExistList[0]) + " does not exist.\nPlease check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
-            else if (doesNotExist.Count > 1)
+            else if (tbDoesNotExistList.Count > 1)
             {
                 StringBuilder stringBuilder = new StringBuilder("The directories for the following do not exist:" + Environment.NewLine + Environment.NewLine);
-                foreach (var txtb in doesNotExist)
+                foreach (var txtb in tbDoesNotExistList)
                 {
                     stringBuilder.AppendLine(NameReplace(txtb));
                 }
@@ -309,7 +419,9 @@ namespace PublishForQA
         /// <summary>
         /// Checks whether the user has write permissions for the network folder.
         /// </summary>
-        /// <returns>"True" if the user can write to the folder, otherwise "False"</returns>
+        /// <returns>
+        /// "True" if the user can write to the folder, otherwise "False".
+        /// </returns>
         private bool HasNetworkAccess()
         {
             try
@@ -339,7 +451,9 @@ namespace PublishForQA
         /// <summary>
         /// Attempts to create a folder at the designated QA Folder path.
         /// </summary>
-        /// <returns>"True" if creation was successful, "False" otherwise</returns>
+        /// <returns>
+        /// "True" if creation was successful, "False" otherwise.
+        /// </returns>
         private bool CreateQAFolder()
         {
             try
@@ -548,7 +662,7 @@ namespace PublishForQA
         /// Reads the given file line by line and attempts to retrieve the values for all TextBoxes.
         /// It will display a MessageBox with all TextBoxes for which it could not find a value.
         /// </summary>
-        /// <param name="filePath"></param>
+        /// <param name="filePath">The path to the save file.</param>
         private void LoadFile(string filePath)
         {
             //We will use this list to tell if a value for a TextBox was missing in the save file.
@@ -610,8 +724,10 @@ namespace PublishForQA
         /// <summary>
         /// Converts the name of a TextBox. Removes all instances of "tb" and "Path".
         /// </summary>
-        /// <param name="tb">The TextBox whose name should be converted</param>
-        /// <returns>A String instance of the TextBox name with no instances of "tb" and/or "Path"</returns>
+        /// <param name="tb">The TextBox whose name should be converted.</param>
+        /// <returns>
+        /// A String instance of the TextBox name with no instances of "tb" and/or "Path".
+        /// </returns>
         private string NameReplace(TextBox tb)
         {
             return tb.Name.Replace("tb", "").Replace("Path", "");
