@@ -151,8 +151,10 @@ namespace PublishForQA
         /// Checks if any TextBox's value is empty and asks the user if he
         /// would like to omit it if it is.
         /// </summary>
-        /// <returns>"True" if all text boxes have values or the user decided to skip those
-        /// that do not. "False" if there are empty values and the user does not wish to continue.</returns>
+        /// <returns>
+        /// "True" if all text boxes have values or the user decided to skip those
+        /// that do not. "False" if there are empty values and the user does not wish to continue.
+        /// </returns>
         private bool NotEmpty()
         {
             List<TextBox> tbNoValue = new List<TextBox>();
@@ -197,7 +199,9 @@ namespace PublishForQA
         /// <summary>
         /// Checks whether all paths have at most a single colon character.
         /// </summary>
-        /// <returns>"True" if all paths contain no more than a single colon character per path, otherwise "False".</returns>
+        /// <returns>
+        /// "True" if all paths contain no more than a single colon character per path, otherwise "False".
+        /// </returns>
         private bool PathsAreLegal()
         {
             //This list will hold all text boxes whose paths contain more than one colon character.
@@ -256,9 +260,13 @@ namespace PublishForQA
         /// <summary>
         /// Checks whether all paths end with a "bin\Debug" folder and alerts the user with an OKCancel MessageBox if any do not.
         /// </summary>
-        /// <returns>"True" if all paths have a "bin\Debug" folder or the user chose to ignore any that do not. "False" if the
-        /// user decides to halt operation after being alerted.</returns>
-        /// <remarks>The MessageBox lists all TextBoxes that do not end with a "bin\Debug" folder</remarks>
+        /// <returns>
+        /// "True" if all paths have a "bin\Debug" folder or the user chose to ignore any that do not. "False" if the
+        /// user decides to halt operation after being alerted.
+        /// </returns>
+        /// <remarks>
+        /// The MessageBox lists all TextBoxes that do not end with a "bin\Debug" folder.
+        /// </remarks>
         private bool HasBinDebug()
         {
             //And we check if the paths ends with in "bin\Debug" folder.
@@ -306,7 +314,9 @@ namespace PublishForQA
         /// <summary>
         /// Checks whether the listed directories in all TextBoxes exist and alerts the user and stops execution if any do not.
         /// </summary>
-        /// <returns>"True" if all directories exist, otherwise "False"</returns>
+        /// <returns>
+        /// "True" if all directories exist, otherwise "False".
+        /// </returns>
         private bool DirectoriesExist()
         {
             //This list will hold all text boxes whose listed directories do not exist.
@@ -364,7 +374,9 @@ namespace PublishForQA
         /// <summary>
         /// Checks whether the user has write permissions for the network folder.
         /// </summary>
-        /// <returns>"True" if the user can write to the folder, otherwise "False"</returns>
+        /// <returns>
+        /// "True" if the user can write to the folder, otherwise "False".
+        /// </returns>
         private bool HasNetworkAccess()
         {
             try
@@ -394,7 +406,9 @@ namespace PublishForQA
         /// <summary>
         /// Attempts to create a folder at the designated QA Folder path.
         /// </summary>
-        /// <returns>"True" if creation was successful, "False" otherwise</returns>
+        /// <returns>
+        /// "True" if creation was successful, "False" otherwise.
+        /// </returns>
         private bool CreateQAFolder()
         {
             try
@@ -603,7 +617,7 @@ namespace PublishForQA
         /// Reads the given file line by line and attempts to retrieve the values for all TextBoxes.
         /// It will display a MessageBox with all TextBoxes for which it could not find a value.
         /// </summary>
-        /// <param name="filePath"></param>
+        /// <param name="filePath">The path to the save file.</param>
         private void LoadFile(string filePath)
         {
             //We will use this list to tell if a value for a TextBox was missing in the save file.
@@ -665,8 +679,10 @@ namespace PublishForQA
         /// <summary>
         /// Converts the name of a TextBox. Removes all instances of "tb" and "Path".
         /// </summary>
-        /// <param name="tb">The TextBox whose name should be converted</param>
-        /// <returns>A String instance of the TextBox name with no instances of "tb" and/or "Path"</returns>
+        /// <param name="tb">The TextBox whose name should be converted.</param>
+        /// <returns>
+        /// A String instance of the TextBox name with no instances of "tb" and/or "Path".
+        /// </returns>
         private string NameReplace(TextBox tb)
         {
             return tb.Name.Replace("tb", "").Replace("Path", "");
