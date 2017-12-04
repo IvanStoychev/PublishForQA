@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Text;
+using System.ComponentModel;
 
 namespace PublishForQA
 {
@@ -13,7 +14,13 @@ namespace PublishForQA
         //This character will be used as a separator when writing the save file. We need it as a landmark
         //to be able to tell our position when loading the save file.
         const char Separator = '*';
+        /// <summary>
+        /// A list of all folders to which access was denied (usually system folders).
+        /// </summary>
         public static List<string> AccessDeniedFolders = new List<string>();
+        /// <summary>
+        /// A list of all text boxes on the form.
+        /// </summary>
         public static List<TextBox> TextBoxesList = new List<TextBox>();
 
         public FormPublisher()
@@ -84,13 +91,14 @@ namespace PublishForQA
         {
             CursorChange();
 
-            //Four subsequent checks before beginning the copy operation.
+            //Subsequent checks before beginning the copy operation.
             //Ordered in this way for readability.
-            if (PathsAreLegal())
-                if (HasBinDebug())
-                    if (DirectoriesExist())
-                        if(HasNetworkAccess())
-                            CopyFilesAndDirectories();
+            if (NotEmpty())
+                if (PathsAreLegal())
+                    if (HasBinDebug())
+                        if (DirectoriesExist())
+                            if(HasNetworkAccess())
+                                CopyFilesAndDirectories();
 
             CursorChange();
         }
@@ -140,9 +148,11 @@ namespace PublishForQA
         #endregion
 
         /// <summary>
-        /// 
+        /// Checks if any TextBox's value is empty and asks the user if he
+        /// would like to omit it if it is.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>"True" if all text boxes have values or the user decided to skip those
+        /// that do not. "False" if there are empty values and the user does not wish to continue.</returns>
         private bool NotEmpty()
         {
             List<TextBox> tbNoValue = new List<TextBox>();
@@ -160,6 +170,10 @@ namespace PublishForQA
                 if (confirm == DialogResult.No)
                 {
                     return false;
+                }
+                else
+                {
+                    //TextBoxesList
                 }
             }
             else if (tbNoValue.Count > 1)
