@@ -443,7 +443,7 @@ namespace PublishForQA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown exception occured when checking for access rights in QA Folder:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + "() method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unknown exception occured when checking for access rights in QA Folder:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
@@ -478,7 +478,7 @@ namespace PublishForQA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + "() method.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -552,8 +552,12 @@ namespace PublishForQA
         private void Locate(string version)
         {
             List<DriveInfo> drives = new List<DriveInfo>();
-            List<string> ECheckresults = new List<string>();
-            List<string> Coreresults = new List<string>();
+            List<DirectoryInfo> ECheckDirectories = new List<DirectoryInfo>();
+            List<DirectoryInfo> CoreDirectories = new List<DirectoryInfo>();
+            List<DirectoryInfo> ECheckResults = new List<DirectoryInfo>();
+            List<DirectoryInfo> CoreResults = new List<DirectoryInfo>();
+
+            //We get all fixed and removable drives on the system.
             drives.AddRange(DriveInfo.GetDrives()
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
                            .ToList());
@@ -567,24 +571,20 @@ namespace PublishForQA
             //We also create a list of all folders to which access was denied to.
             foreach (var drive in drives)
             {
-                List<string> folders = new List<string>();
-                folders.AddRange(Directory.GetDirectories(drive.Name));
-                foreach (var folder in folders)
+                DirectoryInfo dir = new DirectoryInfo(drive.Name);
+                try
                 {
-                    try
-                    {
-                        ECheckresults.AddRange(Directory.GetDirectories(folder, version, SearchOption.AllDirectories));
-                        Coreresults.AddRange(Directory.GetDirectories(folder, "E-CheckCore", SearchOption.AllDirectories));
-                    }
-                    catch (UnauthorizedAccessException UAex)
-                    {
-                        AccessDeniedFolders.Add(UAex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + "() method.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw;
-                    }
+                    ECheckDirectories.AddRange(dir.EnumerateDirectories(version, SearchOption.AllDirectories));
+                    CoreDirectories.AddRange(dir.EnumerateDirectories("E-CheckCore", SearchOption.AllDirectories));
+                }
+                catch (UnauthorizedAccessException UAex)
+                {
+                    AccessDeniedFolders.Add(UAex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw;
                 }
             }
 
@@ -601,43 +601,46 @@ namespace PublishForQA
                 pbAccessDenied.Visible = false;
             }
 
+            foreach (var dir in ECheckDirectories)
+            {
+                ECheckResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x.FullName + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
+                CoreResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
+            }
+            
             CursorChange();
 
-            List<string> eCheckPath = ECheckresults.Where(x => Directory.Exists(x + @"\master\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList();
-            List<string> corePath = Coreresults.Where(x => Directory.Exists(x + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList();
-
             //No results for either E-Check or E-CheckCore
-            if (eCheckPath.Count < 1 && corePath.Count < 1)
+            if (ECheckResults.Count < 1 && CoreResults.Count < 1)
             {
-                MessageBox.Show("Neither " + version + " nor E-CheckCore were found", "No results", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Neither " + version + " nor E-CheckCore were found.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             //No results for E-Check
-            else if (eCheckPath.Count > 0 && corePath.Count < 1)
+            else if (ECheckResults.Count < 1 && CoreResults.Count > 0)
             {
                 MessageBox.Show(version + "was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             //No results for E-CheckCore
-            else if (eCheckPath.Count < 1 && corePath.Count > 0)
+            else if (ECheckResults.Count > 0 && CoreResults.Count < 1)
             {
                 MessageBox.Show("E-CheckCore was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
             }
 
-            if (eCheckPath.Count == 1)
+            if (ECheckResults.Count == 1)
             {
-                tbECheckPath.Text = Path.Combine(eCheckPath[0], @"master\WinClient\E-Check\bin\Debug\");
-                tbServicePath.Text = Path.Combine(eCheckPath[0], @"master\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
+                tbECheckPath.Text = Path.Combine(ECheckResults[0].FullName, @"\WinClient\E-Check\bin\Debug\");
+                tbServicePath.Text = Path.Combine(ECheckResults[0].FullName, @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
             }
-            if (corePath.Count == 1)
+            if (CoreResults.Count == 1)
             {
-                tbCorePath.Text = Path.Combine(corePath[0], @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
+                tbCorePath.Text = Path.Combine(CoreResults[0].FullName, @"\E-CheckCoreConsoleHost\bin\Debug\");
             }
-
-            if (eCheckPath.Count > 1 || corePath.Count > 1)
+            if (ECheckResults.Count > 1 || CoreResults.Count > 1)
             {
-                using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPath, corePath))
+                List<string> eCheckPaths = ECheckResults.Select(x => x.FullName).ToList();
+                List<string> corePaths = CoreResults.Select(x => x.FullName).ToList();
+                using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPaths, corePaths))
                 {
                     formTooManyResults.ShowDialog();
                 }
