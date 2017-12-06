@@ -627,8 +627,8 @@ namespace PublishForQA
             }
             if (ECheckResults.Count == 1)
             {
-                tbECheckPath.Text = Path.Combine(ECheckResults[0].FullName, @"\WinClient\E-Check\bin\Debug\");
-                tbServicePath.Text = Path.Combine(ECheckResults[0].FullName, @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
+                tbECheckPath.Text = Path.Combine(ECheckResults[0].FullName, @"WinClient\E-Check\bin\Debug\");
+                tbServicePath.Text = Path.Combine(ECheckResults[0].FullName, @"AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
             }
             if (CoreResults.Count == 1)
             {

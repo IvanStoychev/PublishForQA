@@ -32,13 +32,13 @@ namespace PublishForQA
             int tallestHeightCore = Math.Min(lbCore.GetItemRectangle(0).Height * lbCore.Items.Count, heightLimit);
 
             //We create a list that is going to hold all the results
-            List<string> longestList = new List<string>();
+            List<string> longestList = eCheckPaths.Concat(corePaths).ToList();
 
             //If both ECheck AND ECheckCore have more than 1 result
             //"longestList" becomes the sum of all their results.
             if (eCheckPaths.Count > 1 && corePaths.Count > 1)
             {
-                longestList = eCheckPaths.Concat(corePaths).ToList();
+                
             }
             //If there is more than 1 result for EcheckCore, only
             else if (eCheckPaths.Count < 2 && corePaths.Count > 1)
@@ -47,10 +47,11 @@ namespace PublishForQA
                 //ListBox to 0, because even with a hidden row it
                 //has a real width value and that will interfere
                 //with the initial sizing of the form.
-                tlpMain.RowStyles[1].Height = 0;
-                tallestHeightECheck = 0;
-                lbECheck.ClearSelected();
-                longestList = corePaths;
+
+                //tlpMain.RowStyles[1].Height = 0;
+                //tallestHeightECheck = 0;
+                //lbECheck.ClearSelected();
+                //longestList = corePaths;
             }
             //If there is more than 1 result for Echeck, only
             else if (eCheckPaths.Count > 1 && corePaths.Count < 2)
@@ -59,10 +60,11 @@ namespace PublishForQA
                 //ListBox to 0, because even with a hidden row it
                 //has a real width value and that will interfere
                 //with the initial sizing of the form.
-                tlpMain.RowStyles[2].Height = 0;
-                tallestHeightCore = 0;
-                lbCore.ClearSelected();
-                longestList = eCheckPaths;
+
+                //tlpMain.RowStyles[2].Height = 0;
+                //tallestHeightCore = 0;
+                //lbCore.ClearSelected();
+                //longestList = eCheckPaths;
             }
 
             //We find the longest result so we can later set the ListBoxes' width appropriately
