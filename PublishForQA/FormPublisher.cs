@@ -615,27 +615,7 @@ namespace PublishForQA
                 MessageBox.Show("Neither " + version + " nor E-CheckCore were found.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            //No results for E-Check
-            else if (ECheckResults.Count < 1 && CoreResults.Count > 0)
-            {
-                MessageBox.Show(version + "was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            //No results for E-CheckCore
-            else if (ECheckResults.Count > 0 && CoreResults.Count < 1)
-            {
-                MessageBox.Show("E-CheckCore was not found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
 
-            if (ECheckResults.Count == 1)
-            {
-                tbECheckPath.Text = Path.Combine(ECheckResults[0].FullName, @"\WinClient\E-Check\bin\Debug\");
-                tbServicePath.Text = Path.Combine(ECheckResults[0].FullName, @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
-            }
-            if (CoreResults.Count == 1)
-            {
-                tbCorePath.Text = Path.Combine(CoreResults[0].FullName, @"\E-CheckCoreConsoleHost\bin\Debug\");
-            }
             if (ECheckResults.Count > 1 || CoreResults.Count > 1)
             {
                 List<string> eCheckPaths = ECheckResults.Select(x => x.FullName).ToList();
@@ -644,6 +624,15 @@ namespace PublishForQA
                 {
                     formTooManyResults.ShowDialog();
                 }
+            }
+            if (ECheckResults.Count == 1)
+            {
+                tbECheckPath.Text = Path.Combine(ECheckResults[0].FullName, @"\WinClient\E-Check\bin\Debug\");
+                tbServicePath.Text = Path.Combine(ECheckResults[0].FullName, @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
+            }
+            if (CoreResults.Count == 1)
+            {
+                tbCorePath.Text = Path.Combine(CoreResults[0].FullName, @"\E-CheckCoreConsoleHost\bin\Debug\");
             }
         }
 

@@ -14,7 +14,7 @@ namespace PublishForQA
     public partial class FormTooManyResults : Form
     {
         /// <summary>
-        /// Initialised a new instance of the form "TooManyResults".
+        /// Initialises a new instance of the form "TooManyResults".
         /// </summary>
         /// <param name="eCheckPaths">List of results for the chosen E-Check version</param>
         /// <param name="corePaths">List of results for E-CheckCore</param>
