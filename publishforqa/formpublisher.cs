@@ -616,6 +616,7 @@ namespace PublishForQA
                 return;
             }
 
+            //If there is more than one result for either we let the FormTooManyResults handle them.
             if (ECheckResults.Count > 1 || CoreResults.Count > 1)
             {
                 List<string> eCheckPaths = ECheckResults.Select(x => x.FullName).ToList();
@@ -624,15 +625,31 @@ namespace PublishForQA
                 {
                     formTooManyResults.ShowDialog();
                 }
+                return;
             }
-            if (ECheckResults.Count == 1)
+            //In the else clause we need to check which list has any values
+            else
             {
-                tbECheckPath.Text = Path.Combine(ECheckResults[0].FullName, @"WinClient\E-Check\bin\Debug\");
-                tbServicePath.Text = Path.Combine(ECheckResults[0].FullName, @"AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
-            }
-            if (CoreResults.Count == 1)
-            {
-                tbCorePath.Text = Path.Combine(CoreResults[0].FullName, @"\E-CheckCoreConsoleHost\bin\Debug\");
+                //Considering the previous checks the only case left is that either or both
+                //lists have exactly one item.
+                if (ECheckResults.Count == 1 && CoreResults.Count == 1)
+                {
+                    MessageBox.Show(version + " and E-CheckCore were found.", "Locate success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    tbECheckPath.Text = Path.Combine(ECheckResults[0].FullName, @"WinClient\E-Check\bin\Debug\");
+                    tbServicePath.Text = Path.Combine(ECheckResults[0].FullName, @"AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
+                    tbCorePath.Text = Path.Combine(ECheckResults[0].FullName, @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
+                }
+                else if (ECheckResults.Count == 1)
+                {
+                    MessageBox.Show("Only " + version + " was found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tbECheckPath.Text = Path.Combine(ECheckResults[0].FullName, @"WinClient\E-Check\bin\Debug\");
+                    tbServicePath.Text = Path.Combine(ECheckResults[0].FullName, @"AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
+                }
+                else
+                {
+                    MessageBox.Show("Only E-CheckCore was found.", "Partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tbCorePath.Text = Path.Combine(ECheckResults[0].FullName, @"E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\");
+                }
             }
         }
 

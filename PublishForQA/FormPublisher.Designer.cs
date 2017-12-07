@@ -322,7 +322,7 @@
             this.Controls.Add(this.lblECheck);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPublisher";
-            this.Text = "Publisher";
+            this.Text = "Publisher Alpha v1.0";
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).EndInit();
