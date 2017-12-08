@@ -64,13 +64,14 @@
             // 
             // lblResults
             // 
-            this.lblResults.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblResults.Location = new System.Drawing.Point(3, 3);
+            this.lblResults.Location = new System.Drawing.Point(3, 0);
             this.lblResults.Name = "lblResults";
-            this.lblResults.Size = new System.Drawing.Size(260, 34);
+            this.lblResults.Size = new System.Drawing.Size(451, 40);
             this.lblResults.TabIndex = 0;
-            this.lblResults.Text = "More than one result was found.  Please choose which one is to be used.";
+            this.lblResults.Text = "Please review the results of the locate operation.";
+            this.lblResults.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblResults.UseMnemonic = false;
             // 
             // pECheck

@@ -552,8 +552,8 @@ namespace PublishForQA
         private void Locate(string version)
         {
             List<DriveInfo> drives = new List<DriveInfo>();
-            List<DirectoryInfo> ECheckDirectories = new List<DirectoryInfo>();
-            List<DirectoryInfo> CoreDirectories = new List<DirectoryInfo>();
+            List<string> ECheckDirectories = new List<string>();
+            List<string> CoreDirectories = new List<string>();
             List<DirectoryInfo> ECheckResults = new List<DirectoryInfo>();
             List<DirectoryInfo> CoreResults = new List<DirectoryInfo>();
 
@@ -571,11 +571,10 @@ namespace PublishForQA
             //We also create a list of all folders to which access was denied to.
             foreach (var drive in drives)
             {
-                DirectoryInfo dir = new DirectoryInfo(drive.Name);
                 try
                 {
-                    ECheckDirectories.AddRange(dir.EnumerateDirectories(version, SearchOption.AllDirectories));
-                    CoreDirectories.AddRange(dir.EnumerateDirectories("E-CheckCore", SearchOption.AllDirectories));
+                    ECheckDirectories.AddRange(Directory.GetDirectories(drive.Name, version, SearchOption.AllDirectories));
+                    CoreDirectories.AddRange(Directory.GetDirectories(drive.Name, "*CheckCore*", SearchOption.AllDirectories));
                 }
                 catch (UnauthorizedAccessException UAex)
                 {
@@ -603,8 +602,8 @@ namespace PublishForQA
 
             foreach (var dir in ECheckDirectories)
             {
-                ECheckResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x.FullName + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
-                CoreResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
+                //ECheckResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x.FullName + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
+                //CoreResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
             }
             
             CursorChange();
@@ -618,7 +617,7 @@ namespace PublishForQA
 
             List<string> eCheckPaths = ECheckResults.Select(x => x.FullName).ToList();
             List<string> corePaths = CoreResults.Select(x => x.FullName).ToList();
-            using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPaths, corePaths))
+            using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPaths, corePaths, version))
             {
                 formTooManyResults.ShowDialog();
             }
