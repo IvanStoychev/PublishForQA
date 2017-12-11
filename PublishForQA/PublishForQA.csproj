@@ -48,6 +48,7 @@
     <Compile Include="CustomControls.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FolderEnumerator.cs" />
     <Compile Include="FormHelp.cs">
       <SubType>Form</SubType>
     </Compile>
