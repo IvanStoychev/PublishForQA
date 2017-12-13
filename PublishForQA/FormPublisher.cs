@@ -558,23 +558,26 @@ namespace PublishForQA
             List<DirectoryInfo> CoreResults = new List<DirectoryInfo>();
 
             //We get all fixed and removable drives on the system.
-            //drives.AddRange(DriveInfo.GetDrives()
-            //               .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
-            //               .ToList());
-            drives.Add(new DriveInfo("C:\\"));
+            drives.AddRange(DriveInfo.GetDrives()
+                           .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
+                           .ToList());
 
             pbAccessDenied.Visible = false;
             CursorChange();
             AccessDeniedFolders.Clear();
 
-
-            foreach (var drive in drives)
+            System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
+            timer.Start();
+            for (int i = 0; i < 100; i++)
             {
-                ECheckDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList().Where(x => x.Contains(version)));
+                foreach (var drive in drives)
+                {
+                    ECheckDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList().Where(x => x.Contains(version)));
+                }
             }
-
-
-
+            timer.Stop();
+            TimeSpan ooooooo = timer.Elapsed;
+            //enumerating with .Contains 100 times elapsed time = {00:30:09.7377169}
 
             //For each Fixed or Removable storage drive on the system we search for folders
             //named after the selected version and "E-CheckCore".
