@@ -554,8 +554,8 @@ namespace PublishForQA
             List<DriveInfo> drives = new List<DriveInfo>();
             List<string> ECheckDirectories = new List<string>();
             List<string> CoreDirectories = new List<string>();
-            List<string> ECheckResults = new List<DirectoryInfo>();
-            List<string> CoreResults = new List<DirectoryInfo>();
+            List<string> ECheckResults = new List<string>();
+            List<string> CoreResults = new List<string>();
 
             //We get all fixed and removable drives on the system.
             drives.AddRange(DriveInfo.GetDrives()
@@ -573,7 +573,7 @@ namespace PublishForQA
             
             foreach (var drive in drives)
             {
-                ECheckDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList().Where(x => x.Contains(version)));
+                ECheckDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList().Where(x => x.Contains("E-Check\\" + version + "\\")));
             }
             ECheckResults.AddRange(ECheckDirectories.Where(x => Directory.Exists(x + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
             //CoreResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
@@ -623,12 +623,12 @@ namespace PublishForQA
                 return;
             }
 
-            List<string> eCheckPaths = ECheckResults.Select(x => x.FullName).ToList();
-            List<string> corePaths = CoreResults.Select(x => x.FullName).ToList();
-            using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPaths, corePaths, version))
-            {
-                formTooManyResults.ShowDialog();
-            }
+            //List<string> eCheckPaths = ECheckResults.Select(x => x.FullName).ToList();
+            //List<string> corePaths = CoreResults.Select(x => x.FullName).ToList();
+            //using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPaths, corePaths, version))
+            //{
+            //    formTooManyResults.ShowDialog();
+            //}
             return;
         }
 
