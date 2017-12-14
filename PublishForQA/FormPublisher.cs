@@ -554,8 +554,8 @@ namespace PublishForQA
             List<DriveInfo> drives = new List<DriveInfo>();
             List<string> ECheckDirectories = new List<string>();
             List<string> CoreDirectories = new List<string>();
-            List<DirectoryInfo> ECheckResults = new List<DirectoryInfo>();
-            List<DirectoryInfo> CoreResults = new List<DirectoryInfo>();
+            List<string> ECheckResults = new List<DirectoryInfo>();
+            List<string> CoreResults = new List<DirectoryInfo>();
 
             //We get all fixed and removable drives on the system.
             drives.AddRange(DriveInfo.GetDrives()
@@ -565,19 +565,18 @@ namespace PublishForQA
             pbAccessDenied.Visible = false;
             CursorChange();
             AccessDeniedFolders.Clear();
+            
 
-            System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
-            timer.Start();
-            for (int i = 0; i < 100; i++)
+
+
+
+            
+            foreach (var drive in drives)
             {
-                foreach (var drive in drives)
-                {
-                    ECheckDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList().Where(x => x.Contains(version)));
-                }
+                ECheckDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList().Where(x => x.Contains(version)));
             }
-            timer.Stop();
-            TimeSpan ooooooo = timer.Elapsed;
-            //enumerating with .Contains 100 times elapsed time = {00:30:09.7377169}
+            ECheckResults.AddRange(ECheckDirectories.Where(x => Directory.Exists(x + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
+            //CoreResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
 
             //For each Fixed or Removable storage drive on the system we search for folders
             //named after the selected version and "E-CheckCore".
@@ -613,11 +612,7 @@ namespace PublishForQA
                 pbAccessDenied.Visible = false;
             }
 
-            foreach (var dir in ECheckDirectories)
-            {
-                //ECheckResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x.FullName + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
-                //CoreResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
-            }
+            //[???] put something here, maybe?
             
             CursorChange();
 
