@@ -552,10 +552,11 @@ namespace PublishForQA
         private void Locate(string version)
         {
             List<DriveInfo> drives = new List<DriveInfo>();
-            List<string> ECheckDirectories = new List<string>();
-            List<string> CoreDirectories = new List<string>();
-            List<string> ECheckResults = new List<string>();
-            List<string> CoreResults = new List<string>();
+            List<string> allDirectories = new List<string>();
+            List<string> eCheckDirectories = new List<string>();
+            List<string> coreDirectories = new List<string>();
+            List<string> eCheckResults = new List<string>();
+            List<string> coreResults = new List<string>();
 
             //We get all fixed and removable drives on the system.
             drives.AddRange(DriveInfo.GetDrives()
@@ -565,18 +566,16 @@ namespace PublishForQA
             pbAccessDenied.Visible = false;
             CursorChange();
             AccessDeniedFolders.Clear();
-            
 
-
-
-
-            
             foreach (var drive in drives)
             {
-                ECheckDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList().Where(x => x.Contains("E-Check\\" + version + "\\")));
+                allDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList());
             }
-            ECheckResults.AddRange(ECheckDirectories.Where(x => Directory.Exists(x + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
-            //CoreResults.AddRange(dir.EnumerateDirectories().Where(x => Directory.Exists(x.FullName + @"\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
+            eCheckDirectories.AddRange(allDirectories.Where(x => x.Contains("\\E-Check\\" + version + "\\")));
+            coreDirectories.AddRange(allDirectories.Where(x => x.Contains("\\E-CheckCore\\")));
+
+            eCheckResults.AddRange(eCheckDirectories.Where(x => Directory.Exists(x + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
+            coreResults.AddRange(coreDirectories.Where(x => Directory.Exists(x + @"\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
 
             //For each Fixed or Removable storage drive on the system we search for folders
             //named after the selected version and "E-CheckCore".
@@ -585,8 +584,8 @@ namespace PublishForQA
             {
                 try
                 {
-                    ECheckDirectories.AddRange(Directory.GetDirectories(drive.Name, version, SearchOption.AllDirectories));
-                    CoreDirectories.AddRange(Directory.GetDirectories(drive.Name, "*CheckCore*", SearchOption.AllDirectories));
+                    eCheckDirectories.AddRange(Directory.GetDirectories(drive.Name, version, SearchOption.AllDirectories));
+                    coreDirectories.AddRange(Directory.GetDirectories(drive.Name, "*CheckCore*", SearchOption.AllDirectories));
                 }
                 catch (UnauthorizedAccessException UAex)
                 {
@@ -617,7 +616,7 @@ namespace PublishForQA
             CursorChange();
 
             //No results for either E-Check or E-CheckCore
-            if (ECheckResults.Count < 1 && CoreResults.Count < 1)
+            if (eCheckResults.Count < 1 && coreResults.Count < 1)
             {
                 MessageBox.Show("Neither " + version + " nor E-CheckCore were found.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
