@@ -34,6 +34,7 @@ namespace PublishForQA
             lbECheck.DataSource = eCheckPaths;
             lbCore.DataSource = corePaths;
 
+            //We calculate how high each ListBox needs to be.
             int tallestHeightECheck = Math.Min(lbECheck.GetItemRectangle(0).Height * lbECheck.Items.Count, heightLimit);
             int tallestHeightCore = Math.Min(lbCore.GetItemRectangle(0).Height * lbCore.Items.Count, heightLimit);
 

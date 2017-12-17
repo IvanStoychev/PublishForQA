@@ -148,12 +148,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(457, 501);
-            this.ControlBox = false;
             this.Controls.Add(this.tlpMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormTooManyResults";
+            this.Name = "FormResults";
             this.Text = "Choose Paths";
+            this.TopMost = true;
             this.tlpMain.ResumeLayout(false);
             this.pECheck.ResumeLayout(false);
             this.pECheck.PerformLayout();

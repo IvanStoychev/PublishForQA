@@ -584,9 +584,9 @@ namespace PublishForQA
                 return;
             }
             //otherwise:
-            using (FormResults formTooManyResults = new FormResults(eCheckResults, coreResults, version))
+            using (FormResults formResults = new FormResults(eCheckResults, coreResults, version))
             {
-                formTooManyResults.ShowDialog();
+                formResults.ShowDialog();
             }
             return;
         }
