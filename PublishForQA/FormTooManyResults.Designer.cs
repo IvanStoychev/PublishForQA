@@ -1,6 +1,6 @@
 ﻿namespace PublishForQA
 {
-    partial class FormTooManyResults
+    partial class FormResults
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTooManyResults));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormResults));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.lblResults = new System.Windows.Forms.Label();
             this.pECheck = new System.Windows.Forms.Panel();
@@ -143,7 +143,7 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // FormTooManyResults
+            // FormResults
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;

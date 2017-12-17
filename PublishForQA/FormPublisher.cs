@@ -577,14 +577,14 @@ namespace PublishForQA
 
             CursorChange();
 
-            //No results for either E-Check or E-CheckCore
+            //If no results for either E-Check or E-CheckCore:
             if (eCheckResults.Count < 1 && coreResults.Count < 1)
             {
                 MessageBox.Show("Neither " + version + " nor E-CheckCore were found.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckResults, coreResults, version))
+            //otherwise:
+            using (FormResults formTooManyResults = new FormResults(eCheckResults, coreResults, version))
             {
                 formTooManyResults.ShowDialog();
             }

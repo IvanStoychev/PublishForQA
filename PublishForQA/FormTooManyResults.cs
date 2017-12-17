@@ -11,14 +11,14 @@ using System.Windows.Forms;
 
 namespace PublishForQA
 {
-    public partial class FormTooManyResults : Form
+    public partial class FormResults : Form
     {
         /// <summary>
         /// Initialises a new instance of the form "TooManyResults".
         /// </summary>
         /// <param name="eCheckPaths">List of results for the chosen E-Check version</param>
         /// <param name="corePaths">List of results for E-CheckCore</param>
-        public FormTooManyResults(List<string> eCheckPaths, List<string> corePaths, string version)
+        public FormResults(List<string> eCheckPaths, List<string> corePaths, string version)
         {
             //These are constants that will limit the initial size of out ListBoxes.
             //They will still resize indefinitely with the form.
