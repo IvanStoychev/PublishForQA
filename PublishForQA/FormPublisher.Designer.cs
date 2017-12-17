@@ -43,7 +43,6 @@
             this.lblTaskName = new System.Windows.Forms.Label();
             this.pbSave = new System.Windows.Forms.PictureBox();
             this.pbHelp = new System.Windows.Forms.PictureBox();
-            this.pbAccessDenied = new System.Windows.Forms.PictureBox();
             this.pbLoad = new System.Windows.Forms.PictureBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tbECheckPath = new PublishForQA.TextBoxFormPublisher();
@@ -54,7 +53,6 @@
             this.btnLocate = new PublishForQA.MenuButton();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
             this.SuspendLayout();
             // 
@@ -187,19 +185,6 @@
             this.pbHelp.TabStop = false;
             this.pbHelp.Click += new System.EventHandler(this.pbHelp_Click);
             // 
-            // pbAccessDenied
-            // 
-            this.pbAccessDenied.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pbAccessDenied.Image = global::PublishForQA.Properties.Resources.cnrdelete_all;
-            this.pbAccessDenied.Location = new System.Drawing.Point(374, 12);
-            this.pbAccessDenied.Name = "pbAccessDenied";
-            this.pbAccessDenied.Size = new System.Drawing.Size(25, 25);
-            this.pbAccessDenied.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbAccessDenied.TabIndex = 11;
-            this.pbAccessDenied.TabStop = false;
-            this.pbAccessDenied.Visible = false;
-            this.pbAccessDenied.Click += new System.EventHandler(this.pbAccessDenied_Click);
-            // 
             // pbLoad
             // 
             this.pbLoad.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -309,7 +294,6 @@
             this.Controls.Add(this.pbSave);
             this.Controls.Add(this.pbHelp);
             this.Controls.Add(this.lblTaskName);
-            this.Controls.Add(this.pbAccessDenied);
             this.Controls.Add(this.btnLocate);
             this.Controls.Add(this.btnPublish);
             this.Controls.Add(this.btnECheckBrowse);
@@ -325,7 +309,6 @@
             this.Text = "Publisher Alpha v1.0";
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAccessDenied)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -345,7 +328,6 @@
         private System.Windows.Forms.Button btnECheckBrowse;
         private System.Windows.Forms.Button btnPublish;
         private MenuButton btnLocate;
-        private System.Windows.Forms.PictureBox pbAccessDenied;
         private System.Windows.Forms.Label lblTaskName;
         private System.Windows.Forms.PictureBox pbHelp;
         private System.Windows.Forms.PictureBox pbSave;

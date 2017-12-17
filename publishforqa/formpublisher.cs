@@ -15,10 +15,6 @@ namespace PublishForQA
         //to be able to tell our position when loading the save file.
         const char Separator = '*';
         /// <summary>
-        /// A list of all folders to which access was denied (usually system folders).
-        /// </summary>
-        public static List<string> AccessDeniedFolders = new List<string>();
-        /// <summary>
         /// A list of all text boxes on the form.
         /// </summary>
         public static List<TextBox> TextBoxesList = new List<TextBox>();
@@ -41,14 +37,6 @@ namespace PublishForQA
         {
             ((FormPublisher)Form.ActiveForm).btnLocate.Menu.Close();
             ((FormPublisher)Form.ActiveForm).Locate(e.ClickedItem.ToString());
-        }
-
-        private void pbAccessDenied_Click(object sender, EventArgs e)
-        {
-            using (FormAccessDenied accessDenied = new FormAccessDenied(AccessDeniedFolders))
-            {
-                accessDenied.ShowDialog();
-            }
         }
 
         private void tb_KeyPress(object sender, KeyPressEventArgs e)
@@ -563,33 +551,14 @@ namespace PublishForQA
                            .Where(x => x.DriveType == DriveType.Fixed || x.DriveType == DriveType.Removable)
                            .ToList());
 
-            pbAccessDenied.Visible = false;
             CursorChange();
-            AccessDeniedFolders.Clear();
 
-            foreach (var drive in drives)
-            {
-                allDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList());
-            }
-            eCheckDirectories.AddRange(allDirectories.Where(x => x.Contains("\\E-Check\\" + version + "\\")));
-            coreDirectories.AddRange(allDirectories.Where(x => x.Contains("\\E-CheckCore\\")));
-
-            eCheckResults.AddRange(eCheckDirectories.Where(x => Directory.Exists(x + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
-            coreResults.AddRange(coreDirectories.Where(x => Directory.Exists(x + @"\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
-
-            //For each Fixed or Removable storage drive on the system we search for folders
-            //named after the selected version and "E-CheckCore".
-            //We also create a list of all folders to which access was denied to.
+            //For each Fixed or Removable storage drive on the system we get all folders in that drive.
             foreach (var drive in drives)
             {
                 try
                 {
-                    eCheckDirectories.AddRange(Directory.GetDirectories(drive.Name, version, SearchOption.AllDirectories));
-                    coreDirectories.AddRange(Directory.GetDirectories(drive.Name, "*CheckCore*", SearchOption.AllDirectories));
-                }
-                catch (UnauthorizedAccessException UAex)
-                {
-                    AccessDeniedFolders.Add(UAex.Message.Replace(@"Access to the path '", "").Replace(@"' is denied.", ""));
+                    allDirectories.AddRange(FolderEnumerator.EnumerateFoldersRecursively(drive.Name).ToList());
                 }
                 catch (Exception ex)
                 {
@@ -598,21 +567,14 @@ namespace PublishForQA
                 }
             }
 
-            //If there were any folders that access was denied to we show the
-            //button which opens the dialog which lists them.
-            if (AccessDeniedFolders.Count > 0)
-            {
-                AccessDeniedFolders = AccessDeniedFolders.Distinct().ToList();
-                AccessDeniedFolders.Sort();
-                pbAccessDenied.Visible = true;
-            }
-            else
-            {
-                pbAccessDenied.Visible = false;
-            }
+            //We filter all the directories by the version name and "E-CheckCore".
+            eCheckDirectories.AddRange(allDirectories.Where(x => x.Contains("\\E-Check\\" + version + "\\")));
+            coreDirectories.AddRange(allDirectories.Where(x => x.Contains("\\E-CheckCore\\")));
 
-            //[???] put something here, maybe?
-            
+            //We get the filtered directories for which exist the vital debug folders.
+            eCheckResults.AddRange(eCheckDirectories.Where(x => Directory.Exists(x + @"\WinClient\E-Check\bin\Debug\") && Directory.Exists(x + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\")).ToList());
+            coreResults.AddRange(coreDirectories.Where(x => Directory.Exists(x + @"\E-CheckCoreConsoleHost\bin\Debug\")).ToList());
+
             CursorChange();
 
             //No results for either E-Check or E-CheckCore
@@ -622,12 +584,10 @@ namespace PublishForQA
                 return;
             }
 
-            //List<string> eCheckPaths = ECheckResults.Select(x => x.FullName).ToList();
-            //List<string> corePaths = CoreResults.Select(x => x.FullName).ToList();
-            //using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckPaths, corePaths, version))
-            //{
-            //    formTooManyResults.ShowDialog();
-            //}
+            using (FormTooManyResults formTooManyResults = new FormTooManyResults(eCheckResults, coreResults, version))
+            {
+                formTooManyResults.ShowDialog();
+            }
             return;
         }
 
