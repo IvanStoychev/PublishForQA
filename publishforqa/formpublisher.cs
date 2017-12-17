@@ -678,5 +678,28 @@ namespace PublishForQA
         {
             return tb.Name.Replace("tb", "").Replace("Path", "");
         }
+
+        private void pbCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(tbQAFolderPath.Text + tbTaskName.Text);
+            }
+            catch (ArgumentNullException)
+            {
+                Clipboard.SetText("a");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+            ErrorProvider errorProvider = new ErrorProvider(Application.OpenForms.OfType<FormPublisher>().FirstOrDefault());
+            errorProvider.SetError(this, "The text you tried to paste contained some illegal characters so they were removed.");
+            //errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+            //errorProvider.Icon = Properties.Resources.PerfCenterCpl;
+            System.Threading.Tasks.Task.Delay(5000).ContinueWith(t => errorProvider.Dispose());
+        }
     }
 }

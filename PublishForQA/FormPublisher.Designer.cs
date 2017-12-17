@@ -41,9 +41,6 @@
             this.btnECheckBrowse = new System.Windows.Forms.Button();
             this.btnPublish = new System.Windows.Forms.Button();
             this.lblTaskName = new System.Windows.Forms.Label();
-            this.pbSave = new System.Windows.Forms.PictureBox();
-            this.pbHelp = new System.Windows.Forms.PictureBox();
-            this.pbLoad = new System.Windows.Forms.PictureBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tbECheckPath = new PublishForQA.TextBoxFormPublisher();
             this.tbCorePath = new PublishForQA.TextBoxFormPublisher();
@@ -51,9 +48,14 @@
             this.tbQAFolderPath = new PublishForQA.TextBoxFormPublisher();
             this.tbTaskName = new PublishForQA.TextBoxFormPublisher();
             this.btnLocate = new PublishForQA.MenuButton();
+            this.pbCopyToClipboard = new System.Windows.Forms.PictureBox();
+            this.pbLoad = new System.Windows.Forms.PictureBox();
+            this.pbSave = new System.Windows.Forms.PictureBox();
+            this.pbHelp = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCopyToClipboard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
             this.SuspendLayout();
             // 
             // lblECheck
@@ -162,41 +164,6 @@
             this.lblTaskName.TabIndex = 13;
             this.lblTaskName.Text = "Task Name:";
             // 
-            // pbSave
-            // 
-            this.pbSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pbSave.Image = global::PublishForQA.Properties.Resources.Save;
-            this.pbSave.Location = new System.Drawing.Point(234, 12);
-            this.pbSave.Name = "pbSave";
-            this.pbSave.Size = new System.Drawing.Size(25, 25);
-            this.pbSave.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbSave.TabIndex = 15;
-            this.pbSave.TabStop = false;
-            this.pbSave.Click += new System.EventHandler(this.pbSave_Click);
-            // 
-            // pbHelp
-            // 
-            this.pbHelp.Image = global::PublishForQA.Properties.Resources.icon_help_circled_128;
-            this.pbHelp.Location = new System.Drawing.Point(1, 1);
-            this.pbHelp.Name = "pbHelp";
-            this.pbHelp.Size = new System.Drawing.Size(18, 18);
-            this.pbHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbHelp.TabIndex = 14;
-            this.pbHelp.TabStop = false;
-            this.pbHelp.Click += new System.EventHandler(this.pbHelp_Click);
-            // 
-            // pbLoad
-            // 
-            this.pbLoad.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pbLoad.Image = global::PublishForQA.Properties.Resources.Load;
-            this.pbLoad.Location = new System.Drawing.Point(266, 12);
-            this.pbLoad.Name = "pbLoad";
-            this.pbLoad.Size = new System.Drawing.Size(25, 25);
-            this.pbLoad.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbLoad.TabIndex = 15;
-            this.pbLoad.TabStop = false;
-            this.pbLoad.Click += new System.EventHandler(this.pbLoad_Click);
-            // 
             // openFileDialog
             // 
             this.openFileDialog.Filter = "Text files|*.txt";
@@ -280,11 +247,58 @@
             this.btnLocate.Text = "Locate";
             this.btnLocate.UseVisualStyleBackColor = true;
             // 
+            // pbCopyToClipboard
+            // 
+            this.pbCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("pbCopyToClipboard.Image")));
+            this.pbCopyToClipboard.Location = new System.Drawing.Point(307, 387);
+            this.pbCopyToClipboard.Name = "pbCopyToClipboard";
+            this.pbCopyToClipboard.Size = new System.Drawing.Size(27, 32);
+            this.pbCopyToClipboard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbCopyToClipboard.TabIndex = 21;
+            this.pbCopyToClipboard.TabStop = false;
+            this.pbCopyToClipboard.Click += new System.EventHandler(this.pbCopyToClipboard_Click);
+            // 
+            // pbLoad
+            // 
+            this.pbLoad.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pbLoad.Image = global::PublishForQA.Properties.Resources.Load;
+            this.pbLoad.Location = new System.Drawing.Point(266, 12);
+            this.pbLoad.Name = "pbLoad";
+            this.pbLoad.Size = new System.Drawing.Size(25, 25);
+            this.pbLoad.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbLoad.TabIndex = 15;
+            this.pbLoad.TabStop = false;
+            this.pbLoad.Click += new System.EventHandler(this.pbLoad_Click);
+            // 
+            // pbSave
+            // 
+            this.pbSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pbSave.Image = global::PublishForQA.Properties.Resources.Save;
+            this.pbSave.Location = new System.Drawing.Point(234, 12);
+            this.pbSave.Name = "pbSave";
+            this.pbSave.Size = new System.Drawing.Size(25, 25);
+            this.pbSave.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbSave.TabIndex = 15;
+            this.pbSave.TabStop = false;
+            this.pbSave.Click += new System.EventHandler(this.pbSave_Click);
+            // 
+            // pbHelp
+            // 
+            this.pbHelp.Image = global::PublishForQA.Properties.Resources.icon_help_circled_128;
+            this.pbHelp.Location = new System.Drawing.Point(1, 1);
+            this.pbHelp.Name = "pbHelp";
+            this.pbHelp.Size = new System.Drawing.Size(18, 18);
+            this.pbHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbHelp.TabIndex = 14;
+            this.pbHelp.TabStop = false;
+            this.pbHelp.Click += new System.EventHandler(this.pbHelp_Click);
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 433);
+            this.Controls.Add(this.pbCopyToClipboard);
             this.Controls.Add(this.tbECheckPath);
             this.Controls.Add(this.tbCorePath);
             this.Controls.Add(this.tbServicePath);
@@ -307,9 +321,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPublisher";
             this.Text = "Publisher Alpha v1.0";
+            ((System.ComponentModel.ISupportInitialize)(this.pbCopyToClipboard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,6 +353,7 @@
         private TextBoxFormPublisher tbServicePath;
         private TextBoxFormPublisher tbCorePath;
         private TextBoxFormPublisher tbECheckPath;
+        private System.Windows.Forms.PictureBox pbCopyToClipboard;
     }
 }
 

@@ -105,29 +105,26 @@
     <EmbeddedResource Include="Resources\E-CheckVersions.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\cnrdelete_all.png" />
+    <EmbeddedResource Include="Resources\icon-help-circled-128.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icon-help-circled-128.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Custom-Icon-Design-Pretty-Office-9-Open-file.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\input-25064_960_720.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Load.png" />
+    <EmbeddedResource Include="Resources\Load.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\PublishforQA.chm" />
-    <None Include="Resources\Save.png" />
+    <EmbeddedResource Include="Resources\Save.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\info.png" />
+    <EmbeddedResource Include="Resources\info.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\warning.png" />
+    <EmbeddedResource Include="Resources\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Clipboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PerfCenterCpl.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
