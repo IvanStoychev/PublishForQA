@@ -126,5 +126,8 @@
   <ItemGroup>
     <None Include="Resources\PerfCenterCpl.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Success.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
