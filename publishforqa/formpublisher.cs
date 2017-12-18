@@ -431,7 +431,7 @@ namespace PublishForQA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown exception occured when checking for access rights in QA Folder:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unexpected exception occured when checking for access rights in QA Folder:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
@@ -466,7 +466,7 @@ namespace PublishForQA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An unexpected exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -523,7 +523,7 @@ namespace PublishForQA
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Unknown exception occured:\n" + ex.Message + "\n\nCopy operation failed.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Unexpected exception occured:\n" + ex.Message + "\n\nCopy operation failed.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     throw;
                 }
             }
@@ -562,7 +562,7 @@ namespace PublishForQA
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("An unexpected exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     throw;
                 }
             }
