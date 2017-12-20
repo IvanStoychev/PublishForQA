@@ -250,7 +250,7 @@
             // pbCopyToClipboard
             // 
             this.pbCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("pbCopyToClipboard.Image")));
-            this.pbCopyToClipboard.Location = new System.Drawing.Point(307, 387);
+            this.pbCopyToClipboard.Location = new System.Drawing.Point(270, 387);
             this.pbCopyToClipboard.Name = "pbCopyToClipboard";
             this.pbCopyToClipboard.Size = new System.Drawing.Size(27, 32);
             this.pbCopyToClipboard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

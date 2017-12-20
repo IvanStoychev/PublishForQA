@@ -141,7 +141,8 @@ namespace PublishForQA
 
             try
             {
-                Clipboard.SetText(tbQAFolderPath.Text + tbTaskName.Text);
+                if (!tbQAFolderPath.Text.EndsWith("\\")) tbQAFolderPath.Text = tbQAFolderPath.Text + "\\";
+                Clipboard.SetText(Path.Combine(tbQAFolderPath.Text + tbTaskName.Text));
                 errorText = "QA folder path copied to clipboard.";
                 errorProvider.Icon = Properties.Resources.Success;
                 errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
