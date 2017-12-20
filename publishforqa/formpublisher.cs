@@ -658,9 +658,10 @@ namespace PublishForQA
                         tb.Text = line.Substring(line.IndexOf(Separator) + 2);
                         notFoundBoxes.Remove(tb);
                     }
-                    catch (System.ArgumentOutOfRangeException)
+                    catch (Exception ex)
                     {
-                        //[???]
+                        MessageBox.Show("An unknown exception has occurred while reading the save file:\n" + ex.Message, "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw;
                     }
                 }
                 if (notFoundBoxes.Count == 1)
