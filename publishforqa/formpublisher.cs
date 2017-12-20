@@ -133,6 +133,34 @@ namespace PublishForQA
                 LoadFile(openFileDialog.FileName);
             }
         }
+
+        private void pbCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            string errorText;
+            ErrorProvider errorProvider = new ErrorProvider(Application.OpenForms.OfType<FormPublisher>().FirstOrDefault());
+
+            try
+            {
+                if (!tbQAFolderPath.Text.EndsWith("\\") && tbQAFolderPath.Text != "") tbQAFolderPath.Text = tbQAFolderPath.Text + "\\";
+                Clipboard.SetText(Path.Combine(tbQAFolderPath.Text + tbTaskName.Text));
+                errorText = "QA folder path copied to clipboard.";
+                errorProvider.Icon = Properties.Resources.Success;
+                errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+            }
+            catch (ArgumentNullException)
+            {
+                Clipboard.Clear();
+                errorText = "No QA folder and task name!";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nCopy to Clipboard operation failed.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+
+            errorProvider.SetError(pbCopyToClipboard, errorText);
+            System.Threading.Tasks.Task.Delay(3000).ContinueWith(t => errorProvider.Dispose());
+        }
         #endregion
 
         /// <summary>
@@ -632,7 +660,7 @@ namespace PublishForQA
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-
+                        //[???]
                     }
                 }
                 if (notFoundBoxes.Count == 1)
