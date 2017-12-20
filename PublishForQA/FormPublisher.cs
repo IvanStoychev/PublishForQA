@@ -11,8 +11,10 @@ namespace PublishForQA
 {
     public partial class FormPublisher : Form
     {
-        //This character will be used as a separator when writing the save file. We need it as a landmark
-        //to be able to tell our position when loading the save file.
+        /// <summary>
+        /// This character will be used as a separator when writing the save file. We need it as a landmark
+        /// to be able to tell our position when loading the save file.
+        /// </summary>
         const char Separator = '*';
         /// <summary>
         /// A list of all text boxes on the form.
