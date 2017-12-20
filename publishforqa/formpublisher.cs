@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Text;
-using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace PublishForQA
 {
@@ -156,7 +156,7 @@ namespace PublishForQA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An unknown exception has occurred:\n" + ex.Message + "\n\nCopy to Clipboard operation failed.", "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An unexpected exception has occurred:\n" + ex.Message + "\n\nCopy to Clipboard operation failed.", "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
 
@@ -258,10 +258,11 @@ namespace PublishForQA
             foreach (var tb in TextBoxesList)
             {
                 if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
+                if (Regex.IsMatch(tb.Text, "[\\]{2,}")) tbIllegalBackslashList.Add(tb);
             }
 
             //If there are no text boxes with illegal paths we continue.
-            if (tbIllegalColonList.Count == 0)
+            if (tbIllegalColonList.Count == 0 && tbIllegalBackslashList.Count == 0)
             {
                 return true;
             }
@@ -296,13 +297,7 @@ namespace PublishForQA
                 }
                 else
                 {
-                    foreach (var tb in tbIllegalColonList)
-                    {
-                        int firstColon = tb.Text.IndexOf(':');
-                        tb.Text = tb.Text.Replace(":", "");
-                        tb.Text = tb.Text.Insert(firstColon, ":");
-                    }
-                    return true;
+                    return FixColons(tbIllegalColonList) && FixBackslashes(tbIllegalBackslashList);
                 }
             }
 
@@ -663,7 +658,7 @@ namespace PublishForQA
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("An unknown exception has occurred while reading the save file:\n" + ex.Message, "Unknown exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("An unexpected exception has occurred while reading the save file:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         throw;
                     }
                 }
@@ -709,6 +704,57 @@ namespace PublishForQA
         private string NameReplace(TextBox tb)
         {
             return tb.Name.Replace("tb", "").Replace("Path", "");
+        }
+
+        /// <summary>
+        /// Iterates through a list of TextBoxes' text properties and removes all colon
+        /// characters, except the first one.
+        /// </summary>
+        /// <param name="list">A list of TextBoxes whose text properties should be fixed.</param>
+        /// <returns>"True" if the operation succeeded and "false" if an exception is thrown.</returns>
+        private bool FixColons(List<TextBox> list)
+        {
+            try
+            {
+                foreach (var tb in list)
+                {
+                    int firstColon = tb.Text.IndexOf(':');
+                    tb.Text = tb.Text.Replace(":", "");
+                    tb.Text = tb.Text.Insert(firstColon, ":");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected exception has occurred while trying to fix illegal colon characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+                throw;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Iterates through a list of TextBoxes' text properties and replaces all occurances of more
+        /// than one consecutive backslash character with just a single backslash character.
+        /// </summary>
+        /// <param name="list">A list of TextBoxes whose text properties should be fixed.</param>
+        /// <returns>"True" if the operation succeeded and "false" if an exception is thrown.</returns>
+        private bool FixBackslashes(List<TextBox> list)
+        {
+            Regex regex = new Regex("[\\]{2,}");
+            try
+            {
+                foreach (var tb in list)
+                {
+                    regex.Replace(tb.Text, "\\");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected exception has occurred while trying to fix repeated backslash characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+                throw;
+            }
+            return true;
         }
     }
 }
