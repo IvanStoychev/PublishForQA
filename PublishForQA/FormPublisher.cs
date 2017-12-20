@@ -250,40 +250,41 @@ namespace PublishForQA
         private bool PathsAreLegal()
         {
             //This list will hold all text boxes whose paths contain more than one colon character.
-            List<TextBox> tbIllegalPathList = new List<TextBox>();
+            List<TextBox> tbIllegalColonList = new List<TextBox>();
+            List<TextBox> tbIllegalBackslashList = new List<TextBox>();
             //For each TextBox we check if the position of the last colon character is greater than 1.
             //If it is that means it is located further than where it should be for a drive letter
             //which in all likelyhood is wrong, so we add it to the list.
             foreach (var tb in TextBoxesList)
             {
-                if (tb.Text.LastIndexOf(':') > 1) tbIllegalPathList.Add(tb);
+                if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
             }
 
             //If there are no text boxes with illegal paths we continue.
-            if (tbIllegalPathList.Count == 0)
+            if (tbIllegalColonList.Count == 0)
             {
                 return true;
             }
 
-            if (tbIllegalPathList.Count == 1)
+            if (tbIllegalColonList.Count == 1)
             {
-                DialogResult fixPath = MessageBox.Show("The path of " + NameReplace(tbIllegalPathList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult fixPath = MessageBox.Show("The path of " + NameReplace(tbIllegalColonList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (fixPath == DialogResult.No)
                 {
                     return false;
                 }
                 else
                 {
-                    int firstColon = tbIllegalPathList[0].Text.IndexOf(':');
-                    tbIllegalPathList[0].Text = tbIllegalPathList[0].Text.Replace(":", "");
-                    tbIllegalPathList[0].Text = tbIllegalPathList[0].Text.Insert(firstColon, ":");
+                    int firstColon = tbIllegalColonList[0].Text.IndexOf(':');
+                    tbIllegalColonList[0].Text = tbIllegalColonList[0].Text.Replace(":", "");
+                    tbIllegalColonList[0].Text = tbIllegalColonList[0].Text.Insert(firstColon, ":");
                     return true;
                 }
             }
-            else if (tbIllegalPathList.Count > 1)
+            else if (tbIllegalColonList.Count > 1)
             {
                 StringBuilder stringBuilder = new StringBuilder("The following paths look illegal because they contain a ':' character where they shouldn't:" + Environment.NewLine + Environment.NewLine);
-                foreach (var tb in tbIllegalPathList)
+                foreach (var tb in tbIllegalColonList)
                 {
                     stringBuilder.AppendLine(NameReplace(tb));
                 }
@@ -295,7 +296,7 @@ namespace PublishForQA
                 }
                 else
                 {
-                    foreach (var tb in tbIllegalPathList)
+                    foreach (var tb in tbIllegalColonList)
                     {
                         int firstColon = tb.Text.IndexOf(':');
                         tb.Text = tb.Text.Replace(":", "");
