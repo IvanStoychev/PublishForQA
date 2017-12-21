@@ -251,14 +251,17 @@ namespace PublishForQA
         {
             //This list will hold all text boxes whose paths contain more than one colon character.
             List<TextBox> tbIllegalColonList = new List<TextBox>();
+            //This list will hold all text boxes whose paths contain more than one consecutive backslash character.
             List<TextBox> tbIllegalBackslashList = new List<TextBox>();
             //For each TextBox we check if the position of the last colon character is greater than 1.
             //If it is that means it is located further than where it should be for a drive letter
             //which in all likelyhood is wrong, so we add it to the list.
+            //Similarly we use a RegEx to check if a path has more than one backslash character. If it does
+            //we add it to the appropriate list.
             foreach (var tb in TextBoxesList)
             {
                 if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
-                if (Regex.IsMatch(tb.Text, "[\\]{2,}")) tbIllegalBackslashList.Add(tb);
+                if (Regex.IsMatch(tb.Text, @"[\\]{2,}")) tbIllegalBackslashList.Add(tb); *have to make it check from 3rd index forward
             }
 
             //If there are no text boxes with illegal paths we continue.
@@ -276,10 +279,7 @@ namespace PublishForQA
                 }
                 else
                 {
-                    int firstColon = tbIllegalColonList[0].Text.IndexOf(':');
-                    tbIllegalColonList[0].Text = tbIllegalColonList[0].Text.Replace(":", "");
-                    tbIllegalColonList[0].Text = tbIllegalColonList[0].Text.Insert(firstColon, ":");
-                    return true;
+                    FixColons(tbIllegalColonList);
                 }
             }
             else if (tbIllegalColonList.Count > 1)
@@ -297,10 +297,42 @@ namespace PublishForQA
                 }
                 else
                 {
-                    return FixColons(tbIllegalColonList) && FixBackslashes(tbIllegalBackslashList);
+                    FixColons(tbIllegalColonList);
                 }
             }
 
+            if (tbIllegalBackslashList.Count == 1)
+            {
+                DialogResult fixPath = MessageBox.Show("The path of " + NameReplace(tbIllegalBackslashList[0]) + " looks illegal as it contains too many consecutive '\\' characters.\nWould you like to fix that by replacing them with a single '\\' character?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (fixPath == DialogResult.Cancel)
+                {
+                    return false;
+                }
+                else if (fixPath == DialogResult.Yes)
+                {
+                    FixBackslashes(tbIllegalBackslashList);
+                }
+            }
+            else if (tbIllegalBackslashList.Count > 1)
+            {
+                StringBuilder stringBuilder = new StringBuilder("The following paths look illegal because they contain too many consecutive '\\' characters:" + Environment.NewLine + Environment.NewLine);
+                foreach (var tb in tbIllegalBackslashList)
+                {
+                    stringBuilder.AppendLine(NameReplace(tb));
+                }
+                stringBuilder.Append(Environment.NewLine + "Would you like to fix that by replacing them all with a single '\\' character?");
+                stringBuilder.AppendLine(Environment.NewLine + Environment.NewLine + "Operation will continue if either \"Yes\" or \"No\" are chosen.");
+                DialogResult fixPath = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (fixPath == DialogResult.Cancel)
+                {
+                    return false;
+                }
+                else if (fixPath == DialogResult.Yes)
+                {
+                    FixBackslashes(tbIllegalBackslashList);
+                }
+            }
+            
             return true;
         }
 
@@ -711,8 +743,7 @@ namespace PublishForQA
         /// characters, except the first one.
         /// </summary>
         /// <param name="list">A list of TextBoxes whose text properties should be fixed.</param>
-        /// <returns>"True" if the operation succeeded and "false" if an exception is thrown.</returns>
-        private bool FixColons(List<TextBox> list)
+        private void FixColons(List<TextBox> list)
         {
             try
             {
@@ -726,10 +757,8 @@ namespace PublishForQA
             catch (Exception ex)
             {
                 MessageBox.Show("An unexpected exception has occurred while trying to fix illegal colon characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
                 throw;
             }
-            return true;
         }
 
         /// <summary>
@@ -737,8 +766,7 @@ namespace PublishForQA
         /// than one consecutive backslash character with just a single backslash character.
         /// </summary>
         /// <param name="list">A list of TextBoxes whose text properties should be fixed.</param>
-        /// <returns>"True" if the operation succeeded and "false" if an exception is thrown.</returns>
-        private bool FixBackslashes(List<TextBox> list)
+        private void FixBackslashes(List<TextBox> list)
         {
             Regex regex = new Regex("[\\]{2,}");
             try
@@ -751,10 +779,8 @@ namespace PublishForQA
             catch (Exception ex)
             {
                 MessageBox.Show("An unexpected exception has occurred while trying to fix repeated backslash characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
                 throw;
             }
-            return true;
         }
     }
 }
