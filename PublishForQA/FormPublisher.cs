@@ -170,6 +170,7 @@ namespace PublishForQA
         /// </summary>
         private void ListTextBoxes()
         {
+            TextBoxesList.Clear();
             TextBoxesList.Add(tbECheckPath);
             TextBoxesList.Add(tbCorePath);
             TextBoxesList.Add(tbServicePath);
@@ -545,27 +546,10 @@ namespace PublishForQA
         /// </summary>
         private void CopyFilesAndDirectories()
         {
-            TextBoxesList.Remove(tbQAFolderPath);
-
-            //We create an array of strings which will be the targets of the copy operation.
-            //They consist of the user's pointed QA Folder and the name of each folder needed for QA.
-            string[] destinationPaths =
-                {
-                tbQAFolderPath.Text + tbTaskName.Text + "E-Check\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "E-CheckCore\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "E-CheckService\\"
-                };
-            //We set the sources, corresponding to the target paths, from the respective TextBoxes.
-            string[] sourcePaths =
-                {
-                tbECheckPath.Text,
-                tbCorePath.Text,
-                tbServicePath.Text
-                };
+            string destinationPath = tbQAFolderPath.Text + tbTaskName.Text;
 
             foreach (var tb in TextBoxesList)
             {
-                string destinationPath = tbQAFolderPath.Text + tbTaskName.Text;
                 switch (tb.Name)
                 {
                     case "tbECheckPath":
@@ -577,6 +561,8 @@ namespace PublishForQA
                     case "tbServicePath":
                         destinationPath += "E-CheckService\\";
                         break;
+                    case "tbQAFolderPath":
+                        continue;
                     default:
                         break;
                 }
