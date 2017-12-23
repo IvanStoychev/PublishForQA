@@ -186,6 +186,8 @@ namespace PublishForQA
                 return false;
             }
 
+            //Then we add all TextBoxes with an empty Text property to a list
+            //that will be used to display a warning and manipulate them further.
             List<TextBox> tbNoValueList = new List<TextBox>();
             foreach (var tb in TextBoxesList)
             {
@@ -230,10 +232,7 @@ namespace PublishForQA
                 }
                 else
                 {
-                    foreach (var tb in tbNoValueList)
-                    {
-                        TextBoxesList.Remove(tb);
-                    }
+                    TextBoxesList = TextBoxesList.Except(tbNoValueList).ToList();
                     return true;
                 }
             }
@@ -261,7 +260,7 @@ namespace PublishForQA
             foreach (var tb in TextBoxesList)
             {
                 if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
-                if (Regex.IsMatch(tb.Text, @"[\\]{2,}")) tbIllegalBackslashList.Add(tb); *have to make it check from 3rd index forward
+                if (Regex.IsMatch(tb.Text.Substring(1), @"[\\]{2,}")) tbIllegalBackslashList.Add(tb);
             }
 
             //If there are no text boxes with illegal paths we continue.
@@ -768,12 +767,12 @@ namespace PublishForQA
         /// <param name="list">A list of TextBoxes whose text properties should be fixed.</param>
         private void FixBackslashes(List<TextBox> list)
         {
-            Regex regex = new Regex("[\\]{2,}");
+            Regex regex = new Regex(@"[\\]{2,}");
             try
             {
                 foreach (var tb in list)
                 {
-                    regex.Replace(tb.Text, "\\");
+                    tb.Text = tb.Text.Substring(0,1) + regex.Replace(tb.Text.Substring(1), "\\");
                 }
             }
             catch (Exception ex)
