@@ -104,7 +104,7 @@
             this.btnQAFolderBrowse.Location = new System.Drawing.Point(317, 305);
             this.btnQAFolderBrowse.Name = "btnQAFolderBrowse";
             this.btnQAFolderBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnQAFolderBrowse.TabIndex = 2;
+            this.btnQAFolderBrowse.TabIndex = 8;
             this.btnQAFolderBrowse.Text = "Browse...";
             this.btnQAFolderBrowse.UseVisualStyleBackColor = true;
             this.btnQAFolderBrowse.Click += new System.EventHandler(this.Browse);
@@ -115,7 +115,7 @@
             this.btnServiceBrowse.Location = new System.Drawing.Point(317, 234);
             this.btnServiceBrowse.Name = "btnServiceBrowse";
             this.btnServiceBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnServiceBrowse.TabIndex = 2;
+            this.btnServiceBrowse.TabIndex = 6;
             this.btnServiceBrowse.Text = "Browse...";
             this.btnServiceBrowse.UseVisualStyleBackColor = true;
             this.btnServiceBrowse.Click += new System.EventHandler(this.Browse);
@@ -126,7 +126,7 @@
             this.btnCoreBrowse.Location = new System.Drawing.Point(317, 163);
             this.btnCoreBrowse.Name = "btnCoreBrowse";
             this.btnCoreBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnCoreBrowse.TabIndex = 2;
+            this.btnCoreBrowse.TabIndex = 4;
             this.btnCoreBrowse.Text = "Browse...";
             this.btnCoreBrowse.UseVisualStyleBackColor = true;
             this.btnCoreBrowse.Click += new System.EventHandler(this.Browse);
@@ -149,7 +149,7 @@
             this.btnPublish.Location = new System.Drawing.Point(152, 385);
             this.btnPublish.Name = "btnPublish";
             this.btnPublish.Size = new System.Drawing.Size(100, 37);
-            this.btnPublish.TabIndex = 3;
+            this.btnPublish.TabIndex = 10;
             this.btnPublish.Text = "Publish";
             this.btnPublish.UseVisualStyleBackColor = false;
             this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
@@ -178,7 +178,7 @@
             this.tbECheckPath.Multiline = true;
             this.tbECheckPath.Name = "tbECheckPath";
             this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
-            this.tbECheckPath.TabIndex = 20;
+            this.tbECheckPath.TabIndex = 1;
             this.tbECheckPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbECheckPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbECheckPath.Leave += new System.EventHandler(this.tb_Leave);
@@ -192,7 +192,7 @@
             this.tbCorePath.Multiline = true;
             this.tbCorePath.Name = "tbCorePath";
             this.tbCorePath.Size = new System.Drawing.Size(380, 32);
-            this.tbCorePath.TabIndex = 19;
+            this.tbCorePath.TabIndex = 3;
             this.tbCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbCorePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbCorePath.Leave += new System.EventHandler(this.tb_Leave);
@@ -206,7 +206,7 @@
             this.tbServicePath.Multiline = true;
             this.tbServicePath.Name = "tbServicePath";
             this.tbServicePath.Size = new System.Drawing.Size(380, 32);
-            this.tbServicePath.TabIndex = 18;
+            this.tbServicePath.TabIndex = 5;
             this.tbServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbServicePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbServicePath.Leave += new System.EventHandler(this.tb_Leave);
@@ -220,7 +220,7 @@
             this.tbQAFolderPath.Multiline = true;
             this.tbQAFolderPath.Name = "tbQAFolderPath";
             this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
-            this.tbQAFolderPath.TabIndex = 17;
+            this.tbQAFolderPath.TabIndex = 7;
             this.tbQAFolderPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbQAFolderPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbQAFolderPath.Leave += new System.EventHandler(this.tb_Leave);
@@ -232,7 +232,7 @@
             this.tbTaskName.Location = new System.Drawing.Point(27, 347);
             this.tbTaskName.Name = "tbTaskName";
             this.tbTaskName.Size = new System.Drawing.Size(350, 20);
-            this.tbTaskName.TabIndex = 16;
+            this.tbTaskName.TabIndex = 9;
             this.tbTaskName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbTaskName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbTaskName.Leave += new System.EventHandler(this.tb_Leave);
@@ -243,7 +243,7 @@
             this.btnLocate.Location = new System.Drawing.Point(296, 13);
             this.btnLocate.Name = "btnLocate";
             this.btnLocate.Size = new System.Drawing.Size(75, 23);
-            this.btnLocate.TabIndex = 10;
+            this.btnLocate.TabIndex = 11;
             this.btnLocate.Text = "Locate";
             this.btnLocate.UseVisualStyleBackColor = true;
             // 
