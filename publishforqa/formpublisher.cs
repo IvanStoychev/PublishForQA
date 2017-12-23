@@ -24,7 +24,8 @@ namespace PublishForQA
         public FormPublisher()
         {
             InitializeComponent();
-            
+            ListTextBoxes();
+
             if (File.Exists("PublishForQA.txt"))
             {
                 LoadFile("PublishForQA.txt");
@@ -361,10 +362,11 @@ namespace PublishForQA
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
             foreach (var tb in TextBoxesList)
             {
-                //We skip the check for the QA Folder TextBox.
-                if (tb == tbQAFolderPath) continue;
                 //For clarity and "just in case", we add a slash at the end of paths that don't have one.
                 if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
+                
+                //We skip the check for the QA Folder TextBox.
+                if (tb == tbQAFolderPath) continue;
 
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\"))
                 {
@@ -493,7 +495,7 @@ namespace PublishForQA
             }
             catch (InvalidOperationException IOex)
             {
-                MessageBox.Show("Invalid operation:\n" + IOex.Message, "Invalid Operation Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Invalid operation occured when checking for access rights:\n" + IOex.Message, "Invalid Operation Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (Exception ex)
@@ -543,13 +545,15 @@ namespace PublishForQA
         /// </summary>
         private void CopyFilesAndDirectories()
         {
+            TextBoxesList.Remove(tbQAFolderPath);
+
             //We create an array of strings which will be the targets of the copy operation.
             //They consist of the user's pointed QA Folder and the name of each folder needed for QA.
             string[] destinationPaths =
                 {
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-Check\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckCore\\",
-                tbQAFolderPath.Text + tbTaskName.Text + "\\E-CheckService\\"
+                tbQAFolderPath.Text + tbTaskName.Text + "E-Check\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "E-CheckCore\\",
+                tbQAFolderPath.Text + tbTaskName.Text + "E-CheckService\\"
                 };
             //We set the sources, corresponding to the target paths, from the respective TextBoxes.
             string[] sourcePaths =
@@ -559,41 +563,68 @@ namespace PublishForQA
                 tbServicePath.Text
                 };
 
-            for (int i = 0; i < 3; i++)
+            foreach (var tb in TextBoxesList)
             {
-                try
+                string destinationPath = tbQAFolderPath.Text + tbTaskName.Text;
+                switch (tb.Name)
                 {
-                    //First we create the directory structure.
-                    foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
-                        Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
+                    case "tbECheckPath":
+                        destinationPath += "E-Check\\";
+                        break;
+                    case "tbCorePath":
+                        destinationPath += "E-CheckCore\\";
+                        break;
+                    case "tbServicePath":
+                        destinationPath += "E-CheckService\\";
+                        break;
+                    default:
+                        break;
+                }
 
-                    //Then we copy all files, overwriting any existing ones.
-                    foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
-                        File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
-                }
-                //We previously already checked for network access but just in case something changes
-                //while the copy operation is in progress we try to catch a UnauthorizedAccessException again.
-                catch (UnauthorizedAccessException UAex)
-                {
-                    MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message + "\n\nCopy operation failed.", "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                catch (PathTooLongException)
-                {
-                    MessageBox.Show("The path \"" + destinationPaths[i] + "\" is too long.\nPaths must be less than 248 characters and file names must be less than 260 characters.\n\nCopy operation failed.", "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                catch (IOException IOex)
-                {
-                    MessageBox.Show("IO exception occurred:\n" + IOex.Message + "\n\nCopy operation failed.", "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Unexpected exception occured:\n" + ex.Message + "\n\nCopy operation failed.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw;
-                }
+                //First we create the directory structure.
+                foreach (string dirPath in Directory.GetDirectories(tb.Text, "*", SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(tb.Text, destinationPath));
+
+                //Then we copy all files, overwriting any existing ones.
+                foreach (string filePath in Directory.GetFiles(tb.Text, "*", SearchOption.AllDirectories))
+                    File.Copy(filePath, filePath.Replace(tb.Text, destinationPath), true);
             }
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    try
+            //    {
+            //        //First we create the directory structure.
+            //        foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
+            //            Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
+
+            //        //Then we copy all files, overwriting any existing ones.
+            //        foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
+            //            File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
+            //    }
+            //    //We previously already checked for network access but just in case something changes
+            //    //while the copy operation is in progress we try to catch a UnauthorizedAccessException again.
+            //    catch (UnauthorizedAccessException UAex)
+            //    {
+            //        MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message + "\n\nCopy operation failed.", "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        return;
+            //    }
+            //    catch (PathTooLongException)
+            //    {
+            //        MessageBox.Show("The path \"" + destinationPaths[i] + "\" is too long.\nPaths must be less than 248 characters and file names must be less than 260 characters.\n\nCopy operation failed.", "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        return;
+            //    }
+            //    catch (IOException IOex)
+            //    {
+            //        MessageBox.Show("IO exception occurred:\n" + IOex.Message + "\n\nCopy operation failed.", "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        return;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("Unexpected exception occured:\n" + ex.Message + "\n\nCopy operation failed.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        throw;
+            //    }
+            //}
 
             MessageBox.Show("Copy operation completed successfully!", "Operation finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
