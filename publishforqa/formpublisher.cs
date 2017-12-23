@@ -24,10 +24,7 @@ namespace PublishForQA
         public FormPublisher()
         {
             InitializeComponent();
-            TextBoxesList.Add(tbECheckPath);
-            TextBoxesList.Add(tbCorePath);
-            TextBoxesList.Add(tbServicePath);
-            TextBoxesList.Add(tbQAFolderPath);
+            
             if (File.Exists("PublishForQA.txt"))
             {
                 LoadFile("PublishForQA.txt");
@@ -83,6 +80,7 @@ namespace PublishForQA
 
             //Subsequent checks before beginning the copy operation.
             //Ordered in this way for readability.
+            ListTextBoxes();
             if (NotEmpty())
                 if (PathsAreLegal())
                     if (HasBinDebug())
@@ -164,6 +162,18 @@ namespace PublishForQA
             System.Threading.Tasks.Task.Delay(3000).ContinueWith(t => errorProvider.Dispose());
         }
         #endregion
+
+        /// <summary>
+        /// Hardcodes all TextBoxes into a List<TextBox> for ease
+        /// of operation later.
+        /// </summary>
+        private void ListTextBoxes()
+        {
+            TextBoxesList.Add(tbECheckPath);
+            TextBoxesList.Add(tbCorePath);
+            TextBoxesList.Add(tbServicePath);
+            TextBoxesList.Add(tbQAFolderPath);
+        }
 
         /// <summary>
         /// Checks if any TextBox's value is empty and asks the user if he would
