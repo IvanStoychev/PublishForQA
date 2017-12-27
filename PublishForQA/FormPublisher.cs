@@ -493,11 +493,11 @@ namespace PublishForQA
                     //does not have access to view the permissions.
                     Directory.GetAccessControl(tb.Text);
                 }
-                catch (UnauthorizedAccessException UAex)
+                catch (UnauthorizedAccessException)
                 {
                     unauthorizedAccessExceptionList.Add(tb);
                 }
-                catch (InvalidOperationException IOex)
+                catch (InvalidOperationException)
                 {
                     invalidOperationExceptionList.Add(tb);
                 }
