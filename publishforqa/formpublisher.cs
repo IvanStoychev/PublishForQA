@@ -86,7 +86,7 @@ namespace PublishForQA
                 if (PathsAreLegal())
                     if (HasBinDebug())
                         if (DirectoriesExist())
-                            if(HasNetworkAccess())
+                            if (HasNetworkAccess())
                                 CopyFilesAndDirectories();
 
             CursorChange();
@@ -482,28 +482,73 @@ namespace PublishForQA
         /// </returns>
         private bool HasNetworkAccess()
         {
-            try
+            List<TextBox> unauthorizedAccessExceptionList = new List<TextBox>();
+            List<TextBox> invalidOperationExceptionList = new List<TextBox>();
+
+            foreach (var tb in TextBoxesList)
             {
-                //This will raise an exception if the path is read only or the user
-                //does not have access to view the permissions.
-                Directory.GetAccessControl(tbQAFolderPath.Text);
+                try
+                {
+                    //This will raise an exception if the path is read only or the user
+                    //does not have access to view the permissions.
+                    Directory.GetAccessControl(tb.Text);
+                }
+                catch (UnauthorizedAccessException UAex)
+                {
+                    unauthorizedAccessExceptionList.Add(tb);
+                }
+                catch (InvalidOperationException IOex)
+                {
+                    invalidOperationExceptionList.Add(tb);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unexpected exception occured when checking for access rights in" + tb.Text + ":\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw;
+                }
+            }
+
+            if (unauthorizedAccessExceptionList.Count < 1 && invalidOperationExceptionList.Count < 1)
+            {
                 return true;
             }
-            catch (UnauthorizedAccessException UAex)
+            else
             {
-                MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message, "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                StringBuilder errorMessage = new StringBuilder("There were network errors:" + Environment.NewLine + "----------------------------" + Environment.NewLine);
+
+                if (unauthorizedAccessExceptionList.Count == 1)
+                {
+                    errorMessage.AppendLine("You are not authorized to access the folder for " + NameReplace(unauthorizedAccessExceptionList[0]) + Environment.NewLine);
+                }
+                else if (unauthorizedAccessExceptionList.Count > 1)
+                {
+                    errorMessage.AppendLine("You are not authorized to access the folders for:" + Environment.NewLine);
+                    foreach (var tb in unauthorizedAccessExceptionList)
+                    {
+                        errorMessage.AppendLine(NameReplace(tb));
+                    }
+                    errorMessage.AppendLine();
+                }
+
+                if (invalidOperationExceptionList.Count == 1)
+                {
+
+                    errorMessage.AppendLine("Invalid operation occured when checking for access rights for " + NameReplace(invalidOperationExceptionList[0]));
+                }
+                else if (invalidOperationExceptionList.Count > 1)
+                {
+                    errorMessage.AppendLine("Invalid operation occured when checking for access rights for:" + Environment.NewLine);
+                    foreach (var tb in invalidOperationExceptionList)
+                    {
+                        errorMessage.AppendLine(NameReplace(tb));
+                    }
+                    errorMessage.AppendLine();
+                }
+
+                MessageBox.Show(errorMessage.ToString(), "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            catch (InvalidOperationException IOex)
-            {
-                MessageBox.Show("Invalid operation occured when checking for access rights:\n" + IOex.Message, "Invalid Operation Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Unexpected exception occured when checking for access rights in QA Folder:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
+
         }
 
         /// <summary>
