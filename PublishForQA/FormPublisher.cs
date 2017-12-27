@@ -546,12 +546,12 @@ namespace PublishForQA
         /// </summary>
         private void CopyFilesAndDirectories()
         {
-            //If there is a task name provided we add a backslash, otherwise the QA Folder path's
-            //last backslash will suffice.
-            string destinationPath = tbQAFolderPath.Text + ((tbTaskName.Text.Length > 0) ? tbTaskName.Text + "\\" : string.Empty);
-
             foreach (var tb in TextBoxesList)
             {
+                //If there is a task name provided we add a backslash, otherwise the QA Folder path's
+                //last backslash will suffice.
+                string destinationPath = tbQAFolderPath.Text + ((tbTaskName.Text.Length > 0) ? tbTaskName.Text + "\\" : string.Empty);
+
                 switch (tb.Name)
                 {
                     case "tbECheckPath":
