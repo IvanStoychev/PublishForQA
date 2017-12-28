@@ -52,17 +52,24 @@
             this.pbLoad = new System.Windows.Forms.PictureBox();
             this.pbSave = new System.Windows.Forms.PictureBox();
             this.pbHelp = new System.Windows.Forms.PictureBox();
+            this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.pTop = new System.Windows.Forms.Panel();
+            this.pBottom = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pbCopyToClipboard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
+            this.tlpMain.SuspendLayout();
+            this.pTop.SuspendLayout();
+            this.pBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblECheck
             // 
-            this.lblECheck.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblECheck.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblECheck.AutoSize = true;
-            this.lblECheck.Location = new System.Drawing.Point(12, 40);
+            this.lblECheck.Location = new System.Drawing.Point(3, 41);
+            this.lblECheck.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lblECheck.Name = "lblECheck";
             this.lblECheck.Size = new System.Drawing.Size(118, 13);
             this.lblECheck.TabIndex = 0;
@@ -70,9 +77,10 @@
             // 
             // lblCore
             // 
-            this.lblCore.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblCore.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblCore.AutoSize = true;
-            this.lblCore.Location = new System.Drawing.Point(12, 111);
+            this.lblCore.Location = new System.Drawing.Point(3, 118);
+            this.lblCore.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lblCore.Name = "lblCore";
             this.lblCore.Size = new System.Drawing.Size(143, 13);
             this.lblCore.TabIndex = 0;
@@ -80,9 +88,10 @@
             // 
             // lblService
             // 
-            this.lblService.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblService.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblService.AutoSize = true;
-            this.lblService.Location = new System.Drawing.Point(12, 182);
+            this.lblService.Location = new System.Drawing.Point(3, 195);
+            this.lblService.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lblService.Name = "lblService";
             this.lblService.Size = new System.Drawing.Size(157, 13);
             this.lblService.TabIndex = 0;
@@ -90,9 +99,10 @@
             // 
             // lblQAFolder
             // 
-            this.lblQAFolder.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblQAFolder.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblQAFolder.AutoSize = true;
-            this.lblQAFolder.Location = new System.Drawing.Point(12, 253);
+            this.lblQAFolder.Location = new System.Drawing.Point(3, 272);
+            this.lblQAFolder.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lblQAFolder.Name = "lblQAFolder";
             this.lblQAFolder.Size = new System.Drawing.Size(82, 13);
             this.lblQAFolder.TabIndex = 0;
@@ -101,7 +111,8 @@
             // btnQAFolderBrowse
             // 
             this.btnQAFolderBrowse.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnQAFolderBrowse.Location = new System.Drawing.Point(317, 305);
+            this.btnQAFolderBrowse.Location = new System.Drawing.Point(326, 324);
+            this.btnQAFolderBrowse.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.btnQAFolderBrowse.Name = "btnQAFolderBrowse";
             this.btnQAFolderBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnQAFolderBrowse.TabIndex = 8;
@@ -112,7 +123,8 @@
             // btnServiceBrowse
             // 
             this.btnServiceBrowse.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnServiceBrowse.Location = new System.Drawing.Point(317, 234);
+            this.btnServiceBrowse.Location = new System.Drawing.Point(326, 247);
+            this.btnServiceBrowse.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.btnServiceBrowse.Name = "btnServiceBrowse";
             this.btnServiceBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnServiceBrowse.TabIndex = 6;
@@ -123,7 +135,8 @@
             // btnCoreBrowse
             // 
             this.btnCoreBrowse.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnCoreBrowse.Location = new System.Drawing.Point(317, 163);
+            this.btnCoreBrowse.Location = new System.Drawing.Point(326, 170);
+            this.btnCoreBrowse.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.btnCoreBrowse.Name = "btnCoreBrowse";
             this.btnCoreBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnCoreBrowse.TabIndex = 4;
@@ -134,7 +147,8 @@
             // btnECheckBrowse
             // 
             this.btnECheckBrowse.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnECheckBrowse.Location = new System.Drawing.Point(317, 92);
+            this.btnECheckBrowse.Location = new System.Drawing.Point(326, 93);
+            this.btnECheckBrowse.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.btnECheckBrowse.Name = "btnECheckBrowse";
             this.btnECheckBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnECheckBrowse.TabIndex = 2;
@@ -144,9 +158,11 @@
             // 
             // btnPublish
             // 
-            this.btnPublish.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnPublish.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPublish.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnPublish.Location = new System.Drawing.Point(152, 385);
+            this.btnPublish.Location = new System.Drawing.Point(150, 1);
+            this.btnPublish.Margin = new System.Windows.Forms.Padding(0);
             this.btnPublish.Name = "btnPublish";
             this.btnPublish.Size = new System.Drawing.Size(100, 37);
             this.btnPublish.TabIndex = 10;
@@ -156,12 +172,13 @@
             // 
             // lblTaskName
             // 
-            this.lblTaskName.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblTaskName.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblTaskName.AutoSize = true;
-            this.lblTaskName.Location = new System.Drawing.Point(173, 328);
+            this.lblTaskName.Location = new System.Drawing.Point(169, 348);
+            this.lblTaskName.Margin = new System.Windows.Forms.Padding(0);
             this.lblTaskName.Name = "lblTaskName";
             this.lblTaskName.Size = new System.Drawing.Size(65, 13);
-            this.lblTaskName.TabIndex = 13;
+            this.lblTaskName.TabIndex = 0;
             this.lblTaskName.Text = "Task Name:";
             // 
             // openFileDialog
@@ -172,12 +189,13 @@
             // tbECheckPath
             // 
             this.tbECheckPath.AllowDrop = true;
-            this.tbECheckPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tbECheckPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbECheckPath.Location = new System.Drawing.Point(12, 58);
+            this.tbECheckPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbECheckPath.Location = new System.Drawing.Point(3, 55);
+            this.tbECheckPath.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tbECheckPath.Multiline = true;
             this.tbECheckPath.Name = "tbECheckPath";
-            this.tbECheckPath.Size = new System.Drawing.Size(380, 32);
+            this.tbECheckPath.Size = new System.Drawing.Size(398, 37);
             this.tbECheckPath.TabIndex = 1;
             this.tbECheckPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbECheckPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
@@ -186,12 +204,13 @@
             // tbCorePath
             // 
             this.tbCorePath.AllowDrop = true;
-            this.tbCorePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tbCorePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbCorePath.Location = new System.Drawing.Point(12, 129);
+            this.tbCorePath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbCorePath.Location = new System.Drawing.Point(3, 132);
+            this.tbCorePath.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tbCorePath.Multiline = true;
             this.tbCorePath.Name = "tbCorePath";
-            this.tbCorePath.Size = new System.Drawing.Size(380, 32);
+            this.tbCorePath.Size = new System.Drawing.Size(398, 37);
             this.tbCorePath.TabIndex = 3;
             this.tbCorePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbCorePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
@@ -200,12 +219,13 @@
             // tbServicePath
             // 
             this.tbServicePath.AllowDrop = true;
-            this.tbServicePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tbServicePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbServicePath.Location = new System.Drawing.Point(12, 200);
+            this.tbServicePath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbServicePath.Location = new System.Drawing.Point(3, 209);
+            this.tbServicePath.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tbServicePath.Multiline = true;
             this.tbServicePath.Name = "tbServicePath";
-            this.tbServicePath.Size = new System.Drawing.Size(380, 32);
+            this.tbServicePath.Size = new System.Drawing.Size(398, 37);
             this.tbServicePath.TabIndex = 5;
             this.tbServicePath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbServicePath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
@@ -214,12 +234,13 @@
             // tbQAFolderPath
             // 
             this.tbQAFolderPath.AllowDrop = true;
-            this.tbQAFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tbQAFolderPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbQAFolderPath.Location = new System.Drawing.Point(12, 271);
+            this.tbQAFolderPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbQAFolderPath.Location = new System.Drawing.Point(3, 286);
+            this.tbQAFolderPath.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tbQAFolderPath.Multiline = true;
             this.tbQAFolderPath.Name = "tbQAFolderPath";
-            this.tbQAFolderPath.Size = new System.Drawing.Size(380, 32);
+            this.tbQAFolderPath.Size = new System.Drawing.Size(398, 37);
             this.tbQAFolderPath.TabIndex = 7;
             this.tbQAFolderPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbQAFolderPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
@@ -229,9 +250,10 @@
             // 
             this.tbTaskName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tbTaskName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbTaskName.Location = new System.Drawing.Point(27, 347);
+            this.tbTaskName.Location = new System.Drawing.Point(3, 363);
+            this.tbTaskName.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tbTaskName.Name = "tbTaskName";
-            this.tbTaskName.Size = new System.Drawing.Size(350, 20);
+            this.tbTaskName.Size = new System.Drawing.Size(398, 20);
             this.tbTaskName.TabIndex = 9;
             this.tbTaskName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             this.tbTaskName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
@@ -240,7 +262,8 @@
             // btnLocate
             // 
             this.btnLocate.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnLocate.Location = new System.Drawing.Point(296, 13);
+            this.btnLocate.Location = new System.Drawing.Point(320, 10);
+            this.btnLocate.Margin = new System.Windows.Forms.Padding(0);
             this.btnLocate.Name = "btnLocate";
             this.btnLocate.Size = new System.Drawing.Size(75, 23);
             this.btnLocate.TabIndex = 11;
@@ -249,8 +272,10 @@
             // 
             // pbCopyToClipboard
             // 
+            this.pbCopyToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pbCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("pbCopyToClipboard.Image")));
-            this.pbCopyToClipboard.Location = new System.Drawing.Point(270, 387);
+            this.pbCopyToClipboard.Location = new System.Drawing.Point(260, 3);
+            this.pbCopyToClipboard.Margin = new System.Windows.Forms.Padding(0);
             this.pbCopyToClipboard.Name = "pbCopyToClipboard";
             this.pbCopyToClipboard.Size = new System.Drawing.Size(27, 32);
             this.pbCopyToClipboard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -262,7 +287,8 @@
             // 
             this.pbLoad.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.pbLoad.Image = global::PublishForQA.Properties.Resources.Load;
-            this.pbLoad.Location = new System.Drawing.Point(266, 12);
+            this.pbLoad.Location = new System.Drawing.Point(288, 9);
+            this.pbLoad.Margin = new System.Windows.Forms.Padding(0);
             this.pbLoad.Name = "pbLoad";
             this.pbLoad.Size = new System.Drawing.Size(25, 25);
             this.pbLoad.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -274,7 +300,8 @@
             // 
             this.pbSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.pbSave.Image = global::PublishForQA.Properties.Resources.Save;
-            this.pbSave.Location = new System.Drawing.Point(234, 12);
+            this.pbSave.Location = new System.Drawing.Point(258, 9);
+            this.pbSave.Margin = new System.Windows.Forms.Padding(0);
             this.pbSave.Name = "pbSave";
             this.pbSave.Size = new System.Drawing.Size(25, 25);
             this.pbSave.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -285,7 +312,8 @@
             // pbHelp
             // 
             this.pbHelp.Image = global::PublishForQA.Properties.Resources.icon_help_circled_128;
-            this.pbHelp.Location = new System.Drawing.Point(1, 1);
+            this.pbHelp.Location = new System.Drawing.Point(0, 0);
+            this.pbHelp.Margin = new System.Windows.Forms.Padding(0);
             this.pbHelp.Name = "pbHelp";
             this.pbHelp.Size = new System.Drawing.Size(18, 18);
             this.pbHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -293,31 +321,79 @@
             this.pbHelp.TabStop = false;
             this.pbHelp.Click += new System.EventHandler(this.pbHelp_Click);
             // 
+            // tlpMain
+            // 
+            this.tlpMain.ColumnCount = 1;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.Controls.Add(this.pTop, 0, 0);
+            this.tlpMain.Controls.Add(this.lblECheck, 0, 1);
+            this.tlpMain.Controls.Add(this.tbTaskName, 0, 14);
+            this.tlpMain.Controls.Add(this.tbQAFolderPath, 0, 11);
+            this.tlpMain.Controls.Add(this.lblTaskName, 0, 13);
+            this.tlpMain.Controls.Add(this.tbServicePath, 0, 8);
+            this.tlpMain.Controls.Add(this.tbCorePath, 0, 5);
+            this.tlpMain.Controls.Add(this.btnQAFolderBrowse, 0, 12);
+            this.tlpMain.Controls.Add(this.tbECheckPath, 0, 2);
+            this.tlpMain.Controls.Add(this.btnECheckBrowse, 0, 3);
+            this.tlpMain.Controls.Add(this.btnServiceBrowse, 0, 9);
+            this.tlpMain.Controls.Add(this.lblQAFolder, 0, 10);
+            this.tlpMain.Controls.Add(this.lblCore, 0, 4);
+            this.tlpMain.Controls.Add(this.btnCoreBrowse, 0, 6);
+            this.tlpMain.Controls.Add(this.lblService, 0, 7);
+            this.tlpMain.Controls.Add(this.pBottom, 0, 15);
+            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpMain.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tlpMain.Location = new System.Drawing.Point(0, 0);
+            this.tlpMain.Name = "tlpMain";
+            this.tlpMain.RowCount = 16;
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tlpMain.Size = new System.Drawing.Size(404, 433);
+            this.tlpMain.TabIndex = 0;
+            // 
+            // pTop
+            // 
+            this.pTop.Controls.Add(this.pbHelp);
+            this.pTop.Controls.Add(this.pbSave);
+            this.pTop.Controls.Add(this.pbLoad);
+            this.pTop.Controls.Add(this.btnLocate);
+            this.pTop.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pTop.Location = new System.Drawing.Point(0, 0);
+            this.pTop.Margin = new System.Windows.Forms.Padding(0);
+            this.pTop.Name = "pTop";
+            this.pTop.Size = new System.Drawing.Size(404, 40);
+            this.pTop.TabIndex = 0;
+            // 
+            // pBottom
+            // 
+            this.pBottom.Controls.Add(this.btnPublish);
+            this.pBottom.Controls.Add(this.pbCopyToClipboard);
+            this.pBottom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pBottom.Location = new System.Drawing.Point(3, 386);
+            this.pBottom.Name = "pBottom";
+            this.pBottom.Size = new System.Drawing.Size(398, 44);
+            this.pBottom.TabIndex = 14;
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 433);
-            this.Controls.Add(this.pbCopyToClipboard);
-            this.Controls.Add(this.tbECheckPath);
-            this.Controls.Add(this.tbCorePath);
-            this.Controls.Add(this.tbServicePath);
-            this.Controls.Add(this.tbQAFolderPath);
-            this.Controls.Add(this.tbTaskName);
-            this.Controls.Add(this.pbLoad);
-            this.Controls.Add(this.pbSave);
-            this.Controls.Add(this.pbHelp);
-            this.Controls.Add(this.lblTaskName);
-            this.Controls.Add(this.btnLocate);
-            this.Controls.Add(this.btnPublish);
-            this.Controls.Add(this.btnECheckBrowse);
-            this.Controls.Add(this.btnCoreBrowse);
-            this.Controls.Add(this.btnServiceBrowse);
-            this.Controls.Add(this.btnQAFolderBrowse);
-            this.Controls.Add(this.lblQAFolder);
-            this.Controls.Add(this.lblService);
-            this.Controls.Add(this.lblCore);
-            this.Controls.Add(this.lblECheck);
+            this.Controls.Add(this.tlpMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPublisher";
             this.Text = "Publisher Alpha v1.0";
@@ -325,8 +401,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
+            this.tlpMain.ResumeLayout(false);
+            this.tlpMain.PerformLayout();
+            this.pTop.ResumeLayout(false);
+            this.pBottom.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -354,6 +433,9 @@
         private TextBoxFormPublisher tbCorePath;
         private TextBoxFormPublisher tbECheckPath;
         private System.Windows.Forms.PictureBox pbCopyToClipboard;
+        private System.Windows.Forms.TableLayoutPanel tlpMain;
+        private System.Windows.Forms.Panel pTop;
+        private System.Windows.Forms.Panel pBottom;
     }
 }
 

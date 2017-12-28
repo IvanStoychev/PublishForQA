@@ -127,7 +127,7 @@
   <data name="pbCopyToClipboard.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAG0AAACACAYAAAABIucKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsAAAA7AAWrWiQkAADoWSURBVHhe7Z0HVFVnuv7/697p6X1mMjN30k2MURPTM6ZM
+        YQUAAAAJcEhZcwAADr8AAA6/ATgFUyQAADoWSURBVHhe7Z0HVFVnuv7/697p6X1mMjN30k2MURPTM6ZM
         ep1JUWOiRqOxV1TsioJUC6BUadJExIKCYq8XEUVRFAsWekfpYnv+z/vtvU+Bo0HFoHfNXuu3jqJwztk/
         nvd7v332/vb/w0221dTU4Mjhw1idsAqhwQtajJCgQESGL8T2bVuRn5eHS5cu6c946203lbT0fXvRp+f3
         +PvDf8Tf/vTgDaNdmycxx8MdxUVF+jPfWttNI2136i506tAOf/3jA3jovrtx3x1/wD23/05x7+2/t+aO
@@ -378,6 +378,9 @@
         I+2W3P4j7Rbc/iPtltuA/w+QqlBZKXDKTwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>47</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAGBgAAAEAIACICQAAFgAAACgAAAAYAAAAMAAAAAEAIAAAAAAAAAkAAMMOAADDDgAAAAAAAAAA
