@@ -63,7 +63,7 @@ namespace PublishForQA
             if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
         }
 
-        //This event is only used to emulate "Control + A" select all text behaviour
+        //This event is only used to emulate "Control + A" select all text behaviour.
         private void tb_KeyDown(object sender, KeyEventArgs e)
         {
             TextBox tb = (TextBox)sender;
