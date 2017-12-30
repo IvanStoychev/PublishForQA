@@ -153,7 +153,7 @@ namespace PublishForQA
         private void pbLoadDropdown_Click(object sender, EventArgs e)
         {
             PictureBox owner = sender as PictureBox;
-            List<string> saveFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).Select(Path.GetFileName).ToList();
+            List<string> saveFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).Select(Path.GetFileName).Take(10).ToList();
             ContextMenuStrip dropDown = new ContextMenuStrip();
             foreach (var file in saveFiles)
             {
