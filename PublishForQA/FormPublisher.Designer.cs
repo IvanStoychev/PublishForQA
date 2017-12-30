@@ -54,13 +54,16 @@
             this.pbHelp = new System.Windows.Forms.PictureBox();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.pTop = new System.Windows.Forms.Panel();
+            this.pbLoadDropdown = new System.Windows.Forms.PictureBox();
             this.pBottom = new System.Windows.Forms.Panel();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pbCopyToClipboard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             this.tlpMain.SuspendLayout();
             this.pTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadDropdown)).BeginInit();
             this.pBottom.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -286,8 +289,9 @@
             // pbLoad
             // 
             this.pbLoad.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pbLoad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbLoad.Image = global::PublishForQA.Properties.Resources.Load;
-            this.pbLoad.Location = new System.Drawing.Point(288, 9);
+            this.pbLoad.Location = new System.Drawing.Point(276, 9);
             this.pbLoad.Margin = new System.Windows.Forms.Padding(0);
             this.pbLoad.Name = "pbLoad";
             this.pbLoad.Size = new System.Drawing.Size(25, 25);
@@ -299,8 +303,9 @@
             // pbSave
             // 
             this.pbSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pbSave.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbSave.Image = global::PublishForQA.Properties.Resources.Save;
-            this.pbSave.Location = new System.Drawing.Point(258, 9);
+            this.pbSave.Location = new System.Drawing.Point(243, 9);
             this.pbSave.Margin = new System.Windows.Forms.Padding(0);
             this.pbSave.Name = "pbSave";
             this.pbSave.Size = new System.Drawing.Size(25, 25);
@@ -368,6 +373,7 @@
             // pTop
             // 
             this.pTop.Controls.Add(this.pbHelp);
+            this.pTop.Controls.Add(this.pbLoadDropdown);
             this.pTop.Controls.Add(this.pbSave);
             this.pTop.Controls.Add(this.pbLoad);
             this.pTop.Controls.Add(this.btnLocate);
@@ -378,6 +384,20 @@
             this.pTop.Size = new System.Drawing.Size(404, 40);
             this.pTop.TabIndex = 0;
             // 
+            // pbLoadDropdown
+            // 
+            this.pbLoadDropdown.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pbLoadDropdown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbLoadDropdown.Image = global::PublishForQA.Properties.Resources.ArrowDown;
+            this.pbLoadDropdown.Location = new System.Drawing.Point(300, 9);
+            this.pbLoadDropdown.Margin = new System.Windows.Forms.Padding(0);
+            this.pbLoadDropdown.Name = "pbLoadDropdown";
+            this.pbLoadDropdown.Size = new System.Drawing.Size(13, 25);
+            this.pbLoadDropdown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbLoadDropdown.TabIndex = 15;
+            this.pbLoadDropdown.TabStop = false;
+            this.pbLoadDropdown.Click += new System.EventHandler(this.pbLoadDropdown_Click);
+            // 
             // pBottom
             // 
             this.pBottom.Controls.Add(this.btnPublish);
@@ -387,6 +407,10 @@
             this.pBottom.Name = "pBottom";
             this.pBottom.Size = new System.Drawing.Size(398, 44);
             this.pBottom.TabIndex = 14;
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Text files|*.txt";
             // 
             // FormPublisher
             // 
@@ -404,6 +428,7 @@
             this.tlpMain.ResumeLayout(false);
             this.tlpMain.PerformLayout();
             this.pTop.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadDropdown)).EndInit();
             this.pBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -436,6 +461,8 @@
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.Panel pTop;
         private System.Windows.Forms.Panel pBottom;
+        private System.Windows.Forms.PictureBox pbLoadDropdown;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 

@@ -25,10 +25,11 @@ namespace PublishForQA
         {
             InitializeComponent();
             ListTextBoxes();
-
-            if (File.Exists("PublishForQA.txt"))
+            
+            List<string> txtFilesInDir = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).ToList();
+            if (txtFilesInDir.Count == 1)
             {
-                LoadFile("PublishForQA.txt");
+                LoadFile(txtFilesInDir.First());
             }
         }
 
@@ -89,6 +90,7 @@ namespace PublishForQA
                             if (HasNetworkAccess())
                                 CopyFilesAndDirectories();
 
+            ListTextBoxes();
             CursorChange();
         }
 
@@ -111,19 +113,32 @@ namespace PublishForQA
 
         private void pbSave_Click(object sender, EventArgs e)
         {
-            try
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                File.Delete("PublishForQA.txt");
-            }
-            catch (IOException)
-            {
-                MessageBox.Show("The save file is locked by another process.\nSaving failed.", "Save failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            foreach (TextBox tb in TextBoxesList)
-            {
-                File.AppendAllText("PublishForQA.txt", tb.Name + Separator + " " + tb.Text + Environment.NewLine);
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        foreach (TextBox tb in TextBoxesList)
+                        {
+                            sw.WriteLine(tb.Name + Separator + " " + tb.Text);
+                        }
+                    }
+                }
+                catch (ArgumentNullException)
+                {
+                    MessageBox.Show("The name provided for the file was null." + Environment.NewLine + "Save operation failed.", "Null argument exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("The file is locked by another process." + Environment.NewLine + "Save operation failed.", "IO exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An unexpected exception has occurred:\n" + ex.Message + "\n\nSave operation failed.", "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw;
+                }
             }
         }
 
@@ -133,6 +148,23 @@ namespace PublishForQA
             {
                 LoadFile(openFileDialog.FileName);
             }
+        }
+
+        private void pbLoadDropdown_Click(object sender, EventArgs e)
+        {
+            PictureBox owner = sender as PictureBox;
+            List<string> saveFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).Select(Path.GetFileName).ToList();
+            ContextMenuStrip dropDown = new ContextMenuStrip();
+            foreach (var file in saveFiles)
+            {
+                dropDown.Items.Add(file.Replace(".txt", string.Empty), null, ContextMenuStrip_Click);
+            }
+            dropDown.Show(owner, new System.Drawing.Point(0, owner.Height));
+        }
+
+        private void ContextMenuStrip_Click(object sender, EventArgs e)
+        {
+            LoadFile(Path.Combine(Directory.GetCurrentDirectory(), sender.ToString() + ".txt"));
         }
 
         private void pbCopyToClipboard_Click(object sender, EventArgs e)
@@ -197,7 +229,7 @@ namespace PublishForQA
                 MessageBox.Show("No value provided for your QA folder.\nIt is mandatory, operation cannot continue.", "No QA Folder entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
+            
             //Then we add all TextBoxes with an empty Text property to a list
             //that will be used to display a warning and manipulate them further.
             List<TextBox> tbNoValueList = new List<TextBox>();
@@ -421,7 +453,7 @@ namespace PublishForQA
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
             foreach (var tb in TextBoxesList)
             {
-                if (!Directory.Exists(tb.Text) || tb.Text == "")
+                if (!Directory.Exists(tb.Text))
                 {
                     tbDoesNotExistList.Add(tb);
                 }
@@ -448,7 +480,7 @@ namespace PublishForQA
                     {
                         return false;
                     }
-                    else //User chose to not create the direcotry.
+                    else //User chose not to create the direcotry.
                     {
                         return true;
                     }
@@ -467,6 +499,7 @@ namespace PublishForQA
                     stringBuilder.AppendLine(NameReplace(txtb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
+                if (tbDoesNotExistList.Contains(tbQAFolderPath)) stringBuilder.AppendLine(Environment.NewLine + "The QA Folder can be automatically created but the other paths need to be corrected first.");
                 MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -730,7 +763,7 @@ namespace PublishForQA
             //Lastly if the user clicked "OK" we set the TextBox text to be the selected path and add
             //a backslash to its end (by use of shorthand "if... then... else" statement) if it already doesn't have one.
             Control control = sender as Control;
-            TextBox textBox = this.Controls.Find(control.Name.Replace("btn", "tb").Replace("Browse", "Path"), false).OfType<TextBox>().FirstOrDefault();
+            TextBox textBox = tlpMain.Controls.Find(control.Name.Replace("btn", "tb").Replace("Browse", "Path"), false).OfType<TextBox>().FirstOrDefault();
             folderBrowserDialog.SelectedPath = textBox.Text;
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK) textBox.Text = folderBrowserDialog.SelectedPath.EndsWith("\\") ? folderBrowserDialog.SelectedPath : folderBrowserDialog.SelectedPath + "\\";
         }
@@ -739,48 +772,62 @@ namespace PublishForQA
         /// Reads the given file line by line and attempts to retrieve the values for all TextBoxes.
         /// It will display a MessageBox with all TextBoxes for which it could not find a value.
         /// </summary>
-        /// <param name="filePath">The path to the save file.</param>
+        /// <param name="filePath">The full path to the save file.</param>
         private void LoadFile(string filePath)
         {
             //We will use this list to tell if a value for a TextBox was missing in the save file.
             List<TextBox> notFoundBoxes = new List<TextBox>();
             notFoundBoxes.AddRange(TextBoxesList);
             string line;
-            using (StreamReader file = new StreamReader(filePath))
+            try
             {
-                while ((line = file.ReadLine()) != null)
+                using (StreamReader file = new StreamReader(filePath))
                 {
-                    try
+                    while ((line = file.ReadLine()) != null)
                     {
-                        //We get the substring from the beginning of the line to the first occurance of our separator. That
-                        //should be the name of one of our TextBoxes. If we can match the substring to a TextBox that means
-                        //we have a value for it and we take it out of the list "notFoundBoxes". Thus in the end we have a
-                        //list of only the TextBoxes we couldn't find a value for.
-                        TextBox tb = this.Controls.Find(line.Substring(0, line.IndexOf(Separator)), false).OfType<TextBox>().FirstOrDefault();
-                        if (tb == null) continue;
-                        tb.Text = line.Substring(line.IndexOf(Separator) + 2);
-                        notFoundBoxes.Remove(tb);
+                        try
+                        {
+                            //We get the substring from the beginning of the line to the first occurance of our separator. That
+                            //should be the name of one of our TextBoxes. If we can match the substring to a TextBox that means
+                            //we have a value for it and we take it out of the list "notFoundBoxes".
+                            //Thus in the end we have a list of only the TextBoxes we couldn't find a value for.
+                            TextBox tb = tlpMain.Controls.Find(line.Substring(0, line.IndexOf(Separator)), false).OfType<TextBox>().FirstOrDefault();
+                            if (tb == null) continue;
+                            tb.Text = line.Substring(line.IndexOf(Separator) + 2);
+                            notFoundBoxes.Remove(tb);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("An unexpected exception has occurred while reading the save file:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            throw;
+                        }
                     }
-                    catch (Exception ex)
+
+                    //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
+                    if (notFoundBoxes.Count == 1)
                     {
-                        MessageBox.Show("An unexpected exception has occurred while reading the save file:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw;
+                        MessageBox.Show("The path for " + NameReplace(notFoundBoxes[0]) + " could not be found in the file.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else if (notFoundBoxes.Count > 1)
+                    {
+                        StringBuilder stringBuilder = new StringBuilder("The paths for the following TextBoxes:" + Environment.NewLine + Environment.NewLine);
+                        foreach (var tb in notFoundBoxes)
+                        {
+                            stringBuilder.AppendLine(NameReplace(tb));
+                        }
+                        stringBuilder.Append(Environment.NewLine + "could not be found in the save file.");
+                        MessageBox.Show(stringBuilder.ToString(), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-                if (notFoundBoxes.Count == 1)
-                {
-                    MessageBox.Show("The path for " + NameReplace(notFoundBoxes[0]) + " could not be read from the file.", "Warning",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else if (notFoundBoxes.Count > 1)
-                {
-                    StringBuilder stringBuilder = new StringBuilder("The paths for the following TextBoxes:" + Environment.NewLine + Environment.NewLine);
-                    foreach (var tb in notFoundBoxes)
-                    {
-                        stringBuilder.AppendLine(NameReplace(tb));
-                    }
-                    stringBuilder.Append(Environment.NewLine + "could not be read from the save file.");
-                    MessageBox.Show(stringBuilder.ToString(), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("A null argument has been passed to the load method.", "Null argument exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected exception has occurred while trying to fix illegal colon characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
             }
         }
 
