@@ -194,6 +194,19 @@ namespace PublishForQA
             errorProvider.SetError(pbCopyToClipboard, errorText);
             System.Threading.Tasks.Task.Delay(3000).ContinueWith(t => errorProvider.Dispose());
         }
+        
+        private void pbBatchFile_Click(object sender, EventArgs e)
+        {
+            string createBatchResult = CreateBatchFile();
+            if (createBatchResult == string.Empty)
+            {
+                MessageBox.Show("Batch file generated successfully.", "Batch file generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Batch file generation failed with the following error:" + Environment.NewLine + createBatchResult, "Batch file generation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -656,7 +669,22 @@ namespace PublishForQA
                     File.Copy(filePath, filePath.Replace(tb.Text, destinationPath), true);
             }
 
-            MessageBox.Show("Copy operation completed successfully!", "Operation finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (cbBatchFile.Checked == true)
+            {
+                string createBatchResult = CreateBatchFile();
+                if (createBatchResult == string.Empty)
+                {
+                    MessageBox.Show("Copy operation and batch file generation completed successfully!", "Operation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Copy operation completed successfully, but batch file generation failed with the following error:" + Environment.NewLine + createBatchResult, "Operation partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Copy operation completed successfully!", "Operation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         /// <summary>
@@ -868,14 +896,50 @@ namespace PublishForQA
         }
 
         /// <summary>
-        /// Creates a *.cmd file that will start all needed services and the GUI
-        /// for E-Check.
+        /// Creates a *.cmd file that will start all needed services
+        /// and the GUI for E-Check.
         /// </summary>
-        private void CreateBatchFile()
+        /// <returns>An empty string if generation was successful
+        /// or the error message with which it failed.</returns>
+        private string CreateBatchFile()
         {
-            StreamWriter sw = new StreamWriter("Start E-Check.cmd");
-            sw.WriteLine(tbQAFolderPath.Text + tbTaskName.Text + "E-Check\\");
-            sw.WriteLine("timeout 5");
+            string targetPath = tbQAFolderPath.Text + tbTaskName.Text;
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(targetPath + "\\Start E-Check.cmd"))
+                {
+                    sw.WriteLine("start \"\" \"" + targetPath + "\\E-Check\\" + '\"');
+                    sw.WriteLine("timeout 5");
+                    sw.WriteLine("start \"\" \"" + targetPath + "\\E-CheckCore\\" + '\"');
+                    sw.WriteLine("timeout 5");
+                    sw.WriteLine("start \"\" \"" + targetPath + "\\E-CheckService\\" + '\"');
+                }
+                return string.Empty;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return "The path specified for the batch file \"" + targetPath + "\" could not be found.";
+            }
+            catch (ArgumentNullException)
+            {
+                return "The path specified for the batch file is null.";
+            }
+            catch (ArgumentException)
+            {
+                return "The path specified for the batch file is invalid.";
+            }
+            catch (PathTooLongException)
+            {
+                return "The path specified for the batch file is too long.";
+            }
+            catch (IOException)
+            {
+                return "The path specified for the batch file includes an incorrect or invalid syntax.";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }
