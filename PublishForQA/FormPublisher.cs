@@ -656,42 +656,6 @@ namespace PublishForQA
                     File.Copy(filePath, filePath.Replace(tb.Text, destinationPath), true);
             }
 
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    try
-            //    {
-            //        //First we create the directory structure.
-            //        foreach (string dirPath in Directory.GetDirectories(sourcePaths[i], "*", SearchOption.AllDirectories))
-            //            Directory.CreateDirectory(dirPath.Replace(sourcePaths[i], destinationPaths[i]));
-
-            //        //Then we copy all files, overwriting any existing ones.
-            //        foreach (string filePath in Directory.GetFiles(sourcePaths[i], "*", SearchOption.AllDirectories))
-            //            File.Copy(filePath, filePath.Replace(sourcePaths[i], destinationPaths[i]), true);
-            //    }
-            //    //We previously already checked for network access but just in case something changes
-            //    //while the copy operation is in progress we try to catch a UnauthorizedAccessException again.
-            //    catch (UnauthorizedAccessException UAex)
-            //    {
-            //        MessageBox.Show("You are not authorized to access the network folder:\n" + UAex.Message + "\n\nCopy operation failed.", "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        return;
-            //    }
-            //    catch (PathTooLongException)
-            //    {
-            //        MessageBox.Show("The path \"" + destinationPaths[i] + "\" is too long.\nPaths must be less than 248 characters and file names must be less than 260 characters.\n\nCopy operation failed.", "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        return;
-            //    }
-            //    catch (IOException IOex)
-            //    {
-            //        MessageBox.Show("IO exception occurred:\n" + IOex.Message + "\n\nCopy operation failed.", "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        return;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show("Unexpected exception occured:\n" + ex.Message + "\n\nCopy operation failed.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        throw;
-            //    }
-            //}
-
             MessageBox.Show("Copy operation completed successfully!", "Operation finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -901,6 +865,17 @@ namespace PublishForQA
                 MessageBox.Show("An unexpected exception has occurred while trying to fix repeated backslash characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Creates a *.cmd file that will start all needed services and the GUI
+        /// for E-Check.
+        /// </summary>
+        private void CreateBatchFile()
+        {
+            StreamWriter sw = new StreamWriter("Start E-Check.cmd");
+            sw.WriteLine(tbQAFolderPath.Text + tbTaskName.Text + "E-Check\\");
+            sw.WriteLine("timeout 5");
         }
     }
 }
