@@ -643,6 +643,8 @@ namespace PublishForQA
                 //last backslash will suffice.
                 string destinationPath = tbQAFolderPath.Text + ((tbTaskName.Text.Length > 0) ? tbTaskName.Text + "\\" : string.Empty);
 
+                //We set the name of the destination folder, depending
+                //on the TextBox we are iterating over.
                 switch (tb.Name)
                 {
                     case "tbECheckPath":
@@ -660,13 +662,103 @@ namespace PublishForQA
                         break;
                 }
 
-                //First we create the directory structure.
-                foreach (string dirPath in Directory.GetDirectories(tb.Text, "*", SearchOption.AllDirectories))
-                    Directory.CreateDirectory(dirPath.Replace(tb.Text, destinationPath));
+                //These variables will hold the current source and target path of the "for" iteration.
+                //They will be used to show more information in the exception catching.
+                string sourceDir = "Failure before the \"Directory.Create\" FOR block.";
+                string targetDir = "Failure before the \"Directory.Create\" FOR block.";
+                try
+                {
+                    //First we create the directory structure.
+                    foreach (string dirPath in Directory.GetDirectories(tb.Text, "*", SearchOption.AllDirectories))
+                    {
+                        sourceDir = dirPath;
+                        targetDir = dirPath.Replace(tb.Text, destinationPath);
+                        Directory.CreateDirectory(targetDir);
+                    }
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    MessageBox.Show("The caller does not have the required permission for " + targetDir + ".", "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (ArgumentNullException)
+                {
+                    MessageBox.Show("The path passed for directory creation was null.", "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (PathTooLongException)
+                {
+                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (NotSupportedException)
+                {
+                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                //Then we copy all files, overwriting any existing ones.
-                foreach (string filePath in Directory.GetFiles(tb.Text, "*", SearchOption.AllDirectories))
-                    File.Copy(filePath, filePath.Replace(tb.Text, destinationPath), true);
+                try
+                {
+                    //Then we copy all files, overwriting any existing ones.
+                    foreach (string filePath in Directory.GetFiles(tb.Text, "*", SearchOption.AllDirectories))
+                        File.Copy(filePath, filePath.Replace(tb.Text, destinationPath), true);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (ArgumentNullException)
+                {
+                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (PathTooLongException)
+                {
+                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (NotSupportedException)
+                {
+                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (FileNotFoundException)
+                {
+                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("An I/O error has occurred. Possibly the network name is not known.", "IOException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             if (cbBatchFile.Checked == true)
@@ -685,6 +777,24 @@ namespace PublishForQA
             {
                 MessageBox.Show("Copy operation completed successfully!", "Operation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private string ExceptionMessageBuilderDirectory(string message, string sourceDir, string targetDir)
+        {
+            StringBuilder sb = new StringBuilder(message + Environment.NewLine);
+            sb.AppendLine("Source directory: " + sourceDir);
+            sb.AppendLine("Target directory: " + targetDir);
+
+            return sb.ToString();
+        }
+
+        private string ExceptionMessageBuilderFile(string message, string sourceDir, string targetDir)
+        {
+            StringBuilder sb = new StringBuilder(message + Environment.NewLine);
+            sb.AppendLine("Source directory: " + sourceDir);
+            sb.AppendLine("Target directory: " + targetDir);
+
+            return sb.ToString();
         }
 
         /// <summary>
