@@ -20,12 +20,12 @@ namespace PublishForQA
         /// This is the string used to detect if an exception has occured before the
         /// directory creation for-loop.
         /// </summary>
-        const string ErrorBeforeDirectoryLoop = "Exception occurred before the \"Directory.Create\" for-loop.";
+        const string ErrorBeforeDirectoryLoop = "Exception occurred before the start of directory structure creation.";
         /// <summary>
         /// This is the string used to detect if an exception has occured before the
         /// file copying for-loop.
         /// </summary>
-        const string ErrorBeforeFileLoop = "Exception occurred before the \"File.Copy\" for-loop.";
+        const string ErrorBeforeFileLoop = "Exception occurred before the start of the file copy process.";
         /// <summary>
         /// A list of all text boxes on the form.
         /// </summary>
@@ -730,47 +730,64 @@ namespace PublishForQA
                     return;
                 }
 
+                //These variables will hold the current source and target path of the "for" iteration.
+                //They will be used to show more information in the exception catching.
+                string sourceFile = ErrorBeforeFileLoop;
+                string targetFileDir = ErrorBeforeFileLoop;
                 try
                 {
-                    //Then we copy all files, overwriting any existing ones.
+                    //We copy all files, overwriting any existing ones.
                     foreach (string filePath in Directory.GetFiles(tb.Text, "*", SearchOption.AllDirectories))
-                        File.Copy(filePath, filePath.Replace(tb.Text, destinationPath), true);
+                    {
+                        sourceFile = filePath;
+                        targetFileDir = filePath.Replace(tb.Text, destinationPath);
+                        File.Copy(filePath, targetFileDir, true);
+                    }
                 }
-                catch (UnauthorizedAccessException)
+                catch (UnauthorizedAccessException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("The caller does not have the required permission for \"" + targetFileDir + "\".", sourceFile, targetFileDir, ex), "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (ArgumentNullException)
+                catch (ArgumentNullException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("Either the source or destination file paths are null.", sourceFile, targetFileDir, ex), "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (ArgumentException)
+                catch (ArgumentException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("Either the source or destination file paths are invalid.", sourceFile, targetFileDir, ex), "Argument Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (PathTooLongException)
+                catch (PathTooLongException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("Either the source or destination file paths are too long.", sourceFile, targetFileDir, ex), "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (DirectoryNotFoundException)
+                catch (DirectoryNotFoundException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("Either the source or destination file paths could not be found.", sourceFile, targetFileDir, ex), "Directory Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (NotSupportedException)
+                catch (NotSupportedException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("Either the source or destination file paths are invalid.", sourceFile, targetFileDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (FileNotFoundException)
+                catch (FileNotFoundException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("\"" + sourceFile + "\" was not found.", sourceFile, targetFileDir, ex), "File Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (IOException)
+                catch (IOException ex)
                 {
-                    MessageBox.Show("An I/O error has occurred. Possibly the network name is not known.", "IOException", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("An I/O error has occurred.", sourceFile, targetFileDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderFile("An unexpected exception has occurred:" + Environment.NewLine + ex.Message, sourceFile, targetFileDir, ex), "Unexpected Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
 
@@ -792,31 +809,62 @@ namespace PublishForQA
             }
         }
 
-        private string ExceptionMessageBuilderDirectory(string message, string sourceDir, string targetDir, Exception exception = null)
+        /// <summary>
+        /// Creates a StringBuilder and formats a more user-friendly message to display
+        /// to the user when an exception occurrs in the directory structure creation method.
+        /// </summary>
+        /// <param name="message">A custom message to display.</param>
+        /// <param name="sourceDir">The path to the source directory.</param>
+        /// <param name="targetDir">The path to the target directory.</param>
+        /// <param name="exception">The exception thrown.</param>
+        /// <returns>The formatted message.</returns>
+        private string ExceptionMessageBuilderDirectory(string message, string sourceDir, string targetDir, Exception exception)
         {
             StringBuilder sb = new StringBuilder();
             if (sourceDir == ErrorBeforeDirectoryLoop || targetDir == ErrorBeforeDirectoryLoop)
             {
                 sb.AppendLine(ErrorBeforeDirectoryLoop);
                 sb.AppendLine("Exception message:");
-                sb.AppendLine(exception.Message);
+                sb.Append(exception.Message);
             }
             else
             {
+                sb.AppendLine("An exception occurred while creating directory structure." + Environment.NewLine);
                 sb.AppendLine(message + Environment.NewLine);
                 sb.AppendLine("Additional information:");
                 sb.AppendLine("Source directory: " + sourceDir);
-                sb.AppendLine("Target directory: " + targetDir);
+                sb.Append("Target directory: " + targetDir);
             }
             
             return sb.ToString();
         }
 
-        private string ExceptionMessageBuilderFile(string message, string sourceDir, string targetDir)
+        /// <summary>
+        /// Creates a StringBuilder and formats a more user-friendly message to display
+        /// to the user when an exception occurrs in the file copy method.
+        /// </summary>
+        /// <param name="message">A custom message to display.</param>
+        /// <param name="sourceFile">The path to the source file.</param>
+        /// <param name="targetFileDir">The path to the target directory.</param>
+        /// <param name="exception">The exception thrown.</param>
+        /// <returns>The formatted message.</returns>
+        private string ExceptionMessageBuilderFile(string message, string sourceFile, string targetFileDir, Exception exception)
         {
-            StringBuilder sb = new StringBuilder(message + Environment.NewLine);
-            sb.AppendLine("Source directory: " + sourceDir);
-            sb.AppendLine("Target directory: " + targetDir);
+            StringBuilder sb = new StringBuilder();
+            if (sourceFile == ErrorBeforeFileLoop || targetFileDir == ErrorBeforeFileLoop)
+            {
+                sb.AppendLine(ErrorBeforeFileLoop);
+                sb.AppendLine("Exception message:");
+                sb.Append(exception.Message);
+            }
+            else
+            {
+                sb.AppendLine("An exception occurred while copying files." + Environment.NewLine);
+                sb.AppendLine(message + Environment.NewLine);
+                sb.AppendLine("Additional information:");
+                sb.AppendLine("Source file path: " + sourceFile);
+                sb.Append("Target file path: " + targetFileDir);
+            }
 
             return sb.ToString();
         }
