@@ -17,6 +17,16 @@ namespace PublishForQA
         /// </summary>
         const char Separator = '*';
         /// <summary>
+        /// This is the string used to detect if an exception has occured before the
+        /// directory creation for-loop.
+        /// </summary>
+        const string ErrorBeforeDirectoryLoop = "Exception occurred before the \"Directory.Create\" for-loop.";
+        /// <summary>
+        /// This is the string used to detect if an exception has occured before the
+        /// file copying for-loop.
+        /// </summary>
+        const string ErrorBeforeFileLoop = "Exception occurred before the \"File.Copy\" for-loop.";
+        /// <summary>
         /// A list of all text boxes on the form.
         /// </summary>
         public static List<TextBox> TextBoxesList = new List<TextBox>();
@@ -25,7 +35,7 @@ namespace PublishForQA
         {
             InitializeComponent();
             ListTextBoxes();
-            
+
             List<string> txtFilesInDir = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).ToList();
             if (txtFilesInDir.Count == 1)
             {
@@ -664,8 +674,8 @@ namespace PublishForQA
 
                 //These variables will hold the current source and target path of the "for" iteration.
                 //They will be used to show more information in the exception catching.
-                string sourceDir = "Failure before the \"Directory.Create\" FOR block.";
-                string targetDir = "Failure before the \"Directory.Create\" FOR block.";
+                string sourceDir = ErrorBeforeDirectoryLoop;
+                string targetDir = ErrorBeforeDirectoryLoop;
                 try
                 {
                     //First we create the directory structure.
@@ -676,44 +686,47 @@ namespace PublishForQA
                         Directory.CreateDirectory(targetDir);
                     }
                 }
-                catch (UnauthorizedAccessException)
+                catch (UnauthorizedAccessException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission for " + targetDir + ".", "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderDirectory("The caller does not have the required permission for \"" + targetDir + "\".", sourceDir, targetDir, ex), "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                catch (ArgumentNullException)
+                catch (ArgumentNullException ex)
                 {
-                    MessageBox.Show("The path passed for directory creation was null.", "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderDirectory("The path passed for directory creation is null.", sourceDir, targetDir, ex), "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                catch (ArgumentException)
+                catch (ArgumentException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderDirectory("The path passed for directory creation is invalid.", sourceDir, targetDir, ex), "Argument Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                catch (PathTooLongException)
+                catch (PathTooLongException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderDirectory("Cannot create target directory, path is too long.", sourceDir, targetDir, ex), "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                catch (DirectoryNotFoundException)
+                catch (DirectoryNotFoundException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderDirectory("The path passed for directory creation could not be found.", sourceDir, targetDir, ex), "Directory Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                catch (IOException)
+                catch (IOException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //IO Exception can be either the passed path is a file or the network name is not known.
+                    //Since we have previous checks in place to make sure the path is a directory,
+                    //the second possible error is shown.
+                    MessageBox.Show(ExceptionMessageBuilderDirectory("The network name is not known.", sourceDir, targetDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                catch (NotSupportedException)
+                catch (NotSupportedException ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderDirectory("The path passed contains an illegal colon character.", sourceDir, targetDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("The caller does not have the required permission or  is read-only.", "GG", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ExceptionMessageBuilderDirectory("Unexpected exception occurred:" + Environment.NewLine + ex.Message, sourceDir, targetDir, ex), "Unexpected Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -779,12 +792,23 @@ namespace PublishForQA
             }
         }
 
-        private string ExceptionMessageBuilderDirectory(string message, string sourceDir, string targetDir)
+        private string ExceptionMessageBuilderDirectory(string message, string sourceDir, string targetDir, Exception exception = null)
         {
-            StringBuilder sb = new StringBuilder(message + Environment.NewLine);
-            sb.AppendLine("Source directory: " + sourceDir);
-            sb.AppendLine("Target directory: " + targetDir);
-
+            StringBuilder sb = new StringBuilder();
+            if (sourceDir == ErrorBeforeDirectoryLoop || targetDir == ErrorBeforeDirectoryLoop)
+            {
+                sb.AppendLine(ErrorBeforeDirectoryLoop);
+                sb.AppendLine("Exception message:");
+                sb.AppendLine(exception.Message);
+            }
+            else
+            {
+                sb.AppendLine(message + Environment.NewLine);
+                sb.AppendLine("Additional information:");
+                sb.AppendLine("Source directory: " + sourceDir);
+                sb.AppendLine("Target directory: " + targetDir);
+            }
+            
             return sb.ToString();
         }
 
