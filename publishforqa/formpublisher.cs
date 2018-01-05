@@ -142,12 +142,12 @@ namespace PublishForQA
                 catch (IOException)
                 {
                     MessageBox.Show("The file is locked by another process." + Environment.NewLine + "Save operation failed.", "IO exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw;
+                    return;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("An unexpected exception has occurred:\n" + ex.Message + "\n\nSave operation failed.", "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw;
+                    return;
                 }
             }
         }
@@ -198,7 +198,7 @@ namespace PublishForQA
             catch (Exception ex)
             {
                 MessageBox.Show("An unexpected exception has occurred:\n" + ex.Message + "\n\nCopy to Clipboard operation failed.", "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+                return;
             }
 
             errorProvider.SetError(pbCopyToClipboard, errorText);
@@ -559,8 +559,8 @@ namespace PublishForQA
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Unexpected exception occured when checking for access rights in" + tb.Text + ":\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw;
+                    MessageBox.Show("Unexpected exception occured when checking for access rights in \"" + tb.Text + "\":\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
                 }
             }
 
@@ -901,7 +901,7 @@ namespace PublishForQA
                 catch (Exception ex)
                 {
                     MessageBox.Show("An unexpected exception has occurred:\n" + ex.Message + "\n\nOperation failed in " + System.Reflection.MethodBase.GetCurrentMethod().Name + " method.", "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw;
+                    return;
                 }
             }
 
@@ -973,7 +973,7 @@ namespace PublishForQA
                         catch (Exception ex)
                         {
                             MessageBox.Show("An unexpected exception has occurred while reading the save file:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            throw;
+                            return;
                         }
                     }
 
@@ -1000,8 +1000,8 @@ namespace PublishForQA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An unexpected exception has occurred while trying to fix illegal colon characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+                MessageBox.Show("An unexpected exception has occurred while trying to load the save file:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 
@@ -1051,7 +1051,7 @@ namespace PublishForQA
             catch (Exception ex)
             {
                 MessageBox.Show("An unexpected exception has occurred while trying to fix illegal colon characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+                return;
             }
         }
 
@@ -1073,7 +1073,7 @@ namespace PublishForQA
             catch (Exception ex)
             {
                 MessageBox.Show("An unexpected exception has occurred while trying to fix repeated backslash characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+                return;
             }
         }
 
