@@ -1088,13 +1088,13 @@ namespace PublishForQA
             string targetPath = tbQAFolderPath.Text + tbTaskName.Text;
             try
             {
-                using (StreamWriter sw = new StreamWriter(targetPath + "\\Start E-Check.ps1"))
+                using (StreamWriter sw = new StreamWriter(targetPath + "\\Start E-Check.cmd"))
                 {
-                    sw.WriteLine("start \"" + targetPath + "\\E-CheckCore\\E-CheckCoreConsoleHost.exe" + '\"');
+                    sw.WriteLine("start \"\" \"" + ".\\E-CheckCore\\E-CheckCoreConsoleHost.exe" + '\"');
                     sw.WriteLine("timeout 10");
-                    sw.WriteLine("start \"" + targetPath + "\\E-CheckService\\ServiceHostNew.exe" + '\"');
+                    sw.WriteLine("start \"\" \"" + ".\\E-CheckService\\ServiceHostNew.exe" + '\"');
                     sw.WriteLine("timeout 3");
-                    sw.WriteLine("start \"" + targetPath + "\\E-Check\\ECheckERP.exe" + '\"');
+                    sw.WriteLine("start \"\" \"" + ".\\E-Check\\ECheckERP.exe" + '\"');
                 }
                 return string.Empty;
             }
