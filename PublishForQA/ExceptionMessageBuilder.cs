@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace PublishForQA
 {
+    /// <summary>
+    /// Builds messages intended to be displayed in
+    /// the case of an exception.
+    /// </summary>
     public static class ExceptionMessageBuilder
     {
         public static string ErrorBeforeDirectoryLoop

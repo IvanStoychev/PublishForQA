@@ -6,6 +6,10 @@ using Microsoft.Win32.SafeHandles;
 
 namespace PublishForQA
 {
+    /// <summary>
+    /// Enumerates through directories all directories in a given path and
+    /// returns them.
+    /// </summary>
     public static class FolderEnumerator
     {
         /// <summary>

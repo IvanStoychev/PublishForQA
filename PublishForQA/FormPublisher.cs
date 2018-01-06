@@ -275,7 +275,7 @@ namespace PublishForQA
             //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (tbNoValueList.Count == 1)
             {
-                DialogResult confirm = MessageBox.Show(HelperOperations.NameReplace(tbNoValueList[0]) + " is empty.\n\nDo you wish to proceed without it?", "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult confirm = MessageBox.Show(StringOperations.NameReplace(tbNoValueList[0]) + " is empty.\n\nDo you wish to proceed without it?", "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm == DialogResult.No)
                 {
                     return false;
@@ -291,7 +291,7 @@ namespace PublishForQA
                 StringBuilder stringBuilder = new StringBuilder("The following text boxes are empty:" + Environment.NewLine + Environment.NewLine);
                 foreach (var tb in tbNoValueList)
                 {
-                    stringBuilder.AppendLine(HelperOperations.NameReplace(tb));
+                    stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Do you wish to proceed without them?");
                 DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -340,14 +340,14 @@ namespace PublishForQA
 
             if (tbIllegalColonList.Count == 1)
             {
-                DialogResult fixPath = MessageBox.Show("The path of " + HelperOperations.NameReplace(tbIllegalColonList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult fixPath = MessageBox.Show("The path of " + StringOperations.NameReplace(tbIllegalColonList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (fixPath == DialogResult.No)
                 {
                     return false;
                 }
                 else
                 {
-                    HelperOperations.FixColons(tbIllegalColonList);
+                    StringOperations.FixColons(tbIllegalColonList);
                 }
             }
             else if (tbIllegalColonList.Count > 1)
@@ -355,7 +355,7 @@ namespace PublishForQA
                 StringBuilder stringBuilder = new StringBuilder("The following paths look illegal because they contain a ':' character where they shouldn't:" + Environment.NewLine + Environment.NewLine);
                 foreach (var tb in tbIllegalColonList)
                 {
-                    stringBuilder.AppendLine(HelperOperations.NameReplace(tb));
+                    stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Copying cannot proceed like this.\nWould you like to fix it by removing all ':' characters in each path but the first one and continue?");
                 DialogResult fixPath = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -365,20 +365,20 @@ namespace PublishForQA
                 }
                 else
                 {
-                    HelperOperations.FixColons(tbIllegalColonList);
+                    StringOperations.FixColons(tbIllegalColonList);
                 }
             }
 
             if (tbIllegalBackslashList.Count == 1)
             {
-                DialogResult fixPath = MessageBox.Show("The path of " + HelperOperations.NameReplace(tbIllegalBackslashList[0]) + " looks illegal as it contains too many consecutive '\\' characters.\nWould you like to fix that by replacing them with a single '\\' character?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                DialogResult fixPath = MessageBox.Show("The path of " + StringOperations.NameReplace(tbIllegalBackslashList[0]) + " looks illegal as it contains too many consecutive '\\' characters.\nWould you like to fix that by replacing them with a single '\\' character?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (fixPath == DialogResult.Cancel)
                 {
                     return false;
                 }
                 else if (fixPath == DialogResult.Yes)
                 {
-                    HelperOperations.FixBackslashes(tbIllegalBackslashList);
+                    StringOperations.FixBackslashes(tbIllegalBackslashList);
                 }
             }
             else if (tbIllegalBackslashList.Count > 1)
@@ -386,7 +386,7 @@ namespace PublishForQA
                 StringBuilder stringBuilder = new StringBuilder("The following paths look illegal because they contain too many consecutive '\\' characters:" + Environment.NewLine + Environment.NewLine);
                 foreach (var tb in tbIllegalBackslashList)
                 {
-                    stringBuilder.AppendLine(HelperOperations.NameReplace(tb));
+                    stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Would you like to fix that by replacing them all with a single '\\' character?");
                 stringBuilder.AppendLine(Environment.NewLine + Environment.NewLine + "Operation will continue if either \"Yes\" or \"No\" are chosen.");
@@ -397,7 +397,7 @@ namespace PublishForQA
                 }
                 else if (fixPath == DialogResult.Yes)
                 {
-                    HelperOperations.FixBackslashes(tbIllegalBackslashList);
+                    StringOperations.FixBackslashes(tbIllegalBackslashList);
                 }
             }
             
@@ -441,7 +441,7 @@ namespace PublishForQA
             //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (tbNoBinDebugList.Count == 1)
             {
-                DialogResult confirm = MessageBox.Show("The path of " + HelperOperations.NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.\nAre you sure you wish to proceed?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult confirm = MessageBox.Show("The path of " + StringOperations.NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.\nAre you sure you wish to proceed?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm == DialogResult.No)
                 {
                     return false;
@@ -452,7 +452,7 @@ namespace PublishForQA
                 StringBuilder stringBuilder = new StringBuilder("The following paths don't end with a \"bin\\Debug\" folder:" + Environment.NewLine + Environment.NewLine);
                 foreach (var tb in tbNoBinDebugList)
                 {
-                    stringBuilder.AppendLine(HelperOperations.NameReplace(tb));
+                    stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Are you sure you wish to proceed?");
                 DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -496,7 +496,7 @@ namespace PublishForQA
                 //If the folder that does not exist is the QA one we prompt the user to create it.
                 if (tbDoesNotExistList[0] == tbQAFolderPath)
                 {
-                    DialogResult create = MessageBox.Show("The directory for " + HelperOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
+                    DialogResult create = MessageBox.Show("The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
                     if (create == DialogResult.Yes) //User chose to create the directory.
                     {
                         return CreateQAFolder();
@@ -512,7 +512,7 @@ namespace PublishForQA
                 }
                 else
                 {
-                    MessageBox.Show("The directory for " + HelperOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nPlease check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nPlease check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -521,7 +521,7 @@ namespace PublishForQA
                 StringBuilder stringBuilder = new StringBuilder("The directories for the following do not exist:" + Environment.NewLine + Environment.NewLine);
                 foreach (var txtb in tbDoesNotExistList)
                 {
-                    stringBuilder.AppendLine(HelperOperations.NameReplace(txtb));
+                    stringBuilder.AppendLine(StringOperations.NameReplace(txtb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
                 if (tbDoesNotExistList.Contains(tbQAFolderPath)) stringBuilder.AppendLine(Environment.NewLine + "The QA Folder can be automatically created but the other paths need to be corrected first.");
@@ -576,14 +576,14 @@ namespace PublishForQA
 
                 if (unauthorizedAccessExceptionList.Count == 1)
                 {
-                    errorMessage.AppendLine("You are not authorized to access the folder for " + HelperOperations.NameReplace(unauthorizedAccessExceptionList[0]) + Environment.NewLine);
+                    errorMessage.AppendLine("You are not authorized to access the folder for " + StringOperations.NameReplace(unauthorizedAccessExceptionList[0]) + Environment.NewLine);
                 }
                 else if (unauthorizedAccessExceptionList.Count > 1)
                 {
                     errorMessage.AppendLine("You are not authorized to access the folders for:" + Environment.NewLine);
                     foreach (var tb in unauthorizedAccessExceptionList)
                     {
-                        errorMessage.AppendLine(HelperOperations.NameReplace(tb));
+                        errorMessage.AppendLine(StringOperations.NameReplace(tb));
                     }
                     errorMessage.AppendLine();
                 }
@@ -591,14 +591,14 @@ namespace PublishForQA
                 if (invalidOperationExceptionList.Count == 1)
                 {
 
-                    errorMessage.AppendLine("Invalid operation occured when checking for access rights for " + HelperOperations.NameReplace(invalidOperationExceptionList[0]));
+                    errorMessage.AppendLine("Invalid operation occured when checking for access rights for " + StringOperations.NameReplace(invalidOperationExceptionList[0]));
                 }
                 else if (invalidOperationExceptionList.Count > 1)
                 {
                     errorMessage.AppendLine("Invalid operation occured when checking for access rights for:" + Environment.NewLine);
                     foreach (var tb in invalidOperationExceptionList)
                     {
-                        errorMessage.AppendLine(HelperOperations.NameReplace(tb));
+                        errorMessage.AppendLine(StringOperations.NameReplace(tb));
                     }
                     errorMessage.AppendLine();
                 }
@@ -926,14 +926,14 @@ namespace PublishForQA
                     //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
                     if (notFoundBoxes.Count == 1)
                     {
-                        MessageBox.Show("The path for " + HelperOperations.NameReplace(notFoundBoxes[0]) + " could not be found in the file.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("The path for " + StringOperations.NameReplace(notFoundBoxes[0]) + " could not be found in the file.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else if (notFoundBoxes.Count > 1)
                     {
                         StringBuilder stringBuilder = new StringBuilder("The paths for the following TextBoxes:" + Environment.NewLine + Environment.NewLine);
                         foreach (var tb in notFoundBoxes)
                         {
-                            stringBuilder.AppendLine(HelperOperations.NameReplace(tb));
+                            stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                         }
                         stringBuilder.Append(Environment.NewLine + "could not be found in the save file.");
                         MessageBox.Show(stringBuilder.ToString(), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);

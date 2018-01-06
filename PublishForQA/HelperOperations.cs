@@ -5,7 +5,10 @@ using System.Windows.Forms;
 
 namespace PublishForQA
 {
-    public static class HelperOperations
+    /// <summary>
+    /// Contains methods that automate simple operations on strings.
+    /// </summary>
+    public static class StringOperations
     {
 
         /// <summary>
