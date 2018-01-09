@@ -12,29 +12,9 @@ namespace PublishForQA
     /// </summary>
     public static class ExceptionMessageBuilder
     {
-        public static string ErrorBeforeDirectoryLoop
-        {
-            get
-            {
-                return ErrorBeforeDirectoryLoop;
-            }
-            set
-            {
-                ErrorBeforeDirectoryLoop = value;
-            }
-        }
+        public static string ErrorBeforeDirectoryLoop { get; set; }
 
-        public static string ErrorBeforeFileLoop
-        {
-            get
-            {
-                return ErrorBeforeFileLoop;
-            }
-            set
-            {
-                ErrorBeforeFileLoop = value;
-            }
-        }
+        public static string ErrorBeforeFileLoop { get; set; }
 
         /// <summary>
         /// Creates a StringBuilder and formats a more user-friendly message to display

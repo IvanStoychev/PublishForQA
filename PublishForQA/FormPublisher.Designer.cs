@@ -464,7 +464,7 @@
 
         #endregion
 
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        public System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Label lblECheck;
         private System.Windows.Forms.Label lblCore;
         private System.Windows.Forms.Label lblService;
@@ -480,11 +480,11 @@
         private System.Windows.Forms.PictureBox pbSave;
         private System.Windows.Forms.PictureBox pbLoad;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private TextBoxFormPublisher tbTaskName;
-        private TextBoxFormPublisher tbQAFolderPath;
-        private TextBoxFormPublisher tbServicePath;
-        private TextBoxFormPublisher tbCorePath;
-        private TextBoxFormPublisher tbECheckPath;
+        public TextBoxFormPublisher tbTaskName;
+        public TextBoxFormPublisher tbQAFolderPath;
+        public TextBoxFormPublisher tbServicePath;
+        public TextBoxFormPublisher tbCorePath;
+        public TextBoxFormPublisher tbECheckPath;
         private System.Windows.Forms.PictureBox pbCopyToClipboard;
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.Panel pTop;
@@ -492,7 +492,7 @@
         private System.Windows.Forms.PictureBox pbLoadDropdown;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.PictureBox pbBatchFile;
-        private System.Windows.Forms.CheckBox cbBatchFile;
+        public System.Windows.Forms.CheckBox cbBatchFile;
     }
 }
 

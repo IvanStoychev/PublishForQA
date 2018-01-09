@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalFunctionality.cs" />
     <Compile Include="CustomControls.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -62,7 +63,7 @@
     <Compile Include="FormPublisher.Designer.cs">
       <DependentUpon>FormPublisher.cs</DependentUpon>
     </Compile>
-    <Compile Include="HelperOperations.cs" />
+    <Compile Include="StringOperations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FormResults.cs">
@@ -71,6 +72,7 @@
     <Compile Include="FormResults.Designer.cs">
       <DependentUpon>FormResults.cs</DependentUpon>
     </Compile>
+    <Compile Include="Publisher.cs" />
     <EmbeddedResource Include="FormHelp.resx">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </EmbeddedResource>
