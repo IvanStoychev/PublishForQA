@@ -53,7 +53,7 @@ namespace PublishForQA
             //Then we add all TextBoxes with an empty Text property to a list
             //that will be used to display a warning and manipulate them further.
             List<TextBox> tbNoValueList = new List<TextBox>();
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in FormPublisher.DebugTextBoxesList)
             {
                 if (tb.Text.Length < 1)
                 {
@@ -77,7 +77,8 @@ namespace PublishForQA
                 }
                 else
                 {
-                    FormPublisher.TextBoxesList.Remove(tbNoValueList[0]);
+                    FormPublisher.AllTextBoxesList = FormPublisher.AllTextBoxesList.Except(tbNoValueList).ToList();
+                    FormPublisher.DebugTextBoxesList = FormPublisher.DebugTextBoxesList.Except(tbNoValueList).ToList();
                     return true;
                 }
             }
@@ -96,7 +97,8 @@ namespace PublishForQA
                 }
                 else
                 {
-                    FormPublisher.TextBoxesList = FormPublisher.TextBoxesList.Except(tbNoValueList).ToList();
+                    FormPublisher.AllTextBoxesList = FormPublisher.AllTextBoxesList.Except(tbNoValueList).ToList();
+                    FormPublisher.DebugTextBoxesList = FormPublisher.DebugTextBoxesList.Except(tbNoValueList).ToList();
                     return true;
                 }
             }
@@ -121,7 +123,7 @@ namespace PublishForQA
             //which in all likelyhood is wrong, so we add it to the list.
             //Similarly we use a RegEx to check if a path has more than one backslash character. If it does
             //we add it to the appropriate list.
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in FormPublisher.AllTextBoxesList)
             {
                 if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
                 if (Regex.IsMatch(tb.Text.Substring(1), @"[\\]{2,}")) tbIllegalBackslashList.Add(tb);
@@ -213,13 +215,10 @@ namespace PublishForQA
         {
             //And we check if the paths ends with in "bin\Debug" folder.
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in FormPublisher.DebugTextBoxesList)
             {
                 //For clarity and "just in case", we add a slash at the end of paths that don't have one.
                 if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
-
-                //We skip the check for the QA Folder TextBox.
-                if (tb == FormPublisher.tbQAFolderPath) continue;
 
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\"))
                 {
@@ -271,7 +270,7 @@ namespace PublishForQA
             //This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in FormPublisher.AllTextBoxesList)
             {
                 if (!Directory.Exists(tb.Text))
                 {
@@ -338,7 +337,7 @@ namespace PublishForQA
             List<TextBox> unauthorizedAccessExceptionList = new List<TextBox>();
             List<TextBox> invalidOperationExceptionList = new List<TextBox>();
 
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in FormPublisher.AllTextBoxesList)
             {
                 try
                 {
@@ -409,7 +408,7 @@ namespace PublishForQA
         /// </summary>
         public static void CopyFilesAndDirectories()
         {
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in FormPublisher.DebugTextBoxesList)
             {
                 //If there is a task name provided we add a backslash, otherwise the QA Folder path's
                 //last backslash will suffice.
@@ -460,10 +459,10 @@ namespace PublishForQA
         /// Gets all the directories in a target path and recreates the same
         /// directory structure in the destination path.
         /// </summary>
-        /// <param name="targetPath">The path from which to read the directory structure.</param>
+        /// <param name="sourcePath">The path from which to read the directory structure.</param>
         /// <param name="destinationPath">The path where to recreate the directory structure.</param>
         /// <returns>"True" if the operation was successful, "false" if an exception was raised.</returns>
-        public static bool CreateDirectoryStructure(string targetPath, string destinationPath)
+        public static bool CreateDirectoryStructure(string sourcePath, string destinationPath)
         {
             //These variables will hold the current source and target path of the "for" iteration.
             //They will be used to show more information in the exception catching.
@@ -472,10 +471,10 @@ namespace PublishForQA
             try
             {
                 //First we create the directory structure.
-                foreach (string dirPath in Directory.GetDirectories(targetPath, "*", SearchOption.AllDirectories))
+                foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
                 {
                     sourceDir = dirPath;
-                    targetDir = dirPath.Replace(targetPath, destinationPath);
+                    targetDir = dirPath.Replace(sourcePath, destinationPath);
                     Directory.CreateDirectory(targetDir);
                 }
                 return true;
@@ -531,10 +530,10 @@ namespace PublishForQA
         /// Copies all files from the target path to the destination path,
         /// overriding any existing ones.
         /// </summary>
-        /// <param name="targetPath">The path from which to copy all the files.</param>
+        /// <param name="sourcePath">The path from which to copy all the files.</param>
         /// <param name="destinationPath">The path where to copy all the files.</param>
         /// <returns>"True" if the operation was successful, "false" if an exception was raised.</returns>
-        public static bool CopyFiles(string targetPath, string destinationPath)
+        public static bool CopyFiles(string sourcePath, string destinationPath)
         {
             //These variables will hold the current source and target path of the "for" iteration.
             //They will be used to show more information in the exception catching.
@@ -543,10 +542,10 @@ namespace PublishForQA
             try
             {
                 //We copy all files, overwriting any existing ones.
-                foreach (string filePath in Directory.GetFiles(targetPath, "*", SearchOption.AllDirectories))
+                foreach (string filePath in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
                 {
                     sourceFile = filePath;
-                    targetFileDir = filePath.Replace(targetPath, destinationPath);
+                    targetFileDir = filePath.Replace(sourcePath, destinationPath);
                     File.Copy(filePath, targetFileDir, true);
                 }
                 return true;

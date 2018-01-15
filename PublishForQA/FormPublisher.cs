@@ -29,7 +29,11 @@ namespace PublishForQA
         /// <summary>
         /// A list of all text boxes on the form.
         /// </summary>
-        public static List<TextBox> TextBoxesList = new List<TextBox>();
+        public static List<TextBox> AllTextBoxesList = new List<TextBox>();
+        /// <summary>
+        /// A list of all E-Check debug folder text boxes on the form.
+        /// </summary>
+        public static List<TextBox> DebugTextBoxesList = new List<TextBox>();
 
         public FormPublisher()
         {
@@ -127,7 +131,7 @@ namespace PublishForQA
                 {
                     using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
                     {
-                        foreach (TextBox tb in TextBoxesList)
+                        foreach (TextBox tb in AllTextBoxesList)
                         {
                             sw.WriteLine(tb.Name + Separator + " " + tb.Text);
                         }
@@ -223,11 +227,16 @@ namespace PublishForQA
         /// </summary>
         private void ListTextBoxes()
         {
-            TextBoxesList.Clear();
-            TextBoxesList.Add(tbECheckPath);
-            TextBoxesList.Add(tbCorePath);
-            TextBoxesList.Add(tbServicePath);
-            TextBoxesList.Add(tbQAFolderPath);
+            AllTextBoxesList.Clear();
+            AllTextBoxesList.Add(tbECheckPath);
+            AllTextBoxesList.Add(tbCorePath);
+            AllTextBoxesList.Add(tbServicePath);
+            AllTextBoxesList.Add(tbQAFolderPath);
+
+            DebugTextBoxesList.Clear();
+            DebugTextBoxesList.Add(tbECheckPath);
+            DebugTextBoxesList.Add(tbCorePath);
+            DebugTextBoxesList.Add(tbServicePath);
         }
 
         /// <summary>
@@ -255,7 +264,7 @@ namespace PublishForQA
         private void LoadFile(string filePath)
         {
             //We will use this list to tell if a value for a TextBox was missing in the save file.
-            List<TextBox> notFoundBoxes = TextBoxesList.ToList();
+            List<TextBox> notFoundBoxes = AllTextBoxesList.ToList();
             string line;
             try
             {
