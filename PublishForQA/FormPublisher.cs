@@ -29,11 +29,11 @@ namespace PublishForQA
         /// <summary>
         /// A list of all text boxes on the form.
         /// </summary>
-        public static List<TextBox> AllTextBoxesList = new List<TextBox>();
+        public List<TextBox> AllTextBoxesList = new List<TextBox>();
         /// <summary>
         /// A list of all E-Check debug folder text boxes on the form.
         /// </summary>
-        public static List<TextBox> DebugTextBoxesList = new List<TextBox>();
+        public List<TextBox> DebugTextBoxesList = new List<TextBox>();
 
         public FormPublisher()
         {
@@ -42,6 +42,7 @@ namespace PublishForQA
             ExceptionMessageBuilder.ErrorBeforeDirectoryLoop = ErrorBeforeDirectoryLoop;
             ExceptionMessageBuilder.ErrorBeforeFileLoop = ErrorBeforeFileLoop;
 
+            //If there is only a single *.txt file in the current directory, it tries to load it.
             List<string> txtFilesInDir = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).ToList();
             if (txtFilesInDir.Count == 1)
             {
