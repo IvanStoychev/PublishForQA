@@ -438,22 +438,7 @@ namespace PublishForQA
                 if (!CopyFiles(tb.Text, destinationPath)) return;
             }
 
-            if (FormPublisher.cbBatchFile.Checked == true)
-            {
-                string createBatchResult = AdditionalFunctionality.CreateBatchFile();
-                if (createBatchResult == string.Empty)
-                {
-                    MessageBox.Show("Copy operation and batch file generation completed successfully!", "Operation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Copy operation completed successfully, but batch file generation failed with the following error:" + Environment.NewLine + createBatchResult, "Operation partial success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Copy operation completed successfully!", "Operation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            MessageBox.Show("Copy operation completed successfully!", "Operation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>

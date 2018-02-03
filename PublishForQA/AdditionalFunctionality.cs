@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PublishForQA
@@ -51,54 +49,7 @@ namespace PublishForQA
                 return false;
             }
         }
-
-        /// <summary>
-        /// Creates a *.cmd file that will start all needed services
-        /// and the GUI for E-Check.
-        /// </summary>
-        /// <returns>An empty string if generation was successful
-        /// or the error message with which it failed.</returns>
-        public static string CreateBatchFile()
-        {
-            string targetPath = FormPublisher.tbQAFolderPath.Text + FormPublisher.tbTaskName.Text;
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(targetPath + "\\Start E-Check.cmd"))
-                {
-                    sw.WriteLine("start \"\" \"" + ".\\E-CheckCore\\E-CheckCoreConsoleHost.exe" + '\"');
-                    sw.WriteLine("timeout 10");
-                    sw.WriteLine("start \"\" \"" + ".\\E-CheckService\\ServiceHostNew.exe" + '\"');
-                    sw.WriteLine("timeout 3");
-                    sw.WriteLine("start \"\" \"" + ".\\E-Check\\ECheckERP.exe" + '\"');
-                }
-                return string.Empty;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                return "The path specified for the batch file \"" + targetPath + "\" could not be found.";
-            }
-            catch (ArgumentNullException)
-            {
-                return "The path specified for the batch file is null.";
-            }
-            catch (ArgumentException)
-            {
-                return "The path specified for the batch file is invalid.";
-            }
-            catch (PathTooLongException)
-            {
-                return "The path specified for the batch file is too long.";
-            }
-            catch (IOException)
-            {
-                return "The path specified for the batch file includes an incorrect or invalid syntax.";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
-
+                
         /// <summary>
         /// Gets a list of all the folders of the fixed and removable drives on the system and searches through them for
         /// a folder named as the passed version parameter.

@@ -56,8 +56,6 @@
             this.pTop = new System.Windows.Forms.Panel();
             this.pbLoadDropdown = new System.Windows.Forms.PictureBox();
             this.pBottom = new System.Windows.Forms.Panel();
-            this.pbBatchFile = new System.Windows.Forms.PictureBox();
-            this.cbBatchFile = new System.Windows.Forms.CheckBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pbCopyToClipboard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
@@ -67,7 +65,6 @@
             this.pTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoadDropdown)).BeginInit();
             this.pBottom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbBatchFile)).BeginInit();
             this.SuspendLayout();
             // 
             // lblECheck
@@ -403,8 +400,6 @@
             // 
             // pBottom
             // 
-            this.pBottom.Controls.Add(this.pbBatchFile);
-            this.pBottom.Controls.Add(this.cbBatchFile);
             this.pBottom.Controls.Add(this.btnPublish);
             this.pBottom.Controls.Add(this.pbCopyToClipboard);
             this.pBottom.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -412,27 +407,6 @@
             this.pBottom.Name = "pBottom";
             this.pBottom.Size = new System.Drawing.Size(398, 44);
             this.pBottom.TabIndex = 14;
-            // 
-            // pbBatchFile
-            // 
-            this.pbBatchFile.Image = ((System.Drawing.Image)(resources.GetObject("pbBatchFile.Image")));
-            this.pbBatchFile.Location = new System.Drawing.Point(328, -1);
-            this.pbBatchFile.Name = "pbBatchFile";
-            this.pbBatchFile.Size = new System.Drawing.Size(30, 30);
-            this.pbBatchFile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbBatchFile.TabIndex = 23;
-            this.pbBatchFile.TabStop = false;
-            this.pbBatchFile.Click += new System.EventHandler(this.pbBatchFile_Click);
-            // 
-            // cbBatchFile
-            // 
-            this.cbBatchFile.AutoSize = true;
-            this.cbBatchFile.Location = new System.Drawing.Point(293, 29);
-            this.cbBatchFile.Name = "cbBatchFile";
-            this.cbBatchFile.Size = new System.Drawing.Size(102, 17);
-            this.cbBatchFile.TabIndex = 22;
-            this.cbBatchFile.Text = "create batch file";
-            this.cbBatchFile.UseVisualStyleBackColor = true;
             // 
             // saveFileDialog
             // 
@@ -456,8 +430,6 @@
             this.pTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLoadDropdown)).EndInit();
             this.pBottom.ResumeLayout(false);
-            this.pBottom.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbBatchFile)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -491,8 +463,6 @@
         private System.Windows.Forms.Panel pBottom;
         private System.Windows.Forms.PictureBox pbLoadDropdown;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.PictureBox pbBatchFile;
-        public System.Windows.Forms.CheckBox cbBatchFile;
     }
 }
 

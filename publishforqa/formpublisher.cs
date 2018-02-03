@@ -202,19 +202,7 @@ namespace PublishForQA
             errorProvider.SetError(pbCopyToClipboard, errorText);
             System.Threading.Tasks.Task.Delay(3000).ContinueWith(t => errorProvider.Dispose());
         }
-        
-        private void pbBatchFile_Click(object sender, EventArgs e)
-        {
-            string createBatchResult = AdditionalFunctionality.CreateBatchFile();
-            if (createBatchResult == string.Empty)
-            {
-                MessageBox.Show("Batch file generated successfully.", "Batch file generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Batch file generation failed with the following error:" + Environment.NewLine + createBatchResult, "Batch file generation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+
         #endregion
 
         /// <summary>

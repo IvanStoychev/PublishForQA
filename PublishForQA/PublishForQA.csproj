@@ -139,11 +139,5 @@
   <ItemGroup>
     <None Include="Resources\ArrowDown1.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Batch File Icon.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Batch File Icon.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
