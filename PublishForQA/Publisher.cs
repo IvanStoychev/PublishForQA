@@ -8,15 +8,22 @@ using System.Windows.Forms;
 
 namespace PublishForQA
 {
-    static class Publisher
+    public static class Publisher
     {
-        public static FormPublisher FormPublisher { get; set; }
+        private static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
+        private static List<TextBox> allTextBoxes = formPublisher.AllTextBoxesList;
+        private static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
 
         static Publisher()
         {
-            FormPublisher = (FormPublisher)Form.ActiveForm;
+            
         }
 
+        /// <summary>
+        /// Publishes the currently chosen version for QA. It does so by first
+        /// making all the verifications needed for correct copying and then
+        /// copying all the files and directories to the given QA folder.
+        /// </summary>
         public static void Publish()
         {
             //Subsequent checks before beginning the copy operation.
@@ -44,7 +51,7 @@ namespace PublishForQA
         {
             //First we check if the "QA Folder" TextBox is empty.
             //Since it is mandatory we alert the user if it is.
-            if (FormPublisher.tbQAFolderPath.Text.Length < 1)
+            if (formPublisher.tbQAFolderPath.Text.Length < 1)
             {
                 MessageBox.Show("No value provided for your QA folder.\nIt is mandatory, operation cannot continue.", "No QA Folder entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -53,7 +60,7 @@ namespace PublishForQA
             //Then we add all TextBoxes with an empty Text property to a list
             //that will be used to display a warning and manipulate them further.
             List<TextBox> tbNoValueList = new List<TextBox>();
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in debugTextBoxes)
             {
                 if (tb.Text.Length < 1)
                 {
@@ -77,7 +84,8 @@ namespace PublishForQA
                 }
                 else
                 {
-                    FormPublisher.TextBoxesList.Remove(tbNoValueList[0]);
+                    allTextBoxes = allTextBoxes.Except(tbNoValueList).ToList();
+                    debugTextBoxes = debugTextBoxes.Except(tbNoValueList).ToList();
                     return true;
                 }
             }
@@ -96,7 +104,8 @@ namespace PublishForQA
                 }
                 else
                 {
-                    FormPublisher.TextBoxesList = FormPublisher.TextBoxesList.Except(tbNoValueList).ToList();
+                    allTextBoxes = allTextBoxes.Except(tbNoValueList).ToList();
+                    debugTextBoxes = debugTextBoxes.Except(tbNoValueList).ToList();
                     return true;
                 }
             }
@@ -121,7 +130,7 @@ namespace PublishForQA
             //which in all likelyhood is wrong, so we add it to the list.
             //Similarly we use a RegEx to check if a path has more than one backslash character. If it does
             //we add it to the appropriate list.
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in allTextBoxes)
             {
                 if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
                 if (Regex.IsMatch(tb.Text.Substring(1), @"[\\]{2,}")) tbIllegalBackslashList.Add(tb);
@@ -213,13 +222,10 @@ namespace PublishForQA
         {
             //And we check if the paths ends with in "bin\Debug" folder.
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in debugTextBoxes)
             {
                 //For clarity and "just in case", we add a slash at the end of paths that don't have one.
                 if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
-
-                //We skip the check for the QA Folder TextBox.
-                if (tb == FormPublisher.tbQAFolderPath) continue;
 
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\"))
                 {
@@ -271,7 +277,7 @@ namespace PublishForQA
             //This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in allTextBoxes)
             {
                 if (!Directory.Exists(tb.Text))
                 {
@@ -289,7 +295,7 @@ namespace PublishForQA
             if (tbDoesNotExistList.Count == 1)
             {
                 //If the folder that does not exist is the QA one we prompt the user to create it.
-                if (tbDoesNotExistList[0] == FormPublisher.tbQAFolderPath)
+                if (tbDoesNotExistList[0] == formPublisher.tbQAFolderPath)
                 {
                     DialogResult create = MessageBox.Show("The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
                     if (create == DialogResult.Yes) //User chose to create the directory.
@@ -319,7 +325,7 @@ namespace PublishForQA
                     stringBuilder.AppendLine(StringOperations.NameReplace(txtb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
-                if (tbDoesNotExistList.Contains(FormPublisher.tbQAFolderPath)) stringBuilder.AppendLine(Environment.NewLine + "The QA Folder can be automatically created but the other paths need to be corrected first.");
+                if (tbDoesNotExistList.Contains(formPublisher.tbQAFolderPath)) stringBuilder.AppendLine(Environment.NewLine + "The QA Folder can be automatically created but the other paths need to be corrected first.");
                 MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -338,7 +344,7 @@ namespace PublishForQA
             List<TextBox> unauthorizedAccessExceptionList = new List<TextBox>();
             List<TextBox> invalidOperationExceptionList = new List<TextBox>();
 
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in allTextBoxes)
             {
                 try
                 {
@@ -409,11 +415,11 @@ namespace PublishForQA
         /// </summary>
         public static void CopyFilesAndDirectories()
         {
-            foreach (var tb in FormPublisher.TextBoxesList)
+            foreach (var tb in debugTextBoxes)
             {
                 //If there is a task name provided we add a backslash, otherwise the QA Folder path's
                 //last backslash will suffice.
-                string destinationPath = FormPublisher.tbQAFolderPath.Text + ((FormPublisher.tbTaskName.Text.Length > 0) ? FormPublisher.tbTaskName.Text + "\\" : string.Empty);
+                string destinationPath = formPublisher.tbQAFolderPath.Text + ((formPublisher.tbTaskName.Text.Length > 0) ? formPublisher.tbTaskName.Text + "\\" : string.Empty);
 
                 //We set the name of the destination folder, depending
                 //on the TextBox we are iterating over.
@@ -428,7 +434,7 @@ namespace PublishForQA
                     case "tbServicePath":
                         destinationPath += "E-CheckService\\";
                         break;
-                    case "FormPublisher.tbQAFolderPath":
+                    case "tbQAFolderPath":
                         continue;
                     default:
                         break;
@@ -445,10 +451,10 @@ namespace PublishForQA
         /// Gets all the directories in a target path and recreates the same
         /// directory structure in the destination path.
         /// </summary>
-        /// <param name="targetPath">The path from which to read the directory structure.</param>
+        /// <param name="sourcePath">The path from which to read the directory structure.</param>
         /// <param name="destinationPath">The path where to recreate the directory structure.</param>
         /// <returns>"True" if the operation was successful, "false" if an exception was raised.</returns>
-        public static bool CreateDirectoryStructure(string targetPath, string destinationPath)
+        public static bool CreateDirectoryStructure(string sourcePath, string destinationPath)
         {
             //These variables will hold the current source and target path of the "for" iteration.
             //They will be used to show more information in the exception catching.
@@ -457,10 +463,10 @@ namespace PublishForQA
             try
             {
                 //First we create the directory structure.
-                foreach (string dirPath in Directory.GetDirectories(targetPath, "*", SearchOption.AllDirectories))
+                foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
                 {
                     sourceDir = dirPath;
-                    targetDir = dirPath.Replace(targetPath, destinationPath);
+                    targetDir = dirPath.Replace(sourcePath, destinationPath);
                     Directory.CreateDirectory(targetDir);
                 }
                 return true;
@@ -516,10 +522,10 @@ namespace PublishForQA
         /// Copies all files from the target path to the destination path,
         /// overriding any existing ones.
         /// </summary>
-        /// <param name="targetPath">The path from which to copy all the files.</param>
+        /// <param name="sourcePath">The path from which to copy all the files.</param>
         /// <param name="destinationPath">The path where to copy all the files.</param>
         /// <returns>"True" if the operation was successful, "false" if an exception was raised.</returns>
-        public static bool CopyFiles(string targetPath, string destinationPath)
+        public static bool CopyFiles(string sourcePath, string destinationPath)
         {
             //These variables will hold the current source and target path of the "for" iteration.
             //They will be used to show more information in the exception catching.
@@ -528,10 +534,10 @@ namespace PublishForQA
             try
             {
                 //We copy all files, overwriting any existing ones.
-                foreach (string filePath in Directory.GetFiles(targetPath, "*", SearchOption.AllDirectories))
+                foreach (string filePath in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
                 {
                     sourceFile = filePath;
-                    targetFileDir = filePath.Replace(targetPath, destinationPath);
+                    targetFileDir = filePath.Replace(sourcePath, destinationPath);
                     File.Copy(filePath, targetFileDir, true);
                 }
                 return true;
