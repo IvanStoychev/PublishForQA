@@ -70,13 +70,13 @@ namespace PublishForQA
             {
                 string eCheck = Path.Combine(lbECheck.SelectedItem.ToString(), @"WinClient\E-Check\bin\Debug\");
                 string service = Path.Combine(lbECheck.SelectedItem.ToString(), @"AppServer\ServiceHostNew\ServiceHostNew\bin\Debug\");
-                parent.Controls.Find("tbECheckPath", false).FirstOrDefault().Text = eCheck;
-                parent.Controls.Find("tbServicePath", false).FirstOrDefault().Text = service;
+                parent.Controls.Find("tbECheckPath", true).FirstOrDefault().Text = eCheck;
+                parent.Controls.Find("tbServicePath", true).FirstOrDefault().Text = service;
             }
             if (lbCore.SelectedItem != null && !lbCore.SelectedItem.ToString().Contains("No folders found for"))
             {
                 string core = Path.Combine(lbCore.SelectedItem.ToString(), @"E-CheckCoreConsoleHost\bin\Debug\");
-                parent.Controls.Find("tbCorePath", false).FirstOrDefault().Text = core;
+                parent.Controls.Find("tbCorePath", true).FirstOrDefault().Text = core;
             }
 
             Close();

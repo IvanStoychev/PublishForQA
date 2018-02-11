@@ -325,7 +325,7 @@ namespace PublishForQA
                     stringBuilder.AppendLine(StringOperations.NameReplace(txtb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
-                if (tbDoesNotExistList.Contains(formPublisher.tbQAFolderPath)) stringBuilder.AppendLine(Environment.NewLine + "The QA Folder can be automatically created but the other paths need to be corrected first.");
+                if (tbDoesNotExistList.Contains(formPublisher.tbQAFolderPath)) stringBuilder.AppendLine(Environment.NewLine + "The QA Folder can be automatically created but the other paths need to be corrected, first.");
                 MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

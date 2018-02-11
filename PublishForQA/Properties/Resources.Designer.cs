@@ -73,16 +73,6 @@ namespace PublishForQA.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Batch_File_Icon {
-            get {
-                object obj = ResourceManager.GetObject("Batch_File_Icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap icon_help_circled_128 {
             get {
                 object obj = ResourceManager.GetObject("icon-help-circled-128", resourceCulture);
