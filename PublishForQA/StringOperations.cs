@@ -10,7 +10,6 @@ namespace PublishForQA
     /// </summary>
     public static class StringOperations
     {
-
         /// <summary>
         /// Converts the name of a TextBox. Removes all instances of "tb" and "Path".
         /// </summary>
@@ -30,13 +29,28 @@ namespace PublishForQA
         /// <param name="list">A list of TextBoxes whose text properties should be fixed.</param>
         public static void FixColons(List<TextBox> list)
         {
+            Regex regex = new Regex("^[a-zA-Z]:");
             try
             {
                 foreach (var tb in list)
                 {
-                    int firstColon = tb.Text.IndexOf(':');
-                    tb.Text = tb.Text.Replace(":", "");
-                    tb.Text = tb.Text.Insert(firstColon, ":");
+                    if (tb.Text.StartsWith(@"\\"))
+                    {
+                        tb.Text = tb.Text.Replace(":", "");
+                    }
+                    else if (regex.IsMatch(tb.Text))
+                    {
+                        int firstColon = tb.Text.IndexOf(':');
+                        tb.Text = tb.Text.Replace(":", "");
+                        tb.Text = tb.Text.Insert(firstColon, ":");
+                    }
+                    else
+                    {
+                        //This "else" block exists if in the future it should be decided
+                        //to somehow handle other cases.
+                        //Also, honestly, because I first coded it and then forgot why. :)
+                        tb.Text = tb.Text.Replace(":", "");
+                    }
                 }
             }
             catch (Exception ex)
@@ -67,6 +81,5 @@ namespace PublishForQA
                 return;
             }
         }
-
     }
 }

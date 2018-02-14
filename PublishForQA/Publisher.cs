@@ -132,6 +132,8 @@ namespace PublishForQA
             //we add it to the appropriate list.
             foreach (var tb in allTextBoxes)
             {
+                //For clarity and "just in case", we add a slash at the end of paths that don't have one.
+                if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
                 if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
                 if (Regex.IsMatch(tb.Text.Substring(1), @"[\\]{2,}")) tbIllegalBackslashList.Add(tb);
             }
@@ -224,9 +226,6 @@ namespace PublishForQA
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
             foreach (var tb in debugTextBoxes)
             {
-                //For clarity and "just in case", we add a slash at the end of paths that don't have one.
-                if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
-
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\"))
                 {
                     tbNoBinDebugList.Add(tb);

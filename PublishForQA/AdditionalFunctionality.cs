@@ -88,9 +88,16 @@ namespace PublishForQA
             eCheckDirectories.AddRange(allDirectories.Where(x => x.EndsWith("\\E-Check\\" + version)));
             coreDirectories.AddRange(allDirectories.Where(x => x.EndsWith("\\E-CheckCore")));
 
-            //We get the filtered directories for which exist the vital debug folders.
-            eCheckResults.AddRange(eCheckDirectories.Where(x => Directory.Exists(x + @"\WinClient\E-Check\bin\Debug") && Directory.Exists(x + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug")).ToList());
-            coreResults.AddRange(coreDirectories.Where(x => Directory.Exists(x + @"\E-CheckCoreConsoleHost\bin\Debug")).ToList());
+            //We check each subfolder of each directory found for the existance
+            //of the mandatory "WinClient" and "AppServer" debug directories.
+            foreach (var dir in eCheckDirectories)
+            {
+                eCheckResults.AddRange(Directory.EnumerateDirectories(dir).Where(x => Directory.Exists(x + @"\WinClient\E-Check\bin\Debug") && Directory.Exists(x + @"\AppServer\ServiceHostNew\ServiceHostNew\bin\Debug")).ToList());
+            }
+            foreach (var dir in coreDirectories)
+            {
+                coreResults.AddRange(Directory.EnumerateDirectories(dir).Where(x => Directory.Exists(x + @"\E-CheckCoreConsoleHost\bin\Debug")));
+            }
 
             //If no results for either E-Check or E-CheckCore:
             if (eCheckResults.Count < 1 && coreResults.Count < 1)

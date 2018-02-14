@@ -154,7 +154,6 @@
             this.MinimizeBox = false;
             this.Name = "FormResults";
             this.Text = "Choose Paths";
-            this.TopMost = true;
             this.tlpMain.ResumeLayout(false);
             this.pECheck.ResumeLayout(false);
             this.pECheck.PerformLayout();
