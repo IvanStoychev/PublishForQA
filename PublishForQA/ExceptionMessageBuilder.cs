@@ -12,10 +12,6 @@ namespace PublishForQA
     /// </summary>
     public static class ExceptionMessageBuilder
     {
-        public static string ErrorBeforeDirectoryLoop { get; set; }
-
-        public static string ErrorBeforeFileLoop { get; set; }
-
         /// <summary>
         /// Creates a StringBuilder and formats a more user-friendly message to display
         /// to the user when an exception occurrs in the directory structure creation method.
@@ -28,9 +24,9 @@ namespace PublishForQA
         public static string Directory(string message, string sourceDir, string targetDir, Exception exception)
         {
             StringBuilder sb = new StringBuilder();
-            if (sourceDir == ErrorBeforeDirectoryLoop || targetDir == ErrorBeforeDirectoryLoop)
+            if (sourceDir == FormPublisher.ErrorBeforeDirectoryLoop || targetDir == FormPublisher.ErrorBeforeDirectoryLoop)
             {
-                sb.AppendLine(ErrorBeforeDirectoryLoop);
+                sb.AppendLine(FormPublisher.ErrorBeforeDirectoryLoop);
                 sb.AppendLine("Exception message:");
                 sb.Append(exception.Message);
             }
@@ -58,9 +54,9 @@ namespace PublishForQA
         public static string File(string message, string sourceFile, string targetFileDir, Exception exception)
         {
             StringBuilder sb = new StringBuilder();
-            if (sourceFile == ErrorBeforeFileLoop || targetFileDir == ErrorBeforeFileLoop)
+            if (sourceFile == FormPublisher.ErrorBeforeFileLoop || targetFileDir == FormPublisher.ErrorBeforeFileLoop)
             {
-                sb.AppendLine(ErrorBeforeFileLoop);
+                sb.AppendLine(FormPublisher.ErrorBeforeFileLoop);
                 sb.AppendLine("Exception message:");
                 sb.Append(exception.Message);
             }
