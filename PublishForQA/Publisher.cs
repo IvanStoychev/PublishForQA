@@ -134,7 +134,11 @@ namespace PublishForQA
             {
                 //For clarity and "just in case", we add a slash at the end of paths that don't have one.
                 if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
+                //If there is a colon character beyond index 1 of the string we add
+                //the corresponding TextBox to the IllegalColonList list.
                 if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
+                //If there are two or more consecutive backslash characters beyond the start
+                //of the string we add that TextBox to the IllegalBackslashList.
                 if (Regex.IsMatch(tb.Text.Substring(1), @"[\\]{2,}")) tbIllegalBackslashList.Add(tb);
             }
 

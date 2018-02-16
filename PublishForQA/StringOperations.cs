@@ -46,9 +46,8 @@ namespace PublishForQA
                     }
                     else
                     {
-                        //This "else" block exists if in the future it should be decided
-                        //to somehow handle other cases.
-                        //Also, honestly, because I first coded it and then forgot why. :)
+                        //This "else" block exists to catch unusual cases
+                        //and in case the functionality needs to be extended.
                         tb.Text = tb.Text.Replace(":", "");
                     }
                 }
