@@ -1,5 +1,5 @@
 # PublishForQA
-A tool that copies files and directories from three entered directories into a fourth one. Custom made for specific inhouse use.
+A tool that copies files and directories from three entered locations into a fourth one. Custom made for specific inhouse use.
 
 # Motivation
 Created to somewhat ease the lives of our inhouse developers.
