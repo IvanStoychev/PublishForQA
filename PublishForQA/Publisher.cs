@@ -532,6 +532,7 @@ namespace PublishForQA
         {
             //These variables will hold the current source and target path of the "for" iteration.
             //They will be used to show more information in the exception catching.
+            //But first they are set to the string used to indicate an error before the loop.
             string sourceFile = FormPublisher.ErrorBeforeFileLoop;
             string targetFileDir = FormPublisher.ErrorBeforeFileLoop;
             try

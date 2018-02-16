@@ -17,13 +17,13 @@ namespace PublishForQA
         /// </summary>
         const char Separator = '*';
         /// <summary>
-        /// This is the string used to detect if an exception has occured before the
-        /// directory creation for-loop.
+        /// This string will be used to detect if an exception has occured
+        /// before the directory creation for-loop.
         /// </summary>
         public const string ErrorBeforeDirectoryLoop = "Exception occurred before the start of directory structure creation.";
         /// <summary>
-        /// This is the string used to detect if an exception has occured before the
-        /// file copying for-loop.
+        /// This string will be used to detect if an exception has occured
+        /// before the file copying for-loop.
         /// </summary>
         public const string ErrorBeforeFileLoop = "Exception occurred before the start of the file copy process.";
         /// <summary>
