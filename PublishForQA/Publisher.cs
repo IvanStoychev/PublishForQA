@@ -150,7 +150,7 @@ namespace PublishForQA
 
             if (tbIllegalColonList.Count == 1)
             {
-                DialogResult fixPath = MessageBox.Show("The path of " + StringOperations.NameReplace(tbIllegalColonList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix it by removing all ':' characters but the first one and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult fixPath = MessageBox.Show("The path of " + StringOperations.NameReplace(tbIllegalColonList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix that and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (fixPath == DialogResult.No)
                 {
                     return false;
@@ -167,7 +167,7 @@ namespace PublishForQA
                 {
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
-                stringBuilder.Append(Environment.NewLine + "Copying cannot proceed like this.\nWould you like to fix it by removing all ':' characters in each path but the first one and continue?");
+                stringBuilder.Append(Environment.NewLine + "Copying cannot proceed like this.\nWould you like to fix this problem in each path and continue?");
                 DialogResult fixPath = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (fixPath == DialogResult.No)
                 {
@@ -277,15 +277,28 @@ namespace PublishForQA
         /// </returns>
         public static bool DirectoriesExist()
         {
+            //This variable will hold the directory path to be checked for existence.
+            string directory;
             //This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
             foreach (var tb in allTextBoxes)
             {
-                if (!Directory.Exists(tb.Text))
+                if (tb != formPublisher.tbQAFolderPath)
                 {
-                    tbDoesNotExistList.Add(tb);
+                    directory = tb.Text;
                 }
+                else
+                {
+                    directory = tb.Text + formPublisher.tbTaskName.Text;
+                }
+                //A new task is started asynchronously that checks if the given directory exists.
+                //If the task does not return a result after one second or returns that the
+                //directory does not exist the TextBox with said directory path is added to the list.
+                var task = new System.Threading.Tasks.Task<bool>(() => { return Directory.Exists(directory); });
+                task.Start();
+
+                if (!(task.Wait(1000) && task.Result)) tbDoesNotExistList.Add(tb);
             }
 
             //If all directories exist we continue.
@@ -316,7 +329,7 @@ namespace PublishForQA
                 }
                 else
                 {
-                    MessageBox.Show("The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nPlease check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nPlease, check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -327,7 +340,7 @@ namespace PublishForQA
                 {
                     stringBuilder.AppendLine(StringOperations.NameReplace(txtb));
                 }
-                stringBuilder.Append(Environment.NewLine + "Please check that the paths are correct.");
+                stringBuilder.Append(Environment.NewLine + "Please, check that the paths are correct.");
                 if (tbDoesNotExistList.Contains(formPublisher.tbQAFolderPath)) stringBuilder.AppendLine(Environment.NewLine + "The QA Folder can be automatically created but the other paths need to be corrected, first.");
                 MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -466,6 +479,7 @@ namespace PublishForQA
             try
             {
                 //First we create the directory structure.
+                Directory.CreateDirectory(destinationPath);
                 foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
                 {
                     sourceDir = dirPath;
