@@ -1,3 +1,5 @@
+This repo uses [Semantic Versioning 2.0.0](https://semver.org/)
+
 # PublishForQA
 A tool that copies files and directories from three entered locations into a fourth one. Custom made for specific inhouse use.
 
