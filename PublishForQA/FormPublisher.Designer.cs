@@ -420,7 +420,7 @@
             this.Controls.Add(this.tlpMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPublisher";
-            this.Text = "Publisher Alpha v1.0";
+            this.Text = "Publisher v1.0.0";
             ((System.ComponentModel.ISupportInitialize)(this.pbCopyToClipboard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).EndInit();

@@ -114,7 +114,9 @@ namespace PublishForQA
         }
 
         /// <summary>
-        /// Checks whether all paths have at most a single colon character.
+        /// Checks whether all paths have at most a single colon character or no more than one consecutive backslash
+        /// character. If any path violates any of these conditions its TextBox is added to an appropriate list.
+        /// Afterwards if the user chooses the program can fix any violations encountered.
         /// </summary>
         /// <returns>
         /// "True" if all paths contain no more than a single colon character per path, otherwise "False".
@@ -284,18 +286,10 @@ namespace PublishForQA
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
             foreach (var tb in allTextBoxes)
             {
-                if (tb != formPublisher.tbQAFolderPath)
-                {
-                    directory = tb.Text;
-                }
-                else
-                {
-                    directory = tb.Text + formPublisher.tbTaskName.Text;
-                }
                 //A new task is started asynchronously that checks if the given directory exists.
                 //If the task does not return a result after one second or returns that the
                 //directory does not exist the TextBox with said directory path is added to the list.
-                var task = new System.Threading.Tasks.Task<bool>(() => { return Directory.Exists(directory); });
+                var task = new System.Threading.Tasks.Task<bool>(() => { return Directory.Exists(tb.Text); });
                 task.Start();
 
                 if (!(task.Wait(1000) && task.Result)) tbDoesNotExistList.Add(tb);

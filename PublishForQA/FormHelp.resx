@@ -118,26 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblGeneralBody.Text" xml:space="preserve">
-    <value>This program will copy all files and folders (preserving directory structure) from the three listed "Debug" folders (E-Check Debug Folder, E-Check Core Debug Folder and E-Check Service Debug Folder)
+    <value>This program will copy all files and folders, preserving directory structure, from the three listed "Debug" folders (E-Check Debug Folder, E-Check Core Debug Folder and E-Check Service Debug Folder)
 to the chosen QA folder when you click the "Publish" button.
 
-
-It does so by first creating a new folder, inside the given QA folder, with a name of the provided "Task Name". Then it creates three empty folders:
-"E-Check", "E-Check Core" and "E-Check Service" and copies all files from the respective debug folders into them.
 
      The program will override any files and folders without prompting.
 
 You can choose each folder by clicking the "Browse..." button below each text box or you can enter the paths manually.
 In compliance with Windows directory path regulations you are prevented from entering the following characters: "  /  ?  |  *  &lt; &gt; and newlines
 
-     The program will automatically remove any illegal characters you try to paste into the text boxes, showing an error icon when it does so
+     The program will automatically remove any illegal characters you try to
+     paste into the text boxes, showing an error icon when it does so
 
-     If you wish for the program to automatically find a certain E-Check version on your computer, use the "Locate" button.
+     If you wish for the program to automatically find a certain E-Check
+     version on your computer, use the "Locate" button.
 
-Since, by default, files should be copied from the debug directories the program will check if each of the three "E-Check" paths ends with a "bin\Debug" folder.
-
-If any do not - you will be alerted to the fact and promted if you wish to continue.
-If all paths end in "bin\Debug" or you wish to continue despite that, the program will verify if all listed directories exist. If any do not or empty values are provided you will be alerted and nothing will be copied.</value>
+     Clicking the button with an image of a clipboard to the right of the
+     "Publish" button will copy the path to the destination folder (the QA
+     folder + the Task Name folder) to the clipboard.</value>
   </data>
   <data name="lblLocateButtonBody.Text" xml:space="preserve">
     <value>Clicking the "Locate" button opens a context menu with all versions of E-Check. Clicking one of them will start a recursive search on all fixed and removable drives for the directory named like the version you chose.
@@ -148,35 +146,36 @@ The search looks for folders with said name and for which the following director
 Since "E-CheckCore" is the same for all E-Check versions every search for a particular version also searches for "E-CheckCore", where exists a folder "~\E-CheckCore\E-CheckCoreConsoleHost\bin\Debug\".
 
 If only one result is found the paths to said "Debug" directories are automatically entered into the corresponding text boxes.
-If multiple results are found, either for the version or for E-CheckCore, an additional dialog is opened that prompts the user to select which folder to use.
-
-     In case access was denied to any folders an icon will appear to the right of the "Locate" button, clicking it will show a list of those folders.</value>
+If multiple results are found, either for the version or for E-CheckCore, an additional dialog is opened that prompts the user to select which folder to use.</value>
   </data>
   <data name="lblLoadButtonBody.Text" xml:space="preserve">
-    <value>Clicking the load button will open a FileDialog, which allows you to select a file to load.
+    <value>Clicking the load button will open a dialog, which allows you to select a file to load.
 
-Upon choosing the file the program will populate all TextBox values that can be successfully read (a warning will be shown if the file is malformed/corrupted).
+Upon choosing the file the program will populate all text box values that can be successfully read.
+(a warning will be shown if the file is malformed/corrupted)
 
-     If a save file is present in the same directory as the program's
+     If a single text file is present in the same directory as the program's
      executable on launch it will automatically be loaded.
      This allows you to easily work with the same folders again and again.</value>
   </data>
   <data name="lblSaveButtonBody.Text" xml:space="preserve">
-    <value>Clicking the save button will write all TextBox values, but the "Task Name" one, to a plaintext file named "PublishForQA.txt" in the same directory as the executable of the program.
+    <value>Clicking the save button will open a save file dialog, allowing you to enter a name and a location where a text file with all currently entered paths will be saved.
 
      The save file is in plaintext on purpose - you can edit it
      on your own risk.</value>
   </data>
   <data name="lblPublishButtonBody.Text" xml:space="preserve">
-    <value>Clicking the "Publish" button will first check if all paths are legal in that they have at most a single ':' (colon) character. If they have more than one you will be alerted and prompted if you wish to fix it automatically. You cannot proceed with copying without fixing it either automatically or manually.
+    <value>Clicking the "Publish" button will first check if all paths are legal in that they have at most a single ':' (colon) character and no more than one consecutive backslash '\' character, unless if it is at the start of the path (for network paths).
+If any path violates these conditions you will be alerted and prompted if you wish to fix it automatically. You cannot proceed with copying without fixing it either automatically or manually.
 Afterwards all paths will be checked if they end in "bin\Debug".
 If any do not you will be prompted if you wish to proceed.
 
-Then the program will verify if all listed folders exist.
+Then the program will verify if all listed folders exist. There is a one second timeout imposed on each check in order to prevent hangs for network paths.
 
-     If any do not you will be alerted and copying will not commence.
+     If any folders do not exist you will be alerted and copying will not
+     commence.
 
-Finally network access to the listed QA folder will be checked.
+Finally access control to the listed QA folder will be checked.
 (this is done since it is assumed your QA folder is on the "cow" network fileserver)
 
 If all checks pass the program will:
