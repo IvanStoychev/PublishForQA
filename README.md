@@ -1,3 +1,5 @@
+This repo uses [Semantic Versioning 2.0.0](https://semver.org/)
+
 # PublishForQA
 A tool that copies files and directories from three entered locations into a fourth one. Custom made for specific inhouse use.
 
@@ -18,7 +20,8 @@ WinForms and C# on .Net Framework 4.5.2
 All planned features and their status can be seen in the "Projects" tab.
 
 # Installation
-Single *.exe file, no installation required.
+Single .exe file, no installation required.<br/>
+[Latest release](https://github.com/IvanStoychev/PublishForQA/releases/latest)
 
 # How to use?
 Click on the question mark icon in the upper-left corner of the program window.<br/>
