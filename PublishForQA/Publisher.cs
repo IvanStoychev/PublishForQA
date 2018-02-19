@@ -279,8 +279,6 @@ namespace PublishForQA
         /// </returns>
         public static bool DirectoriesExist()
         {
-            //This variable will hold the directory path to be checked for existence.
-            string directory;
             //This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
