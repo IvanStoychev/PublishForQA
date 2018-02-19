@@ -261,14 +261,17 @@ namespace PublishForQA
                     {
                         try
                         {
-                            //We get the substring from the beginning of the line to the first occurance of our separator. That
-                            //should be the name of one of our TextBoxes. If we can match the substring to a TextBox that means
-                            //we have a value for it and we take it out of the list "notFoundBoxes".
-                            //Thus in the end we have a list of only the TextBoxes we couldn't find a value for.
-                            TextBox tb = tlpMain.Controls.Find(line.Substring(0, line.IndexOf(Separator)), false).OfType<TextBox>().FirstOrDefault();
-                            if (tb == null) continue;
-                            tb.Text = line.Substring(line.IndexOf(Separator) + 2);
-                            notFoundBoxes.Remove(tb);
+                            if (line.Length > 1)
+                            {
+                                //We get the substring from the beginning of the line to the first occurance of our separator. That
+                                //should be the name of one of our TextBoxes. If we can match the substring to a TextBox that means
+                                //we have a value for it and we take it out of the list "notFoundBoxes".
+                                //Thus in the end we have a list of only the TextBoxes we couldn't find a value for.
+                                TextBox tb = tlpMain.Controls.Find(line.Substring(0, Math.Max(1, line.IndexOf(Separator))), false).OfType<TextBox>().FirstOrDefault();
+                                if (tb == null) continue;
+                                tb.Text = line.Substring(line.IndexOf(Separator) + 2);
+                                notFoundBoxes.Remove(tb);
+                            }
                         }
                         catch (Exception ex)
                         {

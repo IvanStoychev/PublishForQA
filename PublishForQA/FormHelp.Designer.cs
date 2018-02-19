@@ -34,6 +34,7 @@
             this.tlpGeneral = new System.Windows.Forms.TableLayoutPanel();
             this.lblGeneralTitle = new System.Windows.Forms.Label();
             this.pGeneral = new System.Windows.Forms.Panel();
+            this.pbGeneralInfoClipboard = new System.Windows.Forms.PictureBox();
             this.pbGeneralInfoLocate = new System.Windows.Forms.PictureBox();
             this.pbGeneralInfoPaste = new System.Windows.Forms.PictureBox();
             this.pbGeneralWarningOverride = new System.Windows.Forms.PictureBox();
@@ -53,7 +54,7 @@
             this.pbLoadButton = new System.Windows.Forms.PictureBox();
             this.pbSaveButton = new System.Windows.Forms.PictureBox();
             this.pbSaveButtonInfo = new System.Windows.Forms.PictureBox();
-            this.pbLoadButtonInfo = new System.Windows.Forms.PictureBox();
+            this.pbLoadButtonArrowInfo = new System.Windows.Forms.PictureBox();
             this.lblLoadButtonBody = new System.Windows.Forms.Label();
             this.lblSaveButtonBody = new System.Windows.Forms.Label();
             this.tpPublishButton = new System.Windows.Forms.TabPage();
@@ -69,11 +70,12 @@
             this.linklblGitHub = new System.Windows.Forms.LinkLabel();
             this.pbGitHubInfo = new System.Windows.Forms.PictureBox();
             this.lblGitHubBody = new System.Windows.Forms.Label();
-            this.pbGeneralInfoClipboard = new System.Windows.Forms.PictureBox();
+            this.pbLoadButtonFileInfo = new System.Windows.Forms.PictureBox();
             this.tabControl.SuspendLayout();
             this.tpGeneral.SuspendLayout();
             this.tlpGeneral.SuspendLayout();
             this.pGeneral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoClipboard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoLocate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoPaste)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbGeneralWarningOverride)).BeginInit();
@@ -86,7 +88,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbLoadButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaveButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaveButtonInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoadButtonInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadButtonArrowInfo)).BeginInit();
             this.tpPublishButton.SuspendLayout();
             this.tlpPublishButton.SuspendLayout();
             this.pPublishButton.SuspendLayout();
@@ -95,7 +97,7 @@
             this.tlpGitHub.SuspendLayout();
             this.pGitHub.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGitHubInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoClipboard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadButtonFileInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -164,6 +166,16 @@
             this.pGeneral.Name = "pGeneral";
             this.pGeneral.Size = new System.Drawing.Size(355, 435);
             this.pGeneral.TabIndex = 1;
+            // 
+            // pbGeneralInfoClipboard
+            // 
+            this.pbGeneralInfoClipboard.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbGeneralInfoClipboard.Location = new System.Drawing.Point(0, 246);
+            this.pbGeneralInfoClipboard.Name = "pbGeneralInfoClipboard";
+            this.pbGeneralInfoClipboard.Size = new System.Drawing.Size(16, 16);
+            this.pbGeneralInfoClipboard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbGeneralInfoClipboard.TabIndex = 7;
+            this.pbGeneralInfoClipboard.TabStop = false;
             // 
             // pbGeneralInfoLocate
             // 
@@ -318,7 +330,8 @@
             this.pSavingAndLoading.Controls.Add(this.pbLoadButton);
             this.pSavingAndLoading.Controls.Add(this.pbSaveButton);
             this.pSavingAndLoading.Controls.Add(this.pbSaveButtonInfo);
-            this.pSavingAndLoading.Controls.Add(this.pbLoadButtonInfo);
+            this.pSavingAndLoading.Controls.Add(this.pbLoadButtonFileInfo);
+            this.pSavingAndLoading.Controls.Add(this.pbLoadButtonArrowInfo);
             this.pSavingAndLoading.Controls.Add(this.lblLoadButtonBody);
             this.pSavingAndLoading.Controls.Add(this.lblSaveButtonBody);
             this.pSavingAndLoading.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -377,21 +390,21 @@
             this.pbSaveButtonInfo.TabIndex = 6;
             this.pbSaveButtonInfo.TabStop = false;
             // 
-            // pbLoadButtonInfo
+            // pbLoadButtonArrowInfo
             // 
-            this.pbLoadButtonInfo.Image = global::PublishForQA.Properties.Resources.info;
-            this.pbLoadButtonInfo.Location = new System.Drawing.Point(0, 291);
-            this.pbLoadButtonInfo.Name = "pbLoadButtonInfo";
-            this.pbLoadButtonInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbLoadButtonInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbLoadButtonInfo.TabIndex = 6;
-            this.pbLoadButtonInfo.TabStop = false;
+            this.pbLoadButtonArrowInfo.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbLoadButtonArrowInfo.Location = new System.Drawing.Point(0, 291);
+            this.pbLoadButtonArrowInfo.Name = "pbLoadButtonArrowInfo";
+            this.pbLoadButtonArrowInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbLoadButtonArrowInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbLoadButtonArrowInfo.TabIndex = 6;
+            this.pbLoadButtonArrowInfo.TabStop = false;
             // 
             // lblLoadButtonBody
             // 
             this.lblLoadButtonBody.Location = new System.Drawing.Point(0, 201);
             this.lblLoadButtonBody.Name = "lblLoadButtonBody";
-            this.lblLoadButtonBody.Size = new System.Drawing.Size(353, 170);
+            this.lblLoadButtonBody.Size = new System.Drawing.Size(353, 202);
             this.lblLoadButtonBody.TabIndex = 9;
             this.lblLoadButtonBody.Text = resources.GetString("lblLoadButtonBody.Text");
             // 
@@ -552,15 +565,15 @@
             this.lblGitHubBody.Text = "You can find this project\'s GitHub\r\nYou are welcome to post any issues and sugges" +
     "tions.\r\n\r\n     Any ideas, help and reviews are appreciated.";
             // 
-            // pbGeneralInfoClipboard
+            // pbLoadButtonFileInfo
             // 
-            this.pbGeneralInfoClipboard.Image = global::PublishForQA.Properties.Resources.info;
-            this.pbGeneralInfoClipboard.Location = new System.Drawing.Point(0, 246);
-            this.pbGeneralInfoClipboard.Name = "pbGeneralInfoClipboard";
-            this.pbGeneralInfoClipboard.Size = new System.Drawing.Size(16, 16);
-            this.pbGeneralInfoClipboard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbGeneralInfoClipboard.TabIndex = 7;
-            this.pbGeneralInfoClipboard.TabStop = false;
+            this.pbLoadButtonFileInfo.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbLoadButtonFileInfo.Location = new System.Drawing.Point(0, 343);
+            this.pbLoadButtonFileInfo.Name = "pbLoadButtonFileInfo";
+            this.pbLoadButtonFileInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbLoadButtonFileInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbLoadButtonFileInfo.TabIndex = 6;
+            this.pbLoadButtonFileInfo.TabStop = false;
             // 
             // FormHelp
             // 
@@ -578,6 +591,7 @@
             this.tlpGeneral.PerformLayout();
             this.pGeneral.ResumeLayout(false);
             this.pGeneral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoClipboard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoLocate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoPaste)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbGeneralWarningOverride)).EndInit();
@@ -593,7 +607,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbLoadButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaveButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSaveButtonInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLoadButtonInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadButtonArrowInfo)).EndInit();
             this.tpPublishButton.ResumeLayout(false);
             this.tlpPublishButton.ResumeLayout(false);
             this.tlpPublishButton.PerformLayout();
@@ -605,7 +619,7 @@
             this.pGitHub.ResumeLayout(false);
             this.pGitHub.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGitHubInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGeneralInfoClipboard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLoadButtonFileInfo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -632,7 +646,7 @@
         private System.Windows.Forms.TableLayoutPanel tlpSavingAndLoading;
         private System.Windows.Forms.Label lblSavingAndLoadingTitle;
         private System.Windows.Forms.Panel pSavingAndLoading;
-        private System.Windows.Forms.PictureBox pbLoadButtonInfo;
+        private System.Windows.Forms.PictureBox pbLoadButtonArrowInfo;
         private System.Windows.Forms.TableLayoutPanel tlpPublishButton;
         private System.Windows.Forms.Label lblPublishButtonTitle;
         private System.Windows.Forms.Panel pPublishButton;
@@ -653,6 +667,7 @@
         private System.Windows.Forms.LinkLabel linklblGitHub;
         private System.Windows.Forms.PictureBox pbGeneralInfoLocate;
         private System.Windows.Forms.PictureBox pbGeneralInfoClipboard;
+        private System.Windows.Forms.PictureBox pbLoadButtonFileInfo;
     }
 }
 

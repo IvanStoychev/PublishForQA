@@ -154,6 +154,10 @@ If multiple results are found, either for the version or for E-CheckCore, an add
 Upon choosing the file the program will populate all text box values that can be successfully read.
 (a warning will be shown if the file is malformed/corrupted)
 
+     Clicking the arrow to the right of the load button will open a
+     list with a maximum of 10 text files, located in the same directory
+     as the executable. Clicking any one will attemp to load it.
+
      If a single text file is present in the same directory as the program's
      executable on launch it will automatically be loaded.
      This allows you to easily work with the same folders again and again.</value>
