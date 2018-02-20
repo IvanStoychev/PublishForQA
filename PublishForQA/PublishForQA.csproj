@@ -82,6 +82,9 @@
     <EmbeddedResource Include="FormHelp.resx">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormProgressBar.resx">
+      <DependentUpon>FormProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormPublisher.resx">
       <DependentUpon>FormPublisher.cs</DependentUpon>
     </EmbeddedResource>
