@@ -33,7 +33,7 @@ namespace PublishForQA
                     if (HasBinDebug())
                         if (DirectoriesExist())
                             if (HasNetworkAccess())
-                                 CopyFilesAndDirectories();
+                                 CopyFilesAndDirectories();//test for commit
         }
 
         /// <summary>
