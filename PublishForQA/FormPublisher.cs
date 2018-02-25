@@ -97,11 +97,7 @@ namespace PublishForQA
         private void btnPublish_Click(object sender, EventArgs e)
         {
             CursorChange();
-            ListTextBoxes();
-
             Publisher.Publish();
-
-            ListTextBoxes();
             CursorChange();
         }
 
