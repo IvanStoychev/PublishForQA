@@ -79,6 +79,7 @@
       <DependentUpon>FormResults.cs</DependentUpon>
     </Compile>
     <Compile Include="Publisher.cs" />
+    <Compile Include="TaskbarProgress.cs" />
     <EmbeddedResource Include="FormHelp.resx">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </EmbeddedResource>

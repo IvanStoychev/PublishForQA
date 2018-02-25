@@ -12,13 +12,14 @@ namespace PublishForQA
         static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
         static FormProgressBar formProgressBar;
         static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
-        static BackgroundWorker backgroundWorker = new BackgroundWorker();
+        static BackgroundWorker backgroundWorker;
         static DoWorkEventArgs WorkArgs;
         static int TotalOperationsCount;
         static int CurrentOpeartionCount;
 
         public FormProgressBar()
         {
+            backgroundWorker = new BackgroundWorker();
             TotalOperationsCount = 0;
             CurrentOpeartionCount = 0;
             InitializeComponent();
@@ -41,22 +42,27 @@ namespace PublishForQA
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             pbMain.Value = e.ProgressPercentage;
+            TaskbarProgress.SetState(formPublisher.Handle, TaskbarProgress.TaskbarStates.Indeterminate);
+            TaskbarProgress.SetValue(formPublisher.Handle, pbMain.Value, pbMain.Maximum);
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
             {
+                TaskbarProgress.SetState(formPublisher.Handle, TaskbarProgress.TaskbarStates.Error);
                 MessageBox.Show("An error occurred during copying:" + Environment.NewLine + e.Error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Cleanup();
             }
             else if (e.Cancelled)
             {
+                TaskbarProgress.SetState(formPublisher.Handle, TaskbarProgress.TaskbarStates.Paused);
                 MessageBox.Show("Copy operation aborted.", "Abort", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Cleanup();
             }
             else
             {
+                TaskbarProgress.SetState(formPublisher.Handle, TaskbarProgress.TaskbarStates.Normal);
                 MessageBox.Show("Copy operation completed successfully!", "Operation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Cleanup();
             }
@@ -64,6 +70,8 @@ namespace PublishForQA
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            TaskbarProgress.SetState(formPublisher.Handle, TaskbarProgress.TaskbarStates.Paused);
+            TaskbarProgress.SetValue(formPublisher.Handle, 0, pbMain.Maximum);
             backgroundWorker.CancelAsync();
         }
 
@@ -85,6 +93,7 @@ namespace PublishForQA
         /// </summary>
         static void Cleanup()
         {
+            TaskbarProgress.SetState(formPublisher.Handle, TaskbarProgress.TaskbarStates.NoProgress);
             backgroundWorker.Dispose();
             formProgressBar.Close();
         }
