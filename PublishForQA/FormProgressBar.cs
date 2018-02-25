@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace PublishForQA
 {
     public partial class FormProgressBar : Form
     {
-        private static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
-        private static FormProgressBar formProgressBar;
-        private static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
-        private static BackgroundWorker backgroundWorker = new BackgroundWorker();
-        private static int TotalOperationsCount;
-        private static int DirectoryOpeartionCount;
-        private static int FileOpeartionCount;
+        static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
+        static FormProgressBar formProgressBar;
+        static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
+        static BackgroundWorker backgroundWorker = new BackgroundWorker();
+        static DoWorkEventArgs WorkArgs;
+        static int TotalOperationsCount;
+        static int CurrentOpeartionCount;
 
         public FormProgressBar()
         {
             TotalOperationsCount = 0;
-            DirectoryOpeartionCount = 0;
-            FileOpeartionCount = 0;
+            CurrentOpeartionCount = 0;
             InitializeComponent();
             formProgressBar = this;
             backgroundWorker.DoWork += backgroundWorker_DoWork;
@@ -33,6 +33,7 @@ namespace PublishForQA
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            WorkArgs = e;
             pbMain.Maximum = GetOperationsCount();
             CopyFilesAndDirectories();
         }
@@ -44,33 +45,65 @@ namespace PublishForQA
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //this.Close();
             if (e.Error != null)
             {
                 MessageBox.Show("An error occurred during copying:" + Environment.NewLine + e.Error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Cleanup();
             }
             else if (e.Cancelled)
             {
                 MessageBox.Show("Copy operation aborted.", "Abort", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Cleanup();
             }
             else
             {
                 MessageBox.Show("Copy operation completed successfully!", "Operation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cleanup();
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            //backgroundWorker.CancelAsync();
-            //backgroundWorker.Dispose();
+            backgroundWorker.CancelAsync();
         }
 
+        /// <summary>
+        /// Checks if "CancellationPending" is true and if it is aborts the thread and sets
+        /// the DoWorkEventArgs's Cancel property to true.
+        /// </summary>
+        static void CheckForCancel()
+        {
+            if (backgroundWorker.CancellationPending)
+            {
+                WorkArgs.Cancel = true;
+                Thread.CurrentThread.Abort();
+            }
+        }
+
+        /// <summary>
+        /// Marks the BackgroundWorker to be disposed and closes the progress bar form.
+        /// </summary>
+        static void Cleanup()
+        {
+            backgroundWorker.Dispose();
+            formProgressBar.Close();
+        }
+
+        /// <summary>
+        /// Counts all the directories that need to be created and all the
+        /// files that need to be copied from each designated folder.
+        /// </summary>
+        /// <returns></returns>
         public static int GetOperationsCount()
         {
+            formProgressBar.lblCurrentOperation.Text = "Counting the total number of operations...";
             foreach (var tb in debugTextBoxes)
             {
+                CheckForCancel();
                 TotalOperationsCount += Directory.GetFiles(tb.Text, "*", SearchOption.AllDirectories).Length;
+                CheckForCancel();
                 TotalOperationsCount += Directory.GetDirectories(tb.Text, "*", SearchOption.AllDirectories).Length;
+                formProgressBar.lblCurrentPath.Text = tb.Text;
             }
 
             return TotalOperationsCount;
@@ -83,6 +116,7 @@ namespace PublishForQA
         {
             foreach (var tb in debugTextBoxes)
             {
+                CheckForCancel();
                 //If there is a task name provided we add a backslash, otherwise the QA Folder path's
                 //last backslash will suffice.
                 string destinationPath = formPublisher.tbQAFolderPath.Text + ((formPublisher.tbTaskName.Text.Length > 0) ? formPublisher.tbTaskName.Text + "\\" : string.Empty);
@@ -129,12 +163,13 @@ namespace PublishForQA
                 Directory.CreateDirectory(destinationPath);
                 foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
                 {
+                    CheckForCancel();
                     sourceDir = dirPath;
                     targetDir = dirPath.Replace(sourcePath, destinationPath);
                     formProgressBar.lblCurrentPath.Text = targetDir;
                     Directory.CreateDirectory(targetDir);
-                    DirectoryOpeartionCount++;
-                    backgroundWorker.ReportProgress(DirectoryOpeartionCount);
+                    CurrentOpeartionCount++;
+                    backgroundWorker.ReportProgress(CurrentOpeartionCount);
                 }
                 return true;
             }
@@ -177,6 +212,11 @@ namespace PublishForQA
                 MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed contains an illegal colon character.", sourceDir, targetDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            catch (ThreadAbortException)
+            {
+                Thread.ResetAbort();
+                return false;
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ExceptionMessageBuilder.Directory("Unexpected exception occurred:" + Environment.NewLine + ex.Message, sourceDir, targetDir, ex), "Unexpected Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -205,12 +245,13 @@ namespace PublishForQA
                 //We copy all files, overwriting any existing ones.
                 foreach (string filePath in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
                 {
+                    CheckForCancel();
                     sourceFile = filePath;
                     targetFileDir = filePath.Replace(sourcePath, destinationPath);
                     formProgressBar.lblCurrentPath.Text = filePath;
                     File.Copy(filePath, targetFileDir, true);
-                    FileOpeartionCount++;
-                    backgroundWorker.ReportProgress(DirectoryOpeartionCount + FileOpeartionCount);
+                    CurrentOpeartionCount++;
+                    backgroundWorker.ReportProgress(CurrentOpeartionCount);
                 }
                 return true;
             }
@@ -253,6 +294,11 @@ namespace PublishForQA
             catch (IOException ex)
             {
                 MessageBox.Show(ExceptionMessageBuilder.File("An I/O error has occurred.", sourceFile, targetFileDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (ThreadAbortException)
+            {
+                Thread.ResetAbort();
                 return false;
             }
             catch (Exception ex)
