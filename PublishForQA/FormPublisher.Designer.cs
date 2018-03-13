@@ -49,14 +49,14 @@
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.pTop = new System.Windows.Forms.Panel();
             this.pbLoadDropdown = new System.Windows.Forms.PictureBox();
-            this.pBottom = new System.Windows.Forms.Panel();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.btnLocate = new PublishForQA.MenuButton();
             this.tbTaskName = new PublishForQA.TextBoxFormPublisher();
             this.tbQAFolderPath = new PublishForQA.TextBoxFormPublisher();
             this.tbServicePath = new PublishForQA.TextBoxFormPublisher();
             this.tbCorePath = new PublishForQA.TextBoxFormPublisher();
             this.tbECheckPath = new PublishForQA.TextBoxFormPublisher();
+            this.pBottom = new System.Windows.Forms.Panel();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pbCopyToClipboard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).BeginInit();
@@ -314,20 +314,6 @@
             this.pbLoadDropdown.TabStop = false;
             this.pbLoadDropdown.Click += new System.EventHandler(this.pbLoadDropdown_Click);
             // 
-            // pBottom
-            // 
-            this.pBottom.Controls.Add(this.btnPublish);
-            this.pBottom.Controls.Add(this.pbCopyToClipboard);
-            this.pBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pBottom.Location = new System.Drawing.Point(3, 386);
-            this.pBottom.Name = "pBottom";
-            this.pBottom.Size = new System.Drawing.Size(398, 44);
-            this.pBottom.TabIndex = 14;
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.Filter = "Text files|*.txt";
-            // 
             // btnLocate
             // 
             this.btnLocate.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -412,6 +398,20 @@
             this.tbECheckPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_KeyPress);
             this.tbECheckPath.Leave += new System.EventHandler(this.tb_Leave);
             // 
+            // pBottom
+            // 
+            this.pBottom.Controls.Add(this.btnPublish);
+            this.pBottom.Controls.Add(this.pbCopyToClipboard);
+            this.pBottom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pBottom.Location = new System.Drawing.Point(3, 386);
+            this.pBottom.Name = "pBottom";
+            this.pBottom.Size = new System.Drawing.Size(398, 44);
+            this.pBottom.TabIndex = 14;
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Text files|*.txt";
+            // 
             // FormPublisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -420,7 +420,7 @@
             this.Controls.Add(this.tlpMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPublisher";
-            this.Text = "Publisher v1.0.1";
+            this.Text = "Publisher v1.1.0";
             ((System.ComponentModel.ISupportInitialize)(this.pbCopyToClipboard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSave)).EndInit();
