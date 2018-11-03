@@ -7,8 +7,7 @@ using Microsoft.Win32.SafeHandles;
 namespace PublishForQA
 {
     /// <summary>
-    /// Enumerates through directories all directories in a given path and
-    /// returns them.
+    /// Provides methods for enumerating folders.
     /// </summary>
     public static class FolderEnumerator
     {
@@ -143,7 +142,8 @@ namespace PublishForQA
         /// <returns>
         /// <para/>If the function succeeds, the return value is nonzero and the lpFindFileData parameter contains information about the next file or directory found.
         /// <para/>If the function fails, the return value is zero and the contents of lpFindFileData are indeterminate.To get extended error information, call the GetLastError function.
-        /// <para/>If the function fails because no more matching files can be found, the GetLastError function returns ERROR_NO_MORE_FILES.</returns>
+        /// <para/>If the function fails because no more matching files can be found, the GetLastError function returns ERROR_NO_MORE_FILES.
+        /// </returns>
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FindNextFile(SafeHandle hFindFile, out WIN32_FIND_DATA lpFindFileData);
@@ -154,7 +154,8 @@ namespace PublishForQA
         /// <param name="hFindFile">The file search handle.</param>
         /// <returns>
         /// <para/>If the function succeeds, the return value is nonzero.
-        /// <para/>If the function fails, the return value is zero.To get extended error information, call GetLastError.</returns>
+        /// <para/>If the function fails, the return value is zero.To get extended error information, call GetLastError.
+        /// </returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FindClose(SafeHandle hFindFile);
