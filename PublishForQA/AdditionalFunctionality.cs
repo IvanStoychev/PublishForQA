@@ -112,5 +112,26 @@ namespace PublishForQA
             }
             return;
         }
+
+        /// <summary>
+        /// Returns the destination path for copying files.
+        /// </summary>
+        /// <returns>
+        /// A string representing the destination for copying files,
+        /// taking into account if a "Task Name" is provided.
+        /// </returns>
+        public static string SetDestinationPath()
+        {
+            // If there is a task name provided a backslash is added,
+            // otherwise the QA Folder path's last backslash will suffice.
+            if (FormPublisher.tbTaskName.Text.Length > 0)
+            {
+                return FormPublisher.tbQAFolderPath.Text + FormPublisher.tbTaskName.Text + "\\";
+            }
+            else
+            {
+                return FormPublisher.tbQAFolderPath.Text;
+            }
+        }
     }
 }

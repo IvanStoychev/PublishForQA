@@ -126,12 +126,10 @@ namespace PublishForQA
             foreach (var tb in debugTextBoxes)
             {
                 CheckForCancel();
-                //If there is a task name provided we add a backslash, otherwise the QA Folder path's
-                //last backslash will suffice.
-                string destinationPath = formPublisher.tbQAFolderPath.Text + ((formPublisher.tbTaskName.Text.Length > 0) ? formPublisher.tbTaskName.Text + "\\" : string.Empty);
+                string destinationPath = AdditionalFunctionality.SetDestinationPath();
 
-                //We set the name of the destination folder, depending
-                //on the TextBox we are iterating over.
+                //Sets the name of the destination folder, depending
+                //on the TextBox being iterated over.
                 switch (tb.Name)
                 {
                     case "tbECheckPath":

@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace PublishForQA
 {
+    /// <summary>
+    /// Class concerned with performing system validation and publishing the test version.
+    /// </summary>
     public static class Publisher
     {
         private static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
@@ -284,6 +287,7 @@ namespace PublishForQA
         {
             //This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
+
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
             foreach (var tb in allTextBoxes)
             {
