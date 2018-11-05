@@ -70,6 +70,12 @@
     <Compile Include="FormPublisher.Designer.cs">
       <DependentUpon>FormPublisher.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormValidationErrors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormValidationErrors.Designer.cs">
+      <DependentUpon>FormValidationErrors.cs</DependentUpon>
+    </Compile>
     <Compile Include="StringOperations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

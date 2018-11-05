@@ -13,6 +13,14 @@ namespace PublishForQA
     public static class ExceptionMessageBuilder
     {
         /// <summary>
+        /// Displays a user-friendly message indicating any failed validation checks.
+        /// </summary>
+        public static void ValidationErrors()
+        {
+            new FormValidationErrors().Show(); /// [???] this method needs to be finished by supplying FormValidationErrors with data to display. 
+        }
+
+        /// <summary>
         /// Creates a StringBuilder and formats a more user-friendly message to display
         /// to the user when an exception occurrs in the directory structure creation method.
         /// </summary>

@@ -9,8 +9,14 @@ namespace PublishForQA
 {
     public partial class FormProgressBar : Form
     {
+        /// <summary>
+        /// A reference to FormPublisher.
+        /// </summary>
         static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
         static FormProgressBar formProgressBar;
+        /// <summary>
+        /// A list of all E-Check debug folder text boxes on the form.
+        /// </summary>
         static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
         static BackgroundWorker backgroundWorker;
         static DoWorkEventArgs WorkArgs;
@@ -128,8 +134,8 @@ namespace PublishForQA
                 CheckForCancel();
                 string destinationPath = AdditionalFunctionality.SetDestinationPath();
 
-                //Sets the name of the destination folder, depending
-                //on the TextBox being iterated over.
+                // Sets the name of the destination folder, depending
+                // on the TextBox being iterated over.
                 switch (tb.Name)
                 {
                     case "tbECheckPath":
@@ -160,13 +166,14 @@ namespace PublishForQA
         public static bool CreateDirectoryStructure(string sourcePath, string destinationPath)
         {
             formProgressBar.lblCurrentOperation.Text = "Creating directory structure...";
-            //These variables will hold the current source and target path of the "for" iteration.
-            //They will be used to show more information in the exception catching.
+
+            // These variables will hold the current source and target path of the "for" iteration.
+            // They will be used to show more information in the exception catching.
             string sourceDir = FormPublisher.ErrorBeforeDirectoryLoop;
             string targetDir = FormPublisher.ErrorBeforeDirectoryLoop;
             try
             {
-                //First we create the directory structure.
+                // First we create the directory structure.
                 Directory.CreateDirectory(destinationPath);
                 foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
                 {
@@ -208,9 +215,9 @@ namespace PublishForQA
             }
             catch (IOException ex)
             {
-                //IO Exception can be either the passed path is a file or the network name is not known.
-                //Since we have previous checks in place to make sure the path is a directory,
-                //the second possible error is shown.
+                // IO Exception can be either the passed path is a file or the network name is not known.
+                // Since we have previous checks in place to make sure the path is a directory,
+                // the second possible error is shown.
                 MessageBox.Show(ExceptionMessageBuilder.Directory("The network name is not known.", sourceDir, targetDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -242,14 +249,14 @@ namespace PublishForQA
         public static bool CopyFiles(string sourcePath, string destinationPath)
         {
             formProgressBar.lblCurrentOperation.Text = "Copying files...";
-            //These variables will hold the current source and target path of the "for" iteration.
-            //They will be used to show more information in the exception catching.
-            //But first they are set to the string used to indicate an error before the loop.
+            // These variables will hold the current source and target path of the "for" iteration.
+            // They will be used to show more information in the exception catching.
+            // But first they are set to the string used to indicate an error before the loop.
             string sourceFile = FormPublisher.ErrorBeforeFileLoop;
             string targetFileDir = FormPublisher.ErrorBeforeFileLoop;
             try
             {
-                //We copy all files, overwriting any existing ones.
+                // We copy all files, overwriting any existing ones.
                 foreach (string filePath in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
                 {
                     CheckForCancel();
