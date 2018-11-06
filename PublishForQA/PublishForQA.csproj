@@ -141,7 +141,7 @@
     <EmbeddedResource Include="Resources\E-CheckVersions.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\icon-help-circled-128.png" />
+    <EmbeddedResource Include="Resources\Help.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Load.png" />
@@ -151,10 +151,10 @@
     <EmbeddedResource Include="Resources\Save.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\info.png" />
+    <EmbeddedResource Include="Resources\Info.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\warning.png" />
+    <EmbeddedResource Include="Resources\Warning.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Clipboard.png" />
@@ -166,7 +166,7 @@
     <EmbeddedResource Include="Resources\ArrowDown.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\error-icon-4.png" />
+    <EmbeddedResource Include="Resources\Error.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

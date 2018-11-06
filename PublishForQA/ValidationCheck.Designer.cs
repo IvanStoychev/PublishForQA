@@ -87,7 +87,7 @@
             this.tlpTopHalf.Margin = new System.Windows.Forms.Padding(0);
             this.tlpTopHalf.Name = "tlpTopHalf";
             this.tlpTopHalf.RowCount = 1;
-            this.tlpTopHalf.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tlpTopHalf.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tlpTopHalf.Size = new System.Drawing.Size(416, 30);
             this.tlpTopHalf.TabIndex = 0;
             // 
@@ -107,13 +107,13 @@
             this.splitMain.TabIndex = 0;
             this.splitMain.TabStop = false;
             // 
-            // ControlValidationCheck
+            // ValidationCheck
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.splitMain);
-            this.Name = "ControlValidationCheck";
+            this.Name = "ValidationCheck";
             this.Size = new System.Drawing.Size(416, 210);
             ((System.ComponentModel.ISupportInitialize)(this.pbError)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbExpandCollapse)).EndInit();
