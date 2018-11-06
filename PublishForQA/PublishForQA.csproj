@@ -47,11 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalFunctionality.cs" />
-    <Compile Include="ControlValidationCheck.cs">
+    <Compile Include="ValidationCheck.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ControlValidationCheck.Designer.cs">
-      <DependentUpon>ControlValidationCheck.cs</DependentUpon>
+    <Compile Include="ValidationCheck.Designer.cs">
+      <DependentUpon>ValidationCheck.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls.cs">
       <SubType>Component</SubType>
@@ -94,8 +94,8 @@
     <Compile Include="Publisher.cs" />
     <Compile Include="TaskbarProgress.cs" />
     <Compile Include="Validator.cs" />
-    <EmbeddedResource Include="ControlValidationCheck.resx">
-      <DependentUpon>ControlValidationCheck.cs</DependentUpon>
+    <EmbeddedResource Include="ValidationCheck.resx">
+      <DependentUpon>ValidationCheck.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormHelp.resx">
       <DependentUpon>FormHelp.cs</DependentUpon>

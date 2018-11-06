@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PublishForQA
 {
-    public partial class ControlValidationCheck : UserControl
+    public partial class ValidationCheck : UserControl
     {
-        public ControlValidationCheck()
+        public ValidationCheck()
         {
             InitializeComponent();
         }

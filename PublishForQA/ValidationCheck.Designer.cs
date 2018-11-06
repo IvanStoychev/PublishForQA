@@ -1,6 +1,6 @@
 ﻿namespace PublishForQA
 {
-    partial class ControlValidationCheck
+    partial class ValidationCheck
     {
         /// <summary> 
         /// Required designer variable.
