@@ -374,7 +374,7 @@
   <data name="icon-help-circled-128" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7O
-        HOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAAsPAAALDwGS+QOlAAAI0klEQVR4Xu2dZaguVRSGj90N
+        HOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAAsOAAALDgFAvuFBAAAI0klEQVR4Xu2dZaguVRSGj90N
         KgYWioJiF4iInVfFLlREwcAfFiJ2owh2ByoIIoqIrYit2N2FrT8M7PZ90ANyXefc2TN7dsy3Hnjgcu45
         a+Kbb2b23muvPeY4juM4juM4juM4jlM5s8hV5B7yeHm1vE8+Lz+U38if5B//yr/5Gf/H79wr+ZvjJDGI
         NbN0CmVRuZe8RL4of5N/RZaYL8iLJRfFItLJyJryTPmStD6wFHJBnC5Xl04ClpSnyHel9YHk9B15slxC
@@ -7760,5 +7760,8 @@
         5qlIzPh0OG6+KP/7X8j/4/i+/DlOECciIiI3k7Jm+GE4ZnxT1g9ficTMZ8Jx46z8+cPyv2flj3dFIv7f
         CqX8b3brl9ixo+c66VX40fkpLq5lunp6/n8UiQiMnpT8bgAAAABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="error_icon_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\error-icon-4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

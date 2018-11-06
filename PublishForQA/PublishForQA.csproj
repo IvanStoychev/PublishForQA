@@ -165,5 +165,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\ArrowDown.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error-icon-4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
