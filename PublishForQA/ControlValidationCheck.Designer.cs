@@ -54,7 +54,7 @@
             // 
             // pbError
             // 
-            this.pbError.Image = global::PublishForQA.Properties.Resources.error_icon_4;
+            this.pbError.Image = global::PublishForQA.Properties.Resources.Error;
             this.pbError.Location = new System.Drawing.Point(3, 3);
             this.pbError.Name = "pbError";
             this.pbError.Size = new System.Drawing.Size(24, 24);
@@ -65,7 +65,7 @@
             // pbExpandCollapse
             // 
             this.pbExpandCollapse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbExpandCollapse.Image = global::PublishForQA.Properties.Resources.icon_help_circled_128;
+            this.pbExpandCollapse.Image = global::PublishForQA.Properties.Resources.Help;
             this.pbExpandCollapse.Location = new System.Drawing.Point(393, 3);
             this.pbExpandCollapse.Name = "pbExpandCollapse";
             this.pbExpandCollapse.Size = new System.Drawing.Size(25, 24);

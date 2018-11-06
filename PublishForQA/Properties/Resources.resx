@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="info" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="Info" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
         dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAD7SURBVDhPrZOtDoNAEIR5FWQlr1CJRGKRSCQWiUTW
@@ -136,7 +136,7 @@
   <data name="ArrowDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ArrowDown1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="warning" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="Warning" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAGWSURBVDhPnZPNSgJhFIYtiajAESsLI1rYDdTKduUd5AXUwluwbqCfdQm1aOEmqFWbijCKKCgs
@@ -371,10 +371,10 @@
         BZ4BLgTGR0Z1zkt7xycQ9vm+Cg8Dd55ZAHsB+4QbeBJy0vrYx/4fWp/V0QDJt7YAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="icon-help-circled-128" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="Help" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7O
-        HOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAAsOAAALDgFAvuFBAAAI0klEQVR4Xu2dZaguVRSGj90N
+        HOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAAsNAAALDQHtB8AsAAAI0klEQVR4Xu2dZaguVRSGj90N
         KgYWioJiF4iInVfFLlREwcAfFiJ2owh2ByoIIoqIrYit2N2FrT8M7PZ90ANyXefc2TN7dsy3Hnjgcu45
         a+Kbb2b23muvPeY4juM4juM4juM4jlM5s8hV5B7yeHm1vE8+Lz+U38if5B//yr/5Gf/H79wr+ZvjJDGI
         NbN0CmVRuZe8RL4of5N/RZaYL8iLJRfFItLJyJryTPmStD6wFHJBnC5Xl04ClpSnyHel9YHk9B15slxC
@@ -7761,7 +7761,7 @@
         CqX8b3brl9ixo+c66VX40fkpLq5lunp6/n8UiQiMnpT8bgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="error_icon_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\error-icon-4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

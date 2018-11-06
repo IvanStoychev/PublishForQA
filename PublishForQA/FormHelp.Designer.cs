@@ -169,7 +169,7 @@
             // 
             // pbGeneralInfoClipboard
             // 
-            this.pbGeneralInfoClipboard.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbGeneralInfoClipboard.Image = global::PublishForQA.Properties.Resources.Info;
             this.pbGeneralInfoClipboard.Location = new System.Drawing.Point(0, 246);
             this.pbGeneralInfoClipboard.Name = "pbGeneralInfoClipboard";
             this.pbGeneralInfoClipboard.Size = new System.Drawing.Size(16, 16);
@@ -179,7 +179,7 @@
             // 
             // pbGeneralInfoLocate
             // 
-            this.pbGeneralInfoLocate.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbGeneralInfoLocate.Image = global::PublishForQA.Properties.Resources.Info;
             this.pbGeneralInfoLocate.Location = new System.Drawing.Point(0, 206);
             this.pbGeneralInfoLocate.Name = "pbGeneralInfoLocate";
             this.pbGeneralInfoLocate.Size = new System.Drawing.Size(16, 16);
@@ -189,7 +189,7 @@
             // 
             // pbGeneralInfoPaste
             // 
-            this.pbGeneralInfoPaste.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbGeneralInfoPaste.Image = global::PublishForQA.Properties.Resources.Info;
             this.pbGeneralInfoPaste.Location = new System.Drawing.Point(0, 167);
             this.pbGeneralInfoPaste.Name = "pbGeneralInfoPaste";
             this.pbGeneralInfoPaste.Size = new System.Drawing.Size(16, 16);
@@ -199,7 +199,7 @@
             // 
             // pbGeneralWarningOverride
             // 
-            this.pbGeneralWarningOverride.Image = global::PublishForQA.Properties.Resources.warning;
+            this.pbGeneralWarningOverride.Image = global::PublishForQA.Properties.Resources.Warning;
             this.pbGeneralWarningOverride.Location = new System.Drawing.Point(0, 75);
             this.pbGeneralWarningOverride.Name = "pbGeneralWarningOverride";
             this.pbGeneralWarningOverride.Size = new System.Drawing.Size(16, 16);
@@ -382,7 +382,7 @@
             // 
             // pbSaveButtonInfo
             // 
-            this.pbSaveButtonInfo.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbSaveButtonInfo.Image = global::PublishForQA.Properties.Resources.Info;
             this.pbSaveButtonInfo.Location = new System.Drawing.Point(0, 90);
             this.pbSaveButtonInfo.Name = "pbSaveButtonInfo";
             this.pbSaveButtonInfo.Size = new System.Drawing.Size(16, 16);
@@ -392,7 +392,7 @@
             // 
             // pbLoadButtonArrowInfo
             // 
-            this.pbLoadButtonArrowInfo.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbLoadButtonArrowInfo.Image = global::PublishForQA.Properties.Resources.Info;
             this.pbLoadButtonArrowInfo.Location = new System.Drawing.Point(0, 291);
             this.pbLoadButtonArrowInfo.Name = "pbLoadButtonArrowInfo";
             this.pbLoadButtonArrowInfo.Size = new System.Drawing.Size(16, 16);
@@ -467,7 +467,7 @@
             // 
             // pbPublishButtonWarning
             // 
-            this.pbPublishButtonWarning.Image = global::PublishForQA.Properties.Resources.warning;
+            this.pbPublishButtonWarning.Image = global::PublishForQA.Properties.Resources.Warning;
             this.pbPublishButtonWarning.Location = new System.Drawing.Point(0, 179);
             this.pbPublishButtonWarning.Name = "pbPublishButtonWarning";
             this.pbPublishButtonWarning.Size = new System.Drawing.Size(16, 16);
@@ -547,7 +547,7 @@
             // 
             // pbGitHubInfo
             // 
-            this.pbGitHubInfo.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbGitHubInfo.Image = global::PublishForQA.Properties.Resources.Info;
             this.pbGitHubInfo.Location = new System.Drawing.Point(0, 37);
             this.pbGitHubInfo.Name = "pbGitHubInfo";
             this.pbGitHubInfo.Size = new System.Drawing.Size(16, 16);
@@ -567,7 +567,7 @@
             // 
             // pbLoadButtonFileInfo
             // 
-            this.pbLoadButtonFileInfo.Image = global::PublishForQA.Properties.Resources.info;
+            this.pbLoadButtonFileInfo.Image = global::PublishForQA.Properties.Resources.Info;
             this.pbLoadButtonFileInfo.Location = new System.Drawing.Point(0, 343);
             this.pbLoadButtonFileInfo.Name = "pbLoadButtonFileInfo";
             this.pbLoadButtonFileInfo.Size = new System.Drawing.Size(16, 16);
