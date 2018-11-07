@@ -18,6 +18,7 @@ namespace PublishForQA
         /// A list of all E-Check debug folder text boxes on the form.
         /// </summary>
         static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
+        FormValidationErrors validationErrors = new FormValidationErrors();
 
         static void Validate(List<TextBox> textBoxes)
         {
