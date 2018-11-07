@@ -32,7 +32,7 @@
             this.tlpTopHalf = new System.Windows.Forms.TableLayoutPanel();
             this.pbExpandCollapse = new System.Windows.Forms.PictureBox();
             this.pbError = new System.Windows.Forms.PictureBox();
-            this.lblDetails = new System.Windows.Forms.Label();
+            this.lblValidationDetails = new System.Windows.Forms.Label();
             this.splitMain = new System.Windows.Forms.SplitContainer();
             this.tlpTopHalf.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbExpandCollapse)).BeginInit();
@@ -82,6 +82,7 @@
             this.pbExpandCollapse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbExpandCollapse.TabIndex = 1;
             this.pbExpandCollapse.TabStop = false;
+            this.pbExpandCollapse.Click += new System.EventHandler(this.pbExpandCollapse_Click);
             // 
             // pbError
             // 
@@ -93,15 +94,15 @@
             this.pbError.TabIndex = 2;
             this.pbError.TabStop = false;
             // 
-            // lblDetails
+            // lblValidationDetails
             // 
-            this.lblDetails.AutoSize = true;
-            this.lblDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDetails.Location = new System.Drawing.Point(7, 7);
-            this.lblDetails.Name = "lblDetails";
-            this.lblDetails.Size = new System.Drawing.Size(70, 13);
-            this.lblDetails.TabIndex = 0;
-            this.lblDetails.Text = "lblDescription";
+            this.lblValidationDetails.AutoSize = true;
+            this.lblValidationDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblValidationDetails.Location = new System.Drawing.Point(7, 7);
+            this.lblValidationDetails.Name = "lblValidationDetails";
+            this.lblValidationDetails.Size = new System.Drawing.Size(95, 13);
+            this.lblValidationDetails.TabIndex = 0;
+            this.lblValidationDetails.Text = "lblValidationDetails";
             // 
             // splitMain
             // 
@@ -116,7 +117,7 @@
             // 
             // splitMain.Panel2
             // 
-            this.splitMain.Panel2.Controls.Add(this.lblDetails);
+            this.splitMain.Panel2.Controls.Add(this.lblValidationDetails);
             this.splitMain.Panel2.Padding = new System.Windows.Forms.Padding(7);
             this.splitMain.Size = new System.Drawing.Size(416, 141);
             this.splitMain.SplitterDistance = 25;
@@ -149,7 +150,7 @@
         private System.Windows.Forms.PictureBox pbError;
         private System.Windows.Forms.PictureBox pbExpandCollapse;
         private System.Windows.Forms.TableLayoutPanel tlpTopHalf;
-        private System.Windows.Forms.Label lblDetails;
+        private System.Windows.Forms.Label lblValidationDetails;
         private System.Windows.Forms.SplitContainer splitMain;
     }
 }

@@ -18,7 +18,7 @@ namespace PublishForQA
         /// A list of all E-Check debug folder text boxes on the form.
         /// </summary>
         static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
-        FormValidationErrors validationErrors = new FormValidationErrors();
+        static FormValidationErrors validationErrors = new FormValidationErrors();
 
         static void Validate(List<TextBox> textBoxes)
         {
@@ -37,8 +37,15 @@ namespace PublishForQA
         /// <param name="directories">A list of DirecotryInfo objects supplied for the copy operation.</param>
         static void CheckPathTooLongException(List<DirectoryInfo> directories)
         {
-            if (GetLongestPath(directories).Length > 260)
+            (string destPath, string origPath, DirectoryInfo sourceDir) longestPathResult = GetLongestPath(directories);
+
+            if (longestPathResult.destPath.Length > 260)
             {
+                string validationName = "Path is too long";
+                StringBuilder validationDetails = new StringBuilder();
+                validationDetails.AppendLine("The copy operation cannot be performed, because the source directories contain a file or folder, whose path will exceed the maximum ");
+
+                ValidationCheck pathTooLongCheck = new ValidationCheck(validationName, validationDetails);
                 // [???] this method needs to be finished by initialising data for the error/exception message.
             }
         }
@@ -49,18 +56,30 @@ namespace PublishForQA
         /// </summary>
         /// <param name="directories"></param>
         /// <returns></returns>
-        static string GetLongestPath(List<DirectoryInfo> directories)
+        static (string destPath, string origPath, DirectoryInfo sourceDir) GetLongestPath(List<DirectoryInfo> directories)
         {
             string longestPath = string.Empty;
+            string origPath = string.Empty;
+            DirectoryInfo sourceDir = null;
+
+            // "E-CheckService\\" is added to the destination path, because it is the longest
+            // of the directory names that will be used/created.
             string destinationPath = AdditionalFunctionality.SetDestinationPath() + "E-CheckService\\";
 
             foreach (var dir in directories)
             {
-                string path = dir.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).OrderByDescending(d => d.FullName).FirstOrDefault().FullName.Replace(dir.FullName, destinationPath);
-                if (path.Length > longestPath.Length) longestPath = path;
+                string path = dir.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).OrderByDescending(d => d.FullName).FirstOrDefault().FullName;
+                string destPath = path.Replace(dir.FullName, destinationPath);
+
+                if (destPath.Length > longestPath.Length)
+                {
+                    longestPath = destPath;
+                    origPath = path;
+                    sourceDir = dir;
+                }
             }
 
-            return longestPath;
+            return (longestPath, origPath, sourceDir);
         }
     }
 }
