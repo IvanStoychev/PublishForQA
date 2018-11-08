@@ -28,6 +28,8 @@ namespace PublishForQA
             {
                 directories.Add(new DirectoryInfo(textBox.Text)); // [???] this method needs to be finished by making it validate all possible pre-execution validatable exceptions.
             }
+
+            validationErrors.ShowDialog();
         }
 
         /// <summary>
@@ -39,14 +41,37 @@ namespace PublishForQA
         {
             (string destPath, string origPath, DirectoryInfo sourceDir) longestPathResult = GetLongestPath(directories);
 
-            if (longestPathResult.destPath.Length > 260)
+            if (longestPathResult.destPath.Length > 259)
             {
-                string validationName = "Path is too long";
+                string validationName = null;
                 StringBuilder validationDetails = new StringBuilder();
-                validationDetails.AppendLine("The copy operation cannot be performed, because the source directories contain a file or folder, whose path will exceed the maximum ");
 
-                ValidationCheck pathTooLongCheck = new ValidationCheck(validationName, validationDetails);
-                // [???] this method needs to be finished by initialising data for the error/exception message.
+                validationName = "Path is too long";
+
+                if (Directory.Exists(longestPathResult.origPath))
+                {
+                    validationDetails.AppendLine("The copy operation cannot be performed, because the source directories contain a folder, whose path will exceed the maximum length allowed by the system when copied.");
+                    validationDetails.AppendLine();
+                    validationDetails.AppendLine("The folder in question is:");
+                }
+                else if (File.Exists(longestPathResult.origPath))
+                {
+                    validationDetails.AppendLine("The copy operation cannot be performed, because the source directories contain a file, whose path will exceed the maximum length allowed by the system when copied.");
+                    validationDetails.AppendLine();
+                    validationDetails.AppendLine("The file in question is:");
+                }
+                else
+                {
+                    // This should never happen. If it does - something has gone horribly wrong and the operation must be halted in such a rude manner.
+                    throw new Exception("An unexprected exception occurred, because the \"CheckPathTooLongException\" validation found a path that is too long but it could not determine if it is a file or directory.", new Exception($"Path that caused the exception: {longestPathResult.origPath}"));
+                }
+
+                validationDetails.AppendLine(longestPathResult.origPath);
+                validationDetails.AppendLine();
+                validationDetails.AppendLine("It will cause a \"PathTooLongException\" when copied to:");
+                validationDetails.AppendLine(longestPathResult.destPath);
+
+                validationErrors.Controls.Add(new ValidationCheck(validationName, validationDetails.ToString()));
             }
         }
 
