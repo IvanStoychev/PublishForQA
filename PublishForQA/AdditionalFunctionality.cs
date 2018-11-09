@@ -8,12 +8,7 @@ namespace PublishForQA
 {
     public static class AdditionalFunctionality
     {
-        public static FormPublisher FormPublisher { get; set; }
-
-        static AdditionalFunctionality()
-        {
-            FormPublisher = (FormPublisher)Form.ActiveForm;
-        }
+        public static FormPublisher MainForm;
 
         /// <summary>
         /// Attempts to create a folder at the designated QA Folder path.
@@ -25,7 +20,7 @@ namespace PublishForQA
         {
             try
             {
-                Directory.CreateDirectory(FormPublisher.tbQAFolderPath.Text);
+                Directory.CreateDirectory(MainForm.tbQAFolderPath.Text);
                 return true;
             }
             catch (PathTooLongException)
@@ -124,13 +119,13 @@ namespace PublishForQA
         {
             // If there is a task name provided a backslash is added,
             // otherwise the QA Folder path's last backslash will suffice.
-            if (FormPublisher.tbTaskName.Text.Length > 0)
+            if (MainForm.tbTaskName.Text.Length > 0)
             {
-                return FormPublisher.tbQAFolderPath.Text + FormPublisher.tbTaskName.Text + "\\";
+                return MainForm.tbQAFolderPath.Text + MainForm.tbTaskName.Text + "\\";
             }
             else
             {
-                return FormPublisher.tbQAFolderPath.Text;
+                return MainForm.tbQAFolderPath.Text;
             }
         }
     }

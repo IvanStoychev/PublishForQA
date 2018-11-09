@@ -13,14 +13,18 @@ namespace PublishForQA
     /// </summary>
     public static class Publisher
     {
-        private static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
-        private static List<TextBox> allTextBoxes = formPublisher.AllTextBoxesList;
-        private static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
-
-        static Publisher()
-        {
-            
-        }
+        /// <summary>
+        /// A reference to the main form.
+        /// </summary>
+        private static FormPublisher formPublisher = Globals.MainForm;
+        /// <summary>
+        /// A list of all text boxes on the form.
+        /// </summary>
+        private static List<TextBox> allTextBoxes = Globals.AllTextBoxesList;
+        /// <summary>
+        /// A list of all E-Check debug folder text boxes on the form.
+        /// </summary>
+        private static List<TextBox> debugTextBoxes = Globals.DebugTextBoxesList;
 
         /// <summary>
         /// Publishes the currently chosen version for QA. It does so by first

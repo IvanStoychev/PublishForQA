@@ -10,14 +10,14 @@ namespace PublishForQA
     public partial class FormProgressBar : Form
     {
         /// <summary>
-        /// A reference to FormPublisher.
+        /// A reference to the main form.
         /// </summary>
-        static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
+        static FormPublisher formPublisher = Globals.MainForm;
         static FormProgressBar formProgressBar;
         /// <summary>
         /// A list of all E-Check debug folder text boxes on the form.
         /// </summary>
-        static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
+        static List<TextBox> debugTextBoxes = Globals.DebugTextBoxesList;
         static BackgroundWorker backgroundWorker;
         static DoWorkEventArgs WorkArgs;
         static int TotalOperationsCount;

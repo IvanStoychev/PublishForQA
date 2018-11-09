@@ -29,15 +29,16 @@ namespace PublishForQA
         /// <summary>
         /// A list of all text boxes on the form.
         /// </summary>
-        public List<TextBox> AllTextBoxesList = new List<TextBox>();
+        public List<TextBox> AllTextBoxesList = Globals.AllTextBoxesList;
         /// <summary>
         /// A list of all E-Check debug folder text boxes on the form.
         /// </summary>
-        public List<TextBox> DebugTextBoxesList = new List<TextBox>();
+        public List<TextBox> DebugTextBoxesList = Globals.DebugTextBoxesList;
 
         public FormPublisher()
         {
             InitializeComponent();
+            Globals.MainForm = this;
             ListTextBoxes();
 
             //If there is only a single *.txt file in the current directory, it tries to load it.
@@ -51,7 +52,7 @@ namespace PublishForQA
         #region Events of controls
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            FormPublisher formPublisher = ((FormPublisher)Form.ActiveForm);
+            FormPublisher formPublisher = Globals.MainForm;
             formPublisher.CursorChange();
             formPublisher.btnLocate.Menu.Close();
             AdditionalFunctionality.Locate(e.ClickedItem.ToString());
@@ -96,6 +97,7 @@ namespace PublishForQA
 
         private void btnPublish_Click(object sender, EventArgs e)
         {
+            Validator.Validate(DebugTextBoxesList);
             CursorChange();
             Publisher.Publish();
             CursorChange();

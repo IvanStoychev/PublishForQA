@@ -11,16 +11,16 @@ namespace PublishForQA
     static class Validator
     {
         /// <summary>
-        /// A reference to FormPublisher.
+        /// A reference to the main form.
         /// </summary>
-        static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
+        static FormPublisher formPublisher = Globals.MainForm;
         /// <summary>
         /// A list of all E-Check debug folder text boxes on the form.
         /// </summary>
-        static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
+        static List<TextBox> debugTextBoxes = Globals.DebugTextBoxesList;
         static FormValidationErrors validationErrors = new FormValidationErrors();
 
-        static void Validate(List<TextBox> textBoxes)
+        public static void Validate(List<TextBox> textBoxes)
         {
             List<DirectoryInfo> directories = new List<DirectoryInfo>();
 
@@ -28,6 +28,8 @@ namespace PublishForQA
             {
                 directories.Add(new DirectoryInfo(textBox.Text)); // [???] this method needs to be finished by making it validate all possible pre-execution validatable exceptions.
             }
+
+            CheckPathTooLongException(directories);
 
             validationErrors.ShowDialog();
         }
@@ -41,7 +43,7 @@ namespace PublishForQA
         {
             (string destPath, string origPath, DirectoryInfo sourceDir) longestPathResult = GetLongestPath(directories);
 
-            if (longestPathResult.destPath.Length > 259)
+            if (true)//longestPathResult.destPath.Length > 259)
             {
                 string validationName = null;
                 StringBuilder validationDetails = new StringBuilder();
