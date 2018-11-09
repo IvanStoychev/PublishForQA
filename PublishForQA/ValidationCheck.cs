@@ -12,7 +12,7 @@ namespace PublishForQA
 {
     public partial class ValidationCheck : UserControl
     {
-        bool isCollapsed = true;
+        bool isCollapsed;
 
         public ValidationCheck(string validationName, string validationDetails)
         {

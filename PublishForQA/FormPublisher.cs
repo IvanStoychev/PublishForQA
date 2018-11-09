@@ -41,7 +41,7 @@ namespace PublishForQA
             Globals.MainForm = this;
             ListTextBoxes();
 
-            //If there is only a single *.txt file in the current directory, it tries to load it.
+            // If there is only a single *.txt file in the current directory, it tries to load it.
             List<string> txtFilesInDir = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).ToList();
             if (txtFilesInDir.Count == 1)
             {
@@ -82,7 +82,7 @@ namespace PublishForQA
             if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
         }
 
-        //This event is only used to emulate "Control + A" select all text behaviour.
+        // This event is only used to emulate "Control + A" select all text behaviour.
         private void tb_KeyDown(object sender, KeyEventArgs e)
         {
             TextBox tb = (TextBox)sender;

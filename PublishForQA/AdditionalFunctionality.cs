@@ -8,7 +8,7 @@ namespace PublishForQA
 {
     public static class AdditionalFunctionality
     {
-        public static FormPublisher MainForm;
+        public static FormPublisher MainForm = Globals.MainForm;
 
         /// <summary>
         /// Attempts to create a folder at the designated QA Folder path.

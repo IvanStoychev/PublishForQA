@@ -18,7 +18,8 @@ namespace PublishForQA
         /// A list of all E-Check debug folder text boxes on the form.
         /// </summary>
         static List<TextBox> debugTextBoxes = Globals.DebugTextBoxesList;
-        static FormValidationErrors validationErrors = new FormValidationErrors();
+        static FormValidationErrors validationErrorsForm = new FormValidationErrors();
+        static TableLayoutPanel tlpMain = (TableLayoutPanel)validationErrorsForm.Controls[0];
 
         public static void Validate(List<TextBox> textBoxes)
         {
@@ -31,7 +32,7 @@ namespace PublishForQA
 
             CheckPathTooLongException(directories);
 
-            validationErrors.ShowDialog();
+            validationErrorsForm.ShowDialog();
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace PublishForQA
         {
             (string destPath, string origPath, DirectoryInfo sourceDir) longestPathResult = GetLongestPath(directories);
 
-            if (true)//longestPathResult.destPath.Length > 259)
+            if (true)//longestPathResult.destPath.Length > 259) [???]
             {
                 string validationName = null;
                 StringBuilder validationDetails = new StringBuilder();
@@ -73,7 +74,9 @@ namespace PublishForQA
                 validationDetails.AppendLine("It will cause a \"PathTooLongException\" when copied to:");
                 validationDetails.AppendLine(longestPathResult.destPath);
 
-                validationErrors.Controls.Add(new ValidationCheck(validationName, validationDetails.ToString()));
+                ValidationCheck pathTooLong = new ValidationCheck(validationName, validationDetails.ToString());
+                pathTooLong.Dock = DockStyle.Fill;
+                tlpMain.Controls.Add(pathTooLong);
             }
         }
 
