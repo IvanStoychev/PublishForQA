@@ -75,7 +75,7 @@ namespace PublishForQA
                 validationDetails.AppendLine(longestPathResult.destPath);
 
                 ValidationCheck pathTooLong = new ValidationCheck(validationName, validationDetails.ToString());
-                pathTooLong.Dock = DockStyle.Fill;
+                pathTooLong.Dock = DockStyle.None;
                 tlpMain.Controls.Add(pathTooLong);
             }
         }
