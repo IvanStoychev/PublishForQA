@@ -19,6 +19,9 @@ namespace PublishForQA
         /// </summary>
         static List<TextBox> debugTextBoxes = Globals.DebugTextBoxesList;
         static FormValidationErrors validationErrorsForm = new FormValidationErrors();
+        /// <summary>
+        /// The main TableLayoutPanel of the FormValidationErrors.
+        /// </summary>
         static TableLayoutPanel tlpMain = (TableLayoutPanel)validationErrorsForm.Controls[0];
 
         public static void Validate(List<TextBox> textBoxes)
