@@ -78,8 +78,9 @@ namespace PublishForQA
                 validationDetails.AppendLine(longestPathResult.destPath);
 
                 ValidationCheck pathTooLong = new ValidationCheck(validationName, validationDetails.ToString());
-                pathTooLong.Dock = DockStyle.None;
+                pathTooLong.Dock = DockStyle.Fill;
                 tlpMain.Controls.Add(pathTooLong);
+                validationErrorsForm.Size = tlpMain.Size; //[???] still working on resizing the form properly.
             }
         }
 

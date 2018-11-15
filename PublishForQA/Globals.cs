@@ -22,7 +22,6 @@ namespace PublishForQA
         static Globals()
         {
             // All global variables must never be garbage collected.
-            GC.SuppressFinalize(MainForm);
             GC.SuppressFinalize(AllTextBoxesList);
             GC.SuppressFinalize(DebugTextBoxesList);
         }

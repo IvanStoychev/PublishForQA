@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PublishForQA.Properties;
+using System;
 using System.Windows.Forms;
 
 namespace PublishForQA
@@ -19,11 +20,13 @@ namespace PublishForQA
             if (isCollapsed)
             {
                 tlpMain.RowStyles[1].SizeType = SizeType.AutoSize;
+                pbExpandCollapse.Image = Resources.ArrowUp;
             }
             else
             {
                 tlpMain.RowStyles[1].SizeType = SizeType.Absolute;
                 tlpMain.RowStyles[1].Height = 0;
+                pbExpandCollapse.Image = Resources.ArrowDown;
             }
 
             isCollapsed = !isCollapsed;

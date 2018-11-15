@@ -78,7 +78,7 @@
             // pbExpandCollapse
             // 
             this.pbExpandCollapse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbExpandCollapse.Image = global::PublishForQA.Properties.Resources.ArrowDown;
+            this.pbExpandCollapse.Image = global::PublishForQA.Properties.Resources.ArrowUp;
             this.pbExpandCollapse.Location = new System.Drawing.Point(384, 0);
             this.pbExpandCollapse.Margin = new System.Windows.Forms.Padding(0);
             this.pbExpandCollapse.Name = "pbExpandCollapse";
