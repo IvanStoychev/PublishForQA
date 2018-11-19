@@ -4,11 +4,11 @@ using System.Windows.Forms;
 
 namespace PublishForQA
 {
-    public partial class ValidationCheck : UserControl
+    public partial class ControlValidationCheck : UserControl
     {
         bool isCollapsed;
 
-        public ValidationCheck(string validationName, string validationDetails)
+        public ControlValidationCheck(string validationName, string validationDetails)
         {
             InitializeComponent();
             lblValidationName.Text = validationName;
@@ -20,10 +20,12 @@ namespace PublishForQA
             if (isCollapsed)
             {
                 tlpMain.RowStyles[1].SizeType = SizeType.AutoSize;
+                this.Height += tlpMain.GetRowHeights()[1];
                 pbExpandCollapse.Image = Resources.ArrowUp;
             }
             else
             {
+                this.Height -= tlpMain.GetRowHeights()[1];
                 tlpMain.RowStyles[1].SizeType = SizeType.Absolute;
                 tlpMain.RowStyles[1].Height = 0;
                 pbExpandCollapse.Image = Resources.ArrowDown;

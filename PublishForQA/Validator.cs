@@ -77,8 +77,14 @@ namespace PublishForQA
                 validationDetails.AppendLine("It will cause a \"PathTooLongException\" when copied to:");
                 validationDetails.AppendLine(longestPathResult.destPath);
 
-                ValidationCheck pathTooLong = new ValidationCheck(validationName, validationDetails.ToString());
-                pathTooLong.Dock = DockStyle.Fill;
+                ControlValidationCheck pathTooLong = new ControlValidationCheck(validationName, validationDetails.ToString());
+                pathTooLong.Dock = DockStyle.None;
+                tlpMain.Controls.Add(pathTooLong);
+                pathTooLong = new ControlValidationCheck(validationName, validationDetails.ToString());
+                pathTooLong.Dock = DockStyle.None;
+                tlpMain.Controls.Add(pathTooLong);
+                pathTooLong = new ControlValidationCheck(validationName, validationDetails.ToString());
+                pathTooLong.Dock = DockStyle.None;
                 tlpMain.Controls.Add(pathTooLong);
                 validationErrorsForm.Size = tlpMain.Size; //[???] still working on resizing the form properly.
             }
