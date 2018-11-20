@@ -11,6 +11,7 @@ namespace PublishForQA
         public ControlValidationCheck(string validationName, string validationDetails)
         {
             InitializeComponent();
+            this.tlpTitle.BorderStyle = BorderStyle.FixedSingle;
             lblValidationName.Text = validationName;
             lblValidationDetails.Text = validationDetails;
         }

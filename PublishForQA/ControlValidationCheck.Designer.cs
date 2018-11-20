@@ -32,21 +32,23 @@
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.pbExpandCollapse = new System.Windows.Forms.PictureBox();
             this.pbError = new System.Windows.Forms.PictureBox();
-            this.panelValidationDetails = new System.Windows.Forms.Panel();
             this.lblValidationDetails = new System.Windows.Forms.Label();
+            this.tlpDetails = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpTitle = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbExpandCollapse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbError)).BeginInit();
-            this.panelValidationDetails.SuspendLayout();
+            this.tlpDetails.SuspendLayout();
+            this.tlpTitle.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblValidationName
             // 
             this.lblValidationName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblValidationName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblValidationName.Location = new System.Drawing.Point(35, 1);
+            this.lblValidationName.Location = new System.Drawing.Point(33, 0);
             this.lblValidationName.Name = "lblValidationName";
-            this.lblValidationName.Size = new System.Drawing.Size(348, 30);
+            this.lblValidationName.Size = new System.Drawing.Size(352, 30);
             this.lblValidationName.TabIndex = 0;
             this.lblValidationName.Text = "lblValidationName";
             this.lblValidationName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -55,29 +57,27 @@
             // 
             this.tlpMain.AutoSize = true;
             this.tlpMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tlpMain.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tlpMain.ColumnCount = 3;
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tlpMain.Controls.Add(this.pbExpandCollapse, 2, 0);
-            this.tlpMain.Controls.Add(this.lblValidationName, 1, 0);
-            this.tlpMain.Controls.Add(this.pbError, 0, 0);
-            this.tlpMain.Controls.Add(this.panelValidationDetails, 0, 1);
+            this.tlpMain.ColumnCount = 1;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpMain.Controls.Add(this.tlpDetails, 0, 1);
+            this.tlpMain.Controls.Add(this.tlpTitle, 0, 0);
+            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 0);
             this.tlpMain.Margin = new System.Windows.Forms.Padding(0);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 2;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpMain.Size = new System.Drawing.Size(418, 139);
+            this.tlpMain.Size = new System.Drawing.Size(418, 143);
             this.tlpMain.TabIndex = 0;
             // 
             // pbExpandCollapse
             // 
             this.pbExpandCollapse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbExpandCollapse.Image = global::PublishForQA.Properties.Resources.ArrowUp;
-            this.pbExpandCollapse.Location = new System.Drawing.Point(387, 1);
+            this.pbExpandCollapse.Location = new System.Drawing.Point(388, 0);
             this.pbExpandCollapse.Margin = new System.Windows.Forms.Padding(0);
             this.pbExpandCollapse.Name = "pbExpandCollapse";
             this.pbExpandCollapse.Size = new System.Drawing.Size(30, 30);
@@ -90,7 +90,7 @@
             // 
             this.pbError.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbError.Image = global::PublishForQA.Properties.Resources.Error;
-            this.pbError.Location = new System.Drawing.Point(1, 1);
+            this.pbError.Location = new System.Drawing.Point(0, 0);
             this.pbError.Margin = new System.Windows.Forms.Padding(0);
             this.pbError.MinimumSize = new System.Drawing.Size(24, 24);
             this.pbError.Name = "pbError";
@@ -99,24 +99,50 @@
             this.pbError.TabIndex = 2;
             this.pbError.TabStop = false;
             // 
-            // panelValidationDetails
-            // 
-            this.tlpMain.SetColumnSpan(this.panelValidationDetails, 3);
-            this.panelValidationDetails.Controls.Add(this.lblValidationDetails);
-            this.panelValidationDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelValidationDetails.Location = new System.Drawing.Point(4, 35);
-            this.panelValidationDetails.Name = "panelValidationDetails";
-            this.panelValidationDetails.Size = new System.Drawing.Size(410, 100);
-            this.panelValidationDetails.TabIndex = 3;
-            // 
             // lblValidationDetails
             // 
             this.lblValidationDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblValidationDetails.Location = new System.Drawing.Point(0, 0);
+            this.lblValidationDetails.Location = new System.Drawing.Point(3, 5);
+            this.lblValidationDetails.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.lblValidationDetails.Name = "lblValidationDetails";
-            this.lblValidationDetails.Size = new System.Drawing.Size(410, 100);
+            this.lblValidationDetails.Size = new System.Drawing.Size(412, 103);
             this.lblValidationDetails.TabIndex = 0;
             this.lblValidationDetails.Text = "lblValidationDetails";
+            // 
+            // tlpDetails
+            // 
+            this.tlpDetails.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tlpDetails.ColumnCount = 1;
+            this.tlpDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpDetails.Controls.Add(this.lblValidationDetails, 0, 0);
+            this.tlpDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpDetails.Location = new System.Drawing.Point(0, 30);
+            this.tlpDetails.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpDetails.Name = "tlpDetails";
+            this.tlpDetails.RowCount = 1;
+            this.tlpDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpDetails.Size = new System.Drawing.Size(418, 113);
+            this.tlpDetails.TabIndex = 1;
+            // 
+            // tlpTitle
+            // 
+            this.tlpTitle.ColumnCount = 3;
+            this.tlpTitle.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tlpTitle.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpTitle.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tlpTitle.Controls.Add(this.pbExpandCollapse, 2, 0);
+            this.tlpTitle.Controls.Add(this.lblValidationName, 1, 0);
+            this.tlpTitle.Controls.Add(this.pbError, 0, 0);
+            this.tlpTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpTitle.Location = new System.Drawing.Point(0, 0);
+            this.tlpTitle.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpTitle.Name = "tlpTitle";
+            this.tlpTitle.RowCount = 1;
+            this.tlpTitle.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpTitle.Size = new System.Drawing.Size(418, 30);
+            this.tlpTitle.TabIndex = 3;
             // 
             // ControlValidationCheck
             // 
@@ -128,7 +154,8 @@
             this.tlpMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbExpandCollapse)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbError)).EndInit();
-            this.panelValidationDetails.ResumeLayout(false);
+            this.tlpDetails.ResumeLayout(false);
+            this.tlpTitle.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -139,7 +166,8 @@
         private System.Windows.Forms.PictureBox pbError;
         private System.Windows.Forms.PictureBox pbExpandCollapse;
         private System.Windows.Forms.TableLayoutPanel tlpMain;
-        private System.Windows.Forms.Panel panelValidationDetails;
         private System.Windows.Forms.Label lblValidationDetails;
+        private System.Windows.Forms.TableLayoutPanel tlpDetails;
+        private System.Windows.Forms.TableLayoutPanel tlpTitle;
     }
 }

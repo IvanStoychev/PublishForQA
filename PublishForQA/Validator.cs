@@ -35,6 +35,7 @@ namespace PublishForQA
 
             CheckPathTooLongException(directories);
 
+            tlpMain.Controls.Add(new Panel()); // A control used for padding, so the last ControlValidationCheck can collapse it's details.
             validationErrorsForm.ShowDialog();
         }
 
@@ -47,7 +48,7 @@ namespace PublishForQA
         {
             (string destPath, string origPath, DirectoryInfo sourceDir) longestPathResult = GetLongestPath(directories);
 
-            if (true)//longestPathResult.destPath.Length > 259) [???]
+            if (true)//longestPathResult.destPath.Length > 259)
             {
                 string validationName = null;
                 StringBuilder validationDetails = new StringBuilder();
@@ -78,15 +79,8 @@ namespace PublishForQA
                 validationDetails.AppendLine(longestPathResult.destPath);
 
                 ControlValidationCheck pathTooLong = new ControlValidationCheck(validationName, validationDetails.ToString());
-                pathTooLong.Dock = DockStyle.None;
+                pathTooLong.Dock = DockStyle.Fill;
                 tlpMain.Controls.Add(pathTooLong);
-                pathTooLong = new ControlValidationCheck(validationName, validationDetails.ToString());
-                pathTooLong.Dock = DockStyle.None;
-                tlpMain.Controls.Add(pathTooLong);
-                pathTooLong = new ControlValidationCheck(validationName, validationDetails.ToString());
-                pathTooLong.Dock = DockStyle.None;
-                tlpMain.Controls.Add(pathTooLong);
-                validationErrorsForm.Size = tlpMain.Size; //[???] still working on resizing the form properly.
             }
         }
 
