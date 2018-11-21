@@ -14,10 +14,6 @@ namespace PublishForQA
         /// </summary>
         static FormPublisher formPublisher = Globals.MainForm;
         static FormProgressBar formProgressBar;
-        /// <summary>
-        /// A list of all E-Check debug folder text boxes on the form.
-        /// </summary>
-        static List<TextBox> debugTextBoxes = Globals.DebugTextBoxesList;
         static BackgroundWorker backgroundWorker;
         static DoWorkEventArgs WorkArgs;
         static int TotalOperationsCount;
@@ -112,7 +108,7 @@ namespace PublishForQA
         public static int GetOperationsCount()
         {
             formProgressBar.lblCurrentOperation.Text = "Counting the total number of operations...";
-            foreach (var tb in debugTextBoxes)
+            foreach (var tb in Globals.DebugTextBoxesList)
             {
                 CheckForCancel();
                 TotalOperationsCount += Directory.GetFiles(tb.Text, "*", SearchOption.AllDirectories).Length;
@@ -129,7 +125,7 @@ namespace PublishForQA
         /// </summary>
         public static void CopyFilesAndDirectories()
         {
-            foreach (var tb in debugTextBoxes)
+            foreach (var tb in Globals.DebugTextBoxesList)
             {
                 CheckForCancel();
                 string destinationPath = AdditionalFunctionality.SetDestinationPath();

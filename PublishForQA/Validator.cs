@@ -14,10 +14,6 @@ namespace PublishForQA
         /// A reference to the main form.
         /// </summary>
         static FormPublisher formPublisher = Globals.MainForm;
-        /// <summary>
-        /// A list of all E-Check debug folder text boxes on the form.
-        /// </summary>
-        static List<TextBox> debugTextBoxes = Globals.DebugTextBoxesList;
         static FormValidationErrors validationErrorsForm = new FormValidationErrors();
         /// <summary>
         /// The main TableLayoutPanel of the FormValidationErrors.
@@ -103,7 +99,7 @@ namespace PublishForQA
             foreach (var dir in directories)
             {
                 string path = dir.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).OrderByDescending(d => d.FullName).FirstOrDefault().FullName;
-                string destPath = path.Replace(dir.FullName, destinationPath);
+                string destPath = path.Replace(dir.FullName + "\\", destinationPath);
 
                 if (destPath.Length > longestPath.Length)
                 {
