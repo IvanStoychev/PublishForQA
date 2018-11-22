@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static PublishForQA.Globals;
 
 namespace PublishForQA
 {
@@ -13,7 +13,7 @@ namespace PublishForQA
         /// <summary>
         /// A reference to the main form.
         /// </summary>
-        static FormPublisher formPublisher = Globals.MainForm;
+        static FormPublisher formPublisher = MainForm;
         static FormValidationErrors validationErrorsForm = new FormValidationErrors();
         /// <summary>
         /// The main TableLayoutPanel of the FormValidationErrors.

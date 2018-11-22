@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using static PublishForQA.Globals;
 
 namespace PublishForQA
 {
@@ -12,7 +12,7 @@ namespace PublishForQA
         /// <summary>
         /// A reference to the main form.
         /// </summary>
-        static FormPublisher formPublisher = Globals.MainForm;
+        static FormPublisher formPublisher = MainForm;
         static FormProgressBar formProgressBar;
         static BackgroundWorker backgroundWorker;
         static DoWorkEventArgs WorkArgs;
@@ -108,7 +108,7 @@ namespace PublishForQA
         public static int GetOperationsCount()
         {
             formProgressBar.lblCurrentOperation.Text = "Counting the total number of operations...";
-            foreach (var tb in Globals.DebugTextBoxesList)
+            foreach (var tb in DebugTextBoxesList)
             {
                 CheckForCancel();
                 TotalOperationsCount += Directory.GetFiles(tb.Text, "*", SearchOption.AllDirectories).Length;
@@ -125,7 +125,7 @@ namespace PublishForQA
         /// </summary>
         public static void CopyFilesAndDirectories()
         {
-            foreach (var tb in Globals.DebugTextBoxesList)
+            foreach (var tb in DebugTextBoxesList)
             {
                 CheckForCancel();
                 string destinationPath = AdditionalFunctionality.SetDestinationPath();

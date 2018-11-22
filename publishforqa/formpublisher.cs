@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
+using static PublishForQA.Globals;
 
 namespace PublishForQA
 {
@@ -30,7 +30,7 @@ namespace PublishForQA
         public FormPublisher()
         {
             InitializeComponent();
-            Globals.MainForm = this;
+            MainForm = this;
             ListTextBoxes();
 
             // If there is only a single *.txt file in the current directory, it tries to load it.
@@ -41,14 +41,14 @@ namespace PublishForQA
             }
 
             #if DEBUG
-                Validator.Validate(Globals.DebugTextBoxesList);
+                Validator.Validate(DebugTextBoxesList);
             #endif
         }
 
         #region Events of controls
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            FormPublisher formPublisher = Globals.MainForm;
+            FormPublisher formPublisher = MainForm;
             formPublisher.CursorChange();
             formPublisher.btnLocate.Menu.Close();
             AdditionalFunctionality.Locate(e.ClickedItem.ToString());
@@ -123,7 +123,7 @@ namespace PublishForQA
                 {
                     using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
                     {
-                        foreach (TextBox tb in Globals.AllTextBoxesList)
+                        foreach (TextBox tb in AllTextBoxesList)
                         {
                             sw.WriteLine(tb.Name + Separator + " " + tb.Text);
                         }
@@ -207,16 +207,16 @@ namespace PublishForQA
         /// </summary>
         private void ListTextBoxes()
         {
-            Globals.AllTextBoxesList.Clear();
-            Globals.AllTextBoxesList.Add(tbECheckPath);
-            Globals.AllTextBoxesList.Add(tbCorePath);
-            Globals.AllTextBoxesList.Add(tbServicePath);
-            Globals.AllTextBoxesList.Add(tbQAFolderPath);
+            AllTextBoxesList.Clear();
+            AllTextBoxesList.Add(tbECheckPath);
+            AllTextBoxesList.Add(tbCorePath);
+            AllTextBoxesList.Add(tbServicePath);
+            AllTextBoxesList.Add(tbQAFolderPath);
 
-            Globals.DebugTextBoxesList.Clear();
-            Globals.DebugTextBoxesList.Add(tbECheckPath);
-            Globals.DebugTextBoxesList.Add(tbCorePath);
-            Globals.DebugTextBoxesList.Add(tbServicePath);
+            DebugTextBoxesList.Clear();
+            DebugTextBoxesList.Add(tbECheckPath);
+            DebugTextBoxesList.Add(tbCorePath);
+            DebugTextBoxesList.Add(tbServicePath);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace PublishForQA
         private void LoadFile(string filePath)
         {
             //We will use this list to tell if a value for a TextBox was missing in the save file.
-            List<TextBox> notFoundBoxes = Globals.AllTextBoxesList;
+            List<TextBox> notFoundBoxes = AllTextBoxesList;
             string line;
             try
             {
