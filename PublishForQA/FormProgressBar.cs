@@ -37,7 +37,14 @@ namespace PublishForQA
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             WorkArgs = e;
-            pbMain.Maximum = GetOperationsCount();
+
+            int? operationCount = GetOperationsCount();
+
+            if (operationCount != null)
+                pbMain.Maximum = (int)operationCount;
+            else
+                return;
+
             CopyFilesAndDirectories();
         }
 
@@ -78,16 +85,13 @@ namespace PublishForQA
         }
 
         /// <summary>
-        /// Checks if "CancellationPending" is true and if it is aborts the thread and sets
-        /// the DoWorkEventArgs's Cancel property to true.
+        /// Sets the WorkArgs' "Cancel" property to the state of backgroundWorker's "CancellationPending" property
+        /// and returns the state of that same "CancellationPending" property.
         /// </summary>
-        static void CheckForCancel()
+        static bool CheckForCancel()
         {
-            if (backgroundWorker.CancellationPending)
-            {
-                WorkArgs.Cancel = true;
-                Thread.CurrentThread.Abort();
-            }
+            WorkArgs.Cancel = backgroundWorker.CancellationPending;
+            return backgroundWorker.CancellationPending;
         }
 
         /// <summary>
@@ -104,17 +108,20 @@ namespace PublishForQA
         /// Counts all the directories that need to be created and all the
         /// files that need to be copied from each designated folder.
         /// </summary>
-        /// <returns></returns>
-        public static int GetOperationsCount()
+        /// <returns>
+        /// The number of total operations that need to be performed
+        /// or "null" if the operation is cancelled.
+        /// </returns>
+        public static int? GetOperationsCount()
         {
             formProgressBar.lblCurrentOperation.Text = "Counting the total number of operations...";
             foreach (var tb in DebugTextBoxesList)
             {
-                CheckForCancel();
+                if (CheckForCancel()) return null;
                 TotalOperationsCount += Directory.GetFiles(tb.Text, "*", SearchOption.AllDirectories).Length;
-                CheckForCancel();
+                if (CheckForCancel()) return null;
                 TotalOperationsCount += Directory.GetDirectories(tb.Text, "*", SearchOption.AllDirectories).Length;
-                formProgressBar.lblCurrentPath.Text = tb.Text;
+                formProgressBar.lblCurrentPath.Text = $"Counting in \"{tb.Text}\".";
             }
 
             return TotalOperationsCount;
@@ -127,9 +134,10 @@ namespace PublishForQA
         {
             foreach (var tb in DebugTextBoxesList)
             {
-                CheckForCancel();
+                if (CheckForCancel()) return;
                 string destinationPath = AdditionalFunctionality.SetDestinationPath();
 
+                if (CheckForCancel()) return;
                 // Sets the name of the destination folder, depending
                 // on the TextBox being iterated over.
                 switch (tb.Name)
@@ -158,9 +166,13 @@ namespace PublishForQA
         /// </summary>
         /// <param name="sourcePath">The path from which to read the directory structure.</param>
         /// <param name="destinationPath">The path where to recreate the directory structure.</param>
-        /// <returns>"True" if the operation was successful, "false" if an exception was raised.</returns>
+        /// <returns>
+        /// "True" if the operation was successful,
+        /// "false" if an exception was raised or the operation was cancelled.
+        /// </returns>
         public static bool CreateDirectoryStructure(string sourcePath, string destinationPath)
         {
+            if (CheckForCancel()) return false;
             formProgressBar.lblCurrentOperation.Text = "Creating directory structure...";
 
             // These variables will hold the current source and target path of the "for" iteration.
@@ -169,18 +181,25 @@ namespace PublishForQA
             string targetDir = FormPublisher.ErrorBeforeDirectoryLoop;
             try
             {
-                // First we create the directory structure.
+                if (CheckForCancel()) return false;
+
+                // First create the directory structure.
                 Directory.CreateDirectory(destinationPath);
                 foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
                 {
-                    CheckForCancel();
+                    if (CheckForCancel()) return false;
                     sourceDir = dirPath;
                     targetDir = dirPath.Replace(sourcePath, destinationPath);
                     formProgressBar.lblCurrentPath.Text = targetDir;
+
+                    if (CheckForCancel()) return false;
                     Directory.CreateDirectory(targetDir);
+
+                    if (CheckForCancel()) return false;
                     CurrentOpeartionCount++;
                     backgroundWorker.ReportProgress(CurrentOpeartionCount);
                 }
+
                 return true;
             }
             #region catch block
@@ -244,22 +263,31 @@ namespace PublishForQA
         /// <returns>"True" if the operation was successful, "false" if an exception was raised.</returns>
         public static bool CopyFiles(string sourcePath, string destinationPath)
         {
+            if (CheckForCancel()) return false;
+
             formProgressBar.lblCurrentOperation.Text = "Copying files...";
+
             // These variables will hold the current source and target path of the "for" iteration.
             // They will be used to show more information in the exception catching.
             // But first they are set to the string used to indicate an error before the loop.
             string sourceFile = FormPublisher.ErrorBeforeFileLoop;
             string targetFileDir = FormPublisher.ErrorBeforeFileLoop;
+
             try
             {
-                // We copy all files, overwriting any existing ones.
+                // Copy all files, overwriting any existing ones.
                 foreach (string filePath in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
                 {
-                    CheckForCancel();
+                    if (CheckForCancel()) return false;
+
                     sourceFile = filePath;
                     targetFileDir = filePath.Replace(sourcePath, destinationPath);
                     formProgressBar.lblCurrentPath.Text = filePath;
+
+                    if (CheckForCancel()) return false;
                     File.Copy(filePath, targetFileDir, true);
+
+                    if (CheckForCancel()) return false;
                     CurrentOpeartionCount++;
                     backgroundWorker.ReportProgress(CurrentOpeartionCount);
                 }

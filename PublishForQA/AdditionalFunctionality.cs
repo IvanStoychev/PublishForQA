@@ -109,7 +109,7 @@ namespace PublishForQA
         }
 
         /// <summary>
-        /// Returns the destination path for copying files.
+        /// Returns the destination path for the copy operation.
         /// </summary>
         /// <returns>
         /// A string representing the destination for copying files,

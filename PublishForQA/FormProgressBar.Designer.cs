@@ -44,6 +44,7 @@
             this.lblCurrentOperation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblCurrentOperation.Location = new System.Drawing.Point(10, 10);
             this.lblCurrentOperation.Margin = new System.Windows.Forms.Padding(5);
+            this.lblCurrentOperation.MaximumSize = new System.Drawing.Size(0, 40);
             this.lblCurrentOperation.Name = "lblCurrentOperation";
             this.lblCurrentOperation.Size = new System.Drawing.Size(524, 17);
             this.lblCurrentOperation.TabIndex = 0;
@@ -75,6 +76,7 @@
             this.lblCurrentPath.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCurrentPath.Location = new System.Drawing.Point(10, 37);
             this.lblCurrentPath.Margin = new System.Windows.Forms.Padding(5);
+            this.lblCurrentPath.MaximumSize = new System.Drawing.Size(0, 60);
             this.lblCurrentPath.Name = "lblCurrentPath";
             this.lblCurrentPath.Size = new System.Drawing.Size(524, 13);
             this.lblCurrentPath.TabIndex = 1;
