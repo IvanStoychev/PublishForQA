@@ -7,6 +7,9 @@ using static PublishForQA.Globals;
 
 namespace PublishForQA
 {
+    /// <summary>
+    /// Shows the progress of the copy operation.
+    /// </summary>
     public partial class FormProgressBar : Form
     {
         /// <summary>
@@ -79,9 +82,9 @@ namespace PublishForQA
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            backgroundWorker.CancelAsync();
             TaskbarProgress.SetState(formPublisher.Handle, TaskbarProgress.TaskbarStates.Paused);
             TaskbarProgress.SetValue(formPublisher.Handle, 0, pbMain.Maximum);
-            backgroundWorker.CancelAsync();
         }
 
         /// <summary>
