@@ -246,11 +246,6 @@ namespace PublishForQA
                 MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed contains an illegal colon character.", sourceDir, targetDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            catch (ThreadAbortException)
-            {
-                Thread.ResetAbort();
-                return false;
-            }
             catch (Exception ex)
             {
                 MessageBox.Show(ExceptionMessageBuilder.Directory("Unexpected exception occurred:" + Environment.NewLine + ex.Message, sourceDir, targetDir, ex), "Unexpected Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -337,11 +332,6 @@ namespace PublishForQA
             catch (IOException ex)
             {
                 MessageBox.Show(ExceptionMessageBuilder.File("An I/O error has occurred.", sourceFile, targetFileDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            catch (ThreadAbortException)
-            {
-                Thread.ResetAbort();
                 return false;
             }
             catch (Exception ex)

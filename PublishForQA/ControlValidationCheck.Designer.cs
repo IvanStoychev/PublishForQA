@@ -30,16 +30,16 @@
         {
             this.lblValidationName = new System.Windows.Forms.Label();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpDetails = new System.Windows.Forms.TableLayoutPanel();
+            this.lblValidationDetails = new System.Windows.Forms.Label();
+            this.tlpTitle = new System.Windows.Forms.TableLayoutPanel();
             this.pbExpandCollapse = new System.Windows.Forms.PictureBox();
             this.pbError = new System.Windows.Forms.PictureBox();
-            this.lblValidationDetails = new System.Windows.Forms.Label();
-            this.tlpDetails = new System.Windows.Forms.TableLayoutPanel();
-            this.tlpTitle = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbExpandCollapse)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbError)).BeginInit();
             this.tlpDetails.SuspendLayout();
             this.tlpTitle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbExpandCollapse)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbError)).BeginInit();
             this.SuspendLayout();
             // 
             // lblValidationName
@@ -73,42 +73,6 @@
             this.tlpMain.Size = new System.Drawing.Size(418, 143);
             this.tlpMain.TabIndex = 0;
             // 
-            // pbExpandCollapse
-            // 
-            this.pbExpandCollapse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbExpandCollapse.Image = global::PublishForQA.Properties.Resources.ArrowUp;
-            this.pbExpandCollapse.Location = new System.Drawing.Point(388, 0);
-            this.pbExpandCollapse.Margin = new System.Windows.Forms.Padding(0);
-            this.pbExpandCollapse.Name = "pbExpandCollapse";
-            this.pbExpandCollapse.Size = new System.Drawing.Size(30, 30);
-            this.pbExpandCollapse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbExpandCollapse.TabIndex = 1;
-            this.pbExpandCollapse.TabStop = false;
-            this.pbExpandCollapse.Click += new System.EventHandler(this.pbExpandCollapse_Click);
-            // 
-            // pbError
-            // 
-            this.pbError.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbError.Image = global::PublishForQA.Properties.Resources.Error;
-            this.pbError.Location = new System.Drawing.Point(0, 0);
-            this.pbError.Margin = new System.Windows.Forms.Padding(0);
-            this.pbError.MinimumSize = new System.Drawing.Size(24, 24);
-            this.pbError.Name = "pbError";
-            this.pbError.Size = new System.Drawing.Size(30, 30);
-            this.pbError.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbError.TabIndex = 2;
-            this.pbError.TabStop = false;
-            // 
-            // lblValidationDetails
-            // 
-            this.lblValidationDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblValidationDetails.Location = new System.Drawing.Point(3, 5);
-            this.lblValidationDetails.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.lblValidationDetails.Name = "lblValidationDetails";
-            this.lblValidationDetails.Size = new System.Drawing.Size(412, 103);
-            this.lblValidationDetails.TabIndex = 0;
-            this.lblValidationDetails.Text = "lblValidationDetails";
-            // 
             // tlpDetails
             // 
             this.tlpDetails.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
@@ -122,9 +86,19 @@
             this.tlpDetails.Name = "tlpDetails";
             this.tlpDetails.RowCount = 1;
             this.tlpDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 112F));
             this.tlpDetails.Size = new System.Drawing.Size(418, 113);
             this.tlpDetails.TabIndex = 1;
+            // 
+            // lblValidationDetails
+            // 
+            this.lblValidationDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblValidationDetails.Location = new System.Drawing.Point(3, 5);
+            this.lblValidationDetails.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.lblValidationDetails.Name = "lblValidationDetails";
+            this.lblValidationDetails.Size = new System.Drawing.Size(412, 103);
+            this.lblValidationDetails.TabIndex = 0;
+            this.lblValidationDetails.Text = "lblValidationDetails";
             // 
             // tlpTitle
             // 
@@ -144,6 +118,31 @@
             this.tlpTitle.Size = new System.Drawing.Size(418, 30);
             this.tlpTitle.TabIndex = 3;
             // 
+            // pbExpandCollapse
+            // 
+            this.pbExpandCollapse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbExpandCollapse.Image = global::PublishForQA.Properties.Resources.ArrowUp;
+            this.pbExpandCollapse.Location = new System.Drawing.Point(388, 0);
+            this.pbExpandCollapse.Margin = new System.Windows.Forms.Padding(0);
+            this.pbExpandCollapse.Name = "pbExpandCollapse";
+            this.pbExpandCollapse.Size = new System.Drawing.Size(30, 30);
+            this.pbExpandCollapse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbExpandCollapse.TabIndex = 1;
+            this.pbExpandCollapse.TabStop = false;
+            this.pbExpandCollapse.Click += new System.EventHandler(this.pbExpandCollapse_Click);
+            // 
+            // pbError
+            // 
+            this.pbError.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbError.Location = new System.Drawing.Point(0, 0);
+            this.pbError.Margin = new System.Windows.Forms.Padding(0);
+            this.pbError.MinimumSize = new System.Drawing.Size(24, 24);
+            this.pbError.Name = "pbError";
+            this.pbError.Size = new System.Drawing.Size(30, 30);
+            this.pbError.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbError.TabIndex = 2;
+            this.pbError.TabStop = false;
+            // 
             // ControlValidationCheck
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,10 +151,10 @@
             this.Name = "ControlValidationCheck";
             this.Size = new System.Drawing.Size(418, 143);
             this.tlpMain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbExpandCollapse)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbError)).EndInit();
             this.tlpDetails.ResumeLayout(false);
             this.tlpTitle.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbExpandCollapse)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbError)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

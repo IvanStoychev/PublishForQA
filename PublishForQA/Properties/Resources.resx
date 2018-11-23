@@ -129,14 +129,10 @@
         gg==
 </value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="PublishforQA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PublishforQA.chm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ArrowDown" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABoAAAAZCAYAAAAv3j5gAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAACWSURBVEhL7dXLDcMgEEXR6ZxfMVAeHUx0IzmKk7ENxGRh
+        YQUAAAAJcEhZcwAADsAAAA7AAWrWiQkAAACWSURBVEhL7dXLDcMgEEXR6ZxfMVAeHUx0IzmKk7ENxGRh
         +Ul3h+YsEf3Tbmh4F4Ryzjq7UoqKc05FZGopJZVaq87EQDCe0CxsQVbQ2ViM8XWXVhCdgX0i9AXRL5iF
         kAnRCLaF0CZEPVgIwbyxtAtRC3aE0CFEe1gLQk0QWZj33nxr1QzRO9aDUBdEYL0I3R/f8K4GqT4A5pLv
         QKeMX58AAAAASUVORK5CYII=
@@ -7962,7 +7958,7 @@
   <data name="ArrowUp" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABoAAAAZCAYAAAAv3j5gAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACQSURBVEhL7dVJDoAgEETRvjnTYeB43KANJmUcWoRWXFHJ
+        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAACQSURBVEhL7dVJDoAgEETRvjnTYeB43KANJmUcWoRWXFHJ
         XxF4S4h/2oTU+w/KOXNPxhi21opntbqgghDRWi/WDO0RDdYESQhyzol3zj1CNQS1YFWoBUFP2C3UgyDv
         vfhWSYQ0CLrDLtAbBEnYAfoCQWdsg75EUAjhCI1AEDAaiaCCUYyRR5dSmh+ffhNSjnkBqWvvQGb36AYA
         AAAASUVORK5CYII=

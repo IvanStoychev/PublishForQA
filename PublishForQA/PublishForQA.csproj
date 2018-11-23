@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalFunctionality.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="ControlValidationCheck.cs">
       <SubType>UserControl</SubType>
@@ -148,7 +149,6 @@
     <EmbeddedResource Include="Resources\Load.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PublishforQA.chm" />
     <EmbeddedResource Include="Resources\Save.png" />
   </ItemGroup>
   <ItemGroup>

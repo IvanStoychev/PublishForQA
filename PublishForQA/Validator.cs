@@ -20,7 +20,44 @@ namespace PublishForQA
         /// </summary>
         static TableLayoutPanel tlpMain = (TableLayoutPanel)validationErrorsForm.Controls[0];
 
-        public static void Validate(List<TextBox> textBoxes)
+        // A reminder what validations are left for implementing.
+        #region To Implement
+        //catch (ArgumentNullException ex)
+        //{
+        //    MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed for directory creation is null.", sourceDir, targetDir, ex), "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    return false;
+        //}
+        //catch (ArgumentException ex)
+        //{
+        //    MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed for directory creation is invalid.", sourceDir, targetDir, ex), "Argument Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    return false;
+        //}
+        //catch (DirectoryNotFoundException ex)
+        //{
+        //    MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed for directory creation could not be found.", sourceDir, targetDir, ex), "Directory Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    return false;
+        //}
+        //catch (FileNotFoundException ex)
+        //{
+        //    MessageBox.Show(ExceptionMessageBuilder.File("\"" + sourceFile + "\" was not found.", sourceFile, targetFileDir, ex), "File Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    return false;
+        //}
+        //catch (IOException ex)
+        //{
+        //    // IO Exception can be either the passed path is a file or the network name is not known.
+        //    // Since we have previous checks in place to make sure the path is a directory,
+        //    // the second possible error is shown.
+        //    MessageBox.Show(ExceptionMessageBuilder.Directory("The network name is not known.", sourceDir, targetDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    return false;
+        //}
+        //catch (NotSupportedException ex)
+        //{
+        //    MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed contains an illegal colon character.", sourceDir, targetDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    return false;
+        //}
+    #endregion
+
+    public static void Validate(List<TextBox> textBoxes)
         {
             List<DirectoryInfo> directories = new List<DirectoryInfo>();
 
@@ -33,6 +70,49 @@ namespace PublishForQA
 
             tlpMain.Controls.Add(new Panel()); // A control used for padding, so the last ControlValidationCheck can collapse it's details.
             validationErrorsForm.ShowDialog();
+        }
+
+        /// <summary>
+        /// Checks if the program would be authorized to copy files to the destination.
+        /// </summary>
+        /// <param name="directory">The destination directory of the copy operation.</param>
+        static void CheckPermission(DirectoryInfo directory)
+        {
+            // A check if the directory path ends with a '\'.
+            string path = directory.FullName + (directory.FullName.EndsWith(@"\") ? "temp" : @"\temp");
+
+            try
+            {
+                File.WriteAllBytes(path, new byte[0]);
+                File.Delete(path);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                string validationName = "Insufficient rights";
+                StringBuilder validationDetails = new StringBuilder();
+
+                validationDetails.AppendLine($"The program does not have sufficient rights to create files in the directory \"{directory.FullName}\".");
+                validationDetails.AppendLine();
+                validationDetails.AppendLine("This may be caused by a lack of write rights of your account, group, machine or a combination of those.");
+
+                AddControlToForm(validationName, validationDetails.ToString(), ErrorIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                string validationName = "Unexpected exception";
+                StringBuilder validationDetails = new StringBuilder();
+
+                validationDetails.AppendLine($"The program failed to verify if there are sufficient rights to copy files to \"{directory.FullName}\".");
+                validationDetails.AppendLine();
+                validationDetails.AppendLine("An unexpected exception was encountered:");
+                validationDetails.AppendLine();
+                validationDetails.AppendLine(ex.Message);
+                validationDetails.AppendLine();
+                validationDetails.AppendLine("Inner exception:");
+                validationDetails.AppendLine(ex.InnerException.Message);
+
+                AddControlToForm(validationName, validationDetails.ToString(), ErrorIcon.Error);
+            }
         }
 
         /// <summary>
@@ -74,9 +154,7 @@ namespace PublishForQA
                 validationDetails.AppendLine("It will cause a \"PathTooLongException\" when copied to:");
                 validationDetails.AppendLine(longestPathResult.destPath);
 
-                ControlValidationCheck pathTooLong = new ControlValidationCheck(validationName, validationDetails.ToString());
-                pathTooLong.Dock = DockStyle.Fill;
-                tlpMain.Controls.Add(pathTooLong);
+                AddControlToForm(validationName, validationDetails.ToString(), ErrorIcon.Error);
             }
         }
 
@@ -110,6 +188,18 @@ namespace PublishForQA
             }
 
             return (longestPath, origPath, sourceDir);
+        }
+
+        /// <summary>
+        /// Adds a "ControlValidationCheck" with the given parameters to the main "TableLayoutPanel" of the "FormValidationErrors".
+        /// </summary>
+        /// <param name="validationName">The name or title of the failed validation.</param>
+        /// <param name="validationDetails">The details on why the validation failed.</param>
+        /// <param name="errorIcon">The type of icon to dispay.</param>
+        static void AddControlToForm(string validationName, string validationDetails, ErrorIcon errorIcon)
+        {
+            ControlValidationCheck pathTooLong = new ControlValidationCheck(validationName, validationDetails, errorIcon);
+            tlpMain.Controls.Add(pathTooLong);
         }
     }
 }
