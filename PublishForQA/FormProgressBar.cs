@@ -93,8 +93,10 @@ namespace PublishForQA
         /// </summary>
         static bool CheckForCancel()
         {
-            WorkArgs.Cancel = backgroundWorker.CancellationPending;
-            return backgroundWorker.CancellationPending;
+            bool cancelled = backgroundWorker.CancellationPending;
+
+            WorkArgs.Cancel = cancelled;
+            return cancelled;
         }
 
         /// <summary>
