@@ -22,11 +22,6 @@ namespace PublishForQA
 
         // A reminder what validations are left for implementing.
         #region To Implement
-        //catch (ArgumentNullException ex)
-        //{
-        //    MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed for directory creation is null.", sourceDir, targetDir, ex), "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    return false;
-        //}
         //catch (ArgumentException ex)
         //{
         //    MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed for directory creation is invalid.", sourceDir, targetDir, ex), "Argument Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -57,16 +52,10 @@ namespace PublishForQA
         //}
     #endregion
 
-    public static void Validate(List<TextBox> textBoxes)
+        public static void Validate()
         {
-            List<DirectoryInfo> directories = new List<DirectoryInfo>();
-
-            foreach (TextBox textBox in textBoxes)
-            {
-                directories.Add(new DirectoryInfo(textBox.Text)); // [???] this method needs to be finished by making it validate all possible pre-execution validatable exceptions.
-            }
-
-            CheckPathTooLongException(directories);
+            CheckPermission(MainForm.tbQAFolderPath.Text);
+            CheckPathTooLongException();
 
             tlpMain.Controls.Add(new Panel()); // A control used for padding, so the last ControlValidationCheck can collapse it's details.
             validationErrorsForm.ShowDialog();
@@ -76,10 +65,10 @@ namespace PublishForQA
         /// Checks if the program would be authorized to copy files to the destination.
         /// </summary>
         /// <param name="directory">The destination directory of the copy operation.</param>
-        static void CheckPermission(DirectoryInfo directory)
+        static void CheckPermission(string directory)
         {
             // A check if the directory path ends with a '\'.
-            string path = directory.FullName + (directory.FullName.EndsWith(@"\") ? "temp" : @"\temp");
+            string path = directory + (directory.EndsWith(@"\") ? "temp" : @"\temp");
 
             try
             {
@@ -91,7 +80,7 @@ namespace PublishForQA
                 string validationName = "Insufficient rights";
                 StringBuilder validationDetails = new StringBuilder();
 
-                validationDetails.AppendLine($"The program does not have sufficient rights to create files in the directory \"{directory.FullName}\".");
+                validationDetails.AppendLine($"The program does not have sufficient rights to create files in the directory \"{directory}\".");
                 validationDetails.AppendLine();
                 validationDetails.AppendLine("This may be caused by a lack of write rights of your account, group, machine or a combination of those.");
 
@@ -102,16 +91,27 @@ namespace PublishForQA
                 string validationName = "Unexpected exception";
                 StringBuilder validationDetails = new StringBuilder();
 
-                validationDetails.AppendLine($"The program failed to verify if there are sufficient rights to copy files to \"{directory.FullName}\".");
+                validationDetails.AppendLine($"The program failed to verify if there are sufficient rights to copy files to \"{directory}\".");
                 validationDetails.AppendLine();
                 validationDetails.AppendLine("An unexpected exception was encountered:");
                 validationDetails.AppendLine();
                 validationDetails.AppendLine(ex.Message);
-                validationDetails.AppendLine();
-                validationDetails.AppendLine("Inner exception:");
-                validationDetails.AppendLine(ex.InnerException.Message);
+                if (ex.InnerException != null)
+                {
+                    validationDetails.AppendLine();
+                    validationDetails.AppendLine("Inner exception:");
+                    validationDetails.AppendLine(ex.InnerException.Message);
+                }
 
                 AddControlToForm(validationName, validationDetails.ToString(), ErrorIcon.Error);
+            }
+        }
+
+        static void CheckDirectoryPaths(List<DirectoryInfo> directories)
+        {
+            foreach (var dir in directories)
+            {
+
             }
         }
 
@@ -120,11 +120,11 @@ namespace PublishForQA
         /// the copy operation, would be too long and thus cause a "PathTooLongException".
         /// </summary>
         /// <param name="directories">A list of DirecotryInfo objects supplied for the copy operation.</param>
-        static void CheckPathTooLongException(List<DirectoryInfo> directories)
+        static void CheckPathTooLongException()
         {
-            (string destPath, string origPath, DirectoryInfo sourceDir) longestPathResult = GetLongestPath(directories);
+            (string destPath, string origPath) longestPathResult = GetLongestPath();
 
-            if (true)//longestPathResult.destPath.Length > 259)
+            if (longestPathResult.destPath.Length > 259)
             {
                 string validationName = null;
                 StringBuilder validationDetails = new StringBuilder();
@@ -164,30 +164,28 @@ namespace PublishForQA
         /// </summary>
         /// <param name="directories"></param>
         /// <returns></returns>
-        static (string destPath, string origPath, DirectoryInfo sourceDir) GetLongestPath(List<DirectoryInfo> directories)
+        static (string destPath, string origPath) GetLongestPath()
         {
             string longestPath = string.Empty;
             string origPath = string.Empty;
-            DirectoryInfo sourceDir = null;
 
             // "E-CheckService\\" is added to the destination path, because it is the longest
             // of the directory names that will be used/created.
             string destinationPath = AdditionalFunctionality.SetDestinationPath() + "E-CheckService\\";
 
-            foreach (var dir in directories)
+            foreach (TextBox tb in DebugTextBoxesList)
             {
-                string path = dir.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).OrderByDescending(d => d.FullName).FirstOrDefault().FullName;
-                string destPath = path.Replace(dir.FullName + "\\", destinationPath);
+                string path = Directory.EnumerateFileSystemEntries(tb.Text).OrderByDescending(d => d.Length).FirstOrDefault();
+                string destPath = path.Replace(tb.Text + "\\", destinationPath);
 
                 if (destPath.Length > longestPath.Length)
                 {
                     longestPath = destPath;
                     origPath = path;
-                    sourceDir = dir;
                 }
             }
 
-            return (longestPath, origPath, sourceDir);
+            return (longestPath, origPath);
         }
 
         /// <summary>

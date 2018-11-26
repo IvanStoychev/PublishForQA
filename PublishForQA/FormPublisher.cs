@@ -41,7 +41,7 @@ namespace PublishForQA
             }
 
             #if DEBUG
-                Validator.Validate(DebugTextBoxesList);
+                Validator.Validate();
             #endif
         }
 
