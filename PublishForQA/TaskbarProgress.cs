@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+/// <summary>
+/// Handles status display in the taskbar.
+/// </summary>
 public static class TaskbarProgress
 {
     public enum TaskbarStates

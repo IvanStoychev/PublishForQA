@@ -8,9 +8,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>PublishForQA</RootNamespace>
     <AssemblyName>PublishForQA</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalFunctionality.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="CustomControls.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -113,41 +115,42 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\E-CheckVersions.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\icon-help-circled-128.png" />
+    <EmbeddedResource Include="Resources\Help.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Load.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PublishforQA.chm" />
     <EmbeddedResource Include="Resources\Save.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\info.png" />
+    <EmbeddedResource Include="Resources\Info.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\warning.png" />
+    <EmbeddedResource Include="Resources\Warning.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Clipboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PerfCenterCpl.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Success.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ArrowDown.png" />
+    <EmbeddedResource Include="Resources\ArrowDown.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ArrowDown1.png" />
+    <EmbeddedResource Include="Resources\Error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowUp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

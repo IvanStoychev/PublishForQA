@@ -42,11 +42,11 @@
             this.lblCurrentOperation.AutoSize = true;
             this.lblCurrentOperation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCurrentOperation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCurrentOperation.Location = new System.Drawing.Point(5, 5);
-            this.lblCurrentOperation.Margin = new System.Windows.Forms.Padding(0);
+            this.lblCurrentOperation.Location = new System.Drawing.Point(8, 8);
+            this.lblCurrentOperation.Margin = new System.Windows.Forms.Padding(3);
             this.lblCurrentOperation.MaximumSize = new System.Drawing.Size(0, 40);
             this.lblCurrentOperation.Name = "lblCurrentOperation";
-            this.lblCurrentOperation.Size = new System.Drawing.Size(534, 30);
+            this.lblCurrentOperation.Size = new System.Drawing.Size(528, 17);
             this.lblCurrentOperation.TabIndex = 0;
             this.lblCurrentOperation.Text = "Error in operation label";
             // 
@@ -63,8 +63,8 @@
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.Padding = new System.Windows.Forms.Padding(5);
             this.tlpMain.RowCount = 4;
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.Size = new System.Drawing.Size(544, 150);
@@ -74,18 +74,18 @@
             // 
             this.lblCurrentPath.AutoSize = true;
             this.lblCurrentPath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblCurrentPath.Location = new System.Drawing.Point(5, 35);
-            this.lblCurrentPath.Margin = new System.Windows.Forms.Padding(0);
+            this.lblCurrentPath.Location = new System.Drawing.Point(8, 31);
+            this.lblCurrentPath.Margin = new System.Windows.Forms.Padding(3);
             this.lblCurrentPath.MaximumSize = new System.Drawing.Size(0, 60);
             this.lblCurrentPath.Name = "lblCurrentPath";
-            this.lblCurrentPath.Size = new System.Drawing.Size(534, 30);
+            this.lblCurrentPath.Size = new System.Drawing.Size(528, 13);
             this.lblCurrentPath.TabIndex = 1;
             this.lblCurrentPath.Text = "Error in path label";
             // 
             // pbMain
             // 
             this.pbMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbMain.Location = new System.Drawing.Point(8, 68);
+            this.pbMain.Location = new System.Drawing.Point(8, 50);
             this.pbMain.Name = "pbMain";
             this.pbMain.Size = new System.Drawing.Size(528, 34);
             this.pbMain.TabIndex = 2;
@@ -93,7 +93,7 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCancel.Location = new System.Drawing.Point(234, 113);
+            this.btnCancel.Location = new System.Drawing.Point(234, 104);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);

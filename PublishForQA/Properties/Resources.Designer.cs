@@ -19,7 +19,7 @@ namespace PublishForQA.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -73,9 +73,9 @@ namespace PublishForQA.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icon_help_circled_128 {
+        internal static System.Drawing.Bitmap ArrowUp {
             get {
-                object obj = ResourceManager.GetObject("icon-help-circled-128", resourceCulture);
+                object obj = ResourceManager.GetObject("ArrowUp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,29 @@ namespace PublishForQA.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap info {
+        internal static System.Drawing.Bitmap Error {
             get {
-                object obj = ResourceManager.GetObject("info", resourceCulture);
+                object obj = ResourceManager.GetObject("Error", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Help {
+            get {
+                object obj = ResourceManager.GetObject("Help", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Info {
+            get {
+                object obj = ResourceManager.GetObject("Info", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -97,16 +117,6 @@ namespace PublishForQA.Properties {
             get {
                 object obj = ResourceManager.GetObject("Load", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] PublishforQA {
-            get {
-                object obj = ResourceManager.GetObject("PublishforQA", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
@@ -133,9 +143,9 @@ namespace PublishForQA.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap warning {
+        internal static System.Drawing.Bitmap Warning {
             get {
-                object obj = ResourceManager.GetObject("warning", resourceCulture);
+                object obj = ResourceManager.GetObject("Warning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

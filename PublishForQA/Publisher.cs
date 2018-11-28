@@ -5,19 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static PublishForQA.Globals;
 
 namespace PublishForQA
 {
+    /// <summary>
+    /// Class concerned with performing system validation and starting the copy operation.
+    /// </summary>
     public static class Publisher
     {
-        private static FormPublisher formPublisher = (FormPublisher)Form.ActiveForm;
-        private static List<TextBox> allTextBoxes = formPublisher.AllTextBoxesList;
-        private static List<TextBox> debugTextBoxes = formPublisher.DebugTextBoxesList;
-
-        static Publisher()
-        {
-            
-        }
+        /// <summary>
+        /// A reference to the main form.
+        /// </summary>
+        private static FormPublisher formPublisher = MainForm;
 
         /// <summary>
         /// Publishes the currently chosen version for QA. It does so by first
@@ -63,7 +63,7 @@ namespace PublishForQA
             //Then we add all TextBoxes with an empty Text property to a list
             //that will be used to display a warning and manipulate them further.
             List<TextBox> tbNoValueList = new List<TextBox>();
-            foreach (var tb in debugTextBoxes)
+            foreach (var tb in DebugTextBoxesList)
             {
                 if (tb.Text.Length < 1)
                 {
@@ -87,8 +87,8 @@ namespace PublishForQA
                 }
                 else
                 {
-                    allTextBoxes = allTextBoxes.Except(tbNoValueList).ToList();
-                    debugTextBoxes = debugTextBoxes.Except(tbNoValueList).ToList();
+                    AllTextBoxesList = AllTextBoxesList.Except(tbNoValueList).ToList();
+                    DebugTextBoxesList = DebugTextBoxesList.Except(tbNoValueList).ToList();
                     return true;
                 }
             }
@@ -107,8 +107,8 @@ namespace PublishForQA
                 }
                 else
                 {
-                    allTextBoxes = allTextBoxes.Except(tbNoValueList).ToList();
-                    debugTextBoxes = debugTextBoxes.Except(tbNoValueList).ToList();
+                    AllTextBoxesList = AllTextBoxesList.Except(tbNoValueList).ToList();
+                    DebugTextBoxesList = DebugTextBoxesList.Except(tbNoValueList).ToList();
                     return true;
                 }
             }
@@ -135,7 +135,7 @@ namespace PublishForQA
             //which in all likelyhood is wrong, so we add it to the list.
             //Similarly we use a RegEx to check if a path has more than one backslash character. If it does
             //we add it to the appropriate list.
-            foreach (var tb in allTextBoxes)
+            foreach (var tb in AllTextBoxesList)
             {
                 //For clarity and "just in case", we add a slash at the end of paths that don't have one.
                 if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
@@ -233,7 +233,7 @@ namespace PublishForQA
         {
             //And we check if the paths ends with in "bin\Debug" folder.
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
-            foreach (var tb in debugTextBoxes)
+            foreach (var tb in DebugTextBoxesList)
             {
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\"))
                 {
@@ -284,8 +284,9 @@ namespace PublishForQA
         {
             //This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
+
             //For each TextBox we check if its listed directory exists and add it to the list if it does not.
-            foreach (var tb in allTextBoxes)
+            foreach (var tb in AllTextBoxesList)
             {
                 //A new task is started asynchronously that checks if the given directory exists.
                 //If the task does not return a result after one second or returns that the
@@ -355,7 +356,7 @@ namespace PublishForQA
             List<TextBox> unauthorizedAccessExceptionList = new List<TextBox>();
             List<TextBox> invalidOperationExceptionList = new List<TextBox>();
 
-            foreach (var tb in allTextBoxes)
+            foreach (var tb in AllTextBoxesList)
             {
                 try
                 {

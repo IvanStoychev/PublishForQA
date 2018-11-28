@@ -232,7 +232,7 @@
             // 
             // pbHelp
             // 
-            this.pbHelp.Image = global::PublishForQA.Properties.Resources.icon_help_circled_128;
+            this.pbHelp.Image = global::PublishForQA.Properties.Resources.Help;
             this.pbHelp.Location = new System.Drawing.Point(0, 0);
             this.pbHelp.Margin = new System.Windows.Forms.Padding(0);
             this.pbHelp.Name = "pbHelp";

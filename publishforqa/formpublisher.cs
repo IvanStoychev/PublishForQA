@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
+using static PublishForQA.Globals;
 
 namespace PublishForQA
 {
@@ -26,21 +26,14 @@ namespace PublishForQA
         /// before the file copying for-loop.
         /// </summary>
         public const string ErrorBeforeFileLoop = "Exception occurred before the start of the file copy process.";
-        /// <summary>
-        /// A list of all text boxes on the form.
-        /// </summary>
-        public List<TextBox> AllTextBoxesList = new List<TextBox>();
-        /// <summary>
-        /// A list of all E-Check debug folder text boxes on the form.
-        /// </summary>
-        public List<TextBox> DebugTextBoxesList = new List<TextBox>();
 
         public FormPublisher()
         {
             InitializeComponent();
+            MainForm = this;
             ListTextBoxes();
 
-            //If there is only a single *.txt file in the current directory, it tries to load it.
+            // If there is only a single *.txt file in the current directory, it tries to load it.
             List<string> txtFilesInDir = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).ToList();
             if (txtFilesInDir.Count == 1)
             {
@@ -49,9 +42,10 @@ namespace PublishForQA
         }
 
         #region Events of controls
+
         public static void contextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            FormPublisher formPublisher = ((FormPublisher)Form.ActiveForm);
+            FormPublisher formPublisher = MainForm;
             formPublisher.CursorChange();
             formPublisher.btnLocate.Menu.Close();
             AdditionalFunctionality.Locate(e.ClickedItem.ToString());
@@ -81,7 +75,7 @@ namespace PublishForQA
             if (e.KeyChar == (char)Keys.Return) tb_Leave(sender, new EventArgs());
         }
 
-        //This event is only used to emulate "Control + A" select all text behaviour.
+        // This event is only used to emulate "Control + A" select all text behaviour.
         private void tb_KeyDown(object sender, KeyEventArgs e)
         {
             TextBox tb = (TextBox)sender;
@@ -247,7 +241,7 @@ namespace PublishForQA
         private void LoadFile(string filePath)
         {
             //We will use this list to tell if a value for a TextBox was missing in the save file.
-            List<TextBox> notFoundBoxes = AllTextBoxesList.ToList();
+            List<TextBox> notFoundBoxes = AllTextBoxesList;
             string line;
             try
             {
