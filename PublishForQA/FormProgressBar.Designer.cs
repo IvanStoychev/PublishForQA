@@ -42,10 +42,11 @@
             this.lblCurrentOperation.AutoSize = true;
             this.lblCurrentOperation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCurrentOperation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCurrentOperation.Location = new System.Drawing.Point(10, 10);
-            this.lblCurrentOperation.Margin = new System.Windows.Forms.Padding(5);
+            this.lblCurrentOperation.Location = new System.Drawing.Point(5, 5);
+            this.lblCurrentOperation.Margin = new System.Windows.Forms.Padding(0);
+            this.lblCurrentOperation.MaximumSize = new System.Drawing.Size(0, 40);
             this.lblCurrentOperation.Name = "lblCurrentOperation";
-            this.lblCurrentOperation.Size = new System.Drawing.Size(524, 20);
+            this.lblCurrentOperation.Size = new System.Drawing.Size(534, 30);
             this.lblCurrentOperation.TabIndex = 0;
             this.lblCurrentOperation.Text = "Error in operation label";
             // 
@@ -73,10 +74,11 @@
             // 
             this.lblCurrentPath.AutoSize = true;
             this.lblCurrentPath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblCurrentPath.Location = new System.Drawing.Point(10, 40);
-            this.lblCurrentPath.Margin = new System.Windows.Forms.Padding(5);
+            this.lblCurrentPath.Location = new System.Drawing.Point(5, 35);
+            this.lblCurrentPath.Margin = new System.Windows.Forms.Padding(0);
+            this.lblCurrentPath.MaximumSize = new System.Drawing.Size(0, 60);
             this.lblCurrentPath.Name = "lblCurrentPath";
-            this.lblCurrentPath.Size = new System.Drawing.Size(524, 20);
+            this.lblCurrentPath.Size = new System.Drawing.Size(534, 30);
             this.lblCurrentPath.TabIndex = 1;
             this.lblCurrentPath.Text = "Error in path label";
             // 
