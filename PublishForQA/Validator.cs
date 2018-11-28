@@ -20,7 +20,7 @@ namespace PublishForQA
         /// </summary>
         static TableLayoutPanel tlpMain = (TableLayoutPanel)validationErrorsForm.Controls[0];
 
-        // A reminder what validations are left for implementing.
+        // The following exceptions should be implemented as validation checks.
         #region To Implement
         //catch (ArgumentException ex)
         //{
