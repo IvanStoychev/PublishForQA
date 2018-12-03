@@ -41,7 +41,7 @@ namespace PublishForQA
 
         /// <summary>
         /// Checks if any TextBox's value is empty and asks the user if he would
-        /// like to omit it if it is.
+        /// like to omit it, if it is.
         /// </summary>
         /// <returns>
         /// "True" if all text boxes have values or the user decided to skip those
@@ -52,15 +52,15 @@ namespace PublishForQA
         /// </remarks>
         public static bool NotEmpty()
         {
-            //First we check if the "QA Folder" TextBox is empty.
-            //Since it is mandatory we alert the user if it is.
+            //First check if the "QA Folder" TextBox is empty.
+            //Since it is mandatory - alert the user, if it is.
             if (formPublisher.tbQAFolderPath.Text.Length < 1)
             {
                 MessageBox.Show("No value provided for your QA folder.\nIt is mandatory, operation cannot continue.", "No QA Folder entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            //Then we add all TextBoxes with an empty Text property to a list
+            //Then add all TextBoxes with an empty Text property to a list
             //that will be used to display a warning and manipulate them further.
             List<TextBox> tbNoValueList = new List<TextBox>();
             foreach (var tb in DebugTextBoxesList)
@@ -71,13 +71,13 @@ namespace PublishForQA
                 }
             }
 
-            //If there are no text boxes with no values we continue.
+            //If there are no text boxes with no values - continue.
             if (tbNoValueList.Count == 0)
             {
                 return true;
             }
 
-            //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
+            //For user-friendlyness-ness-ness-ness format the shown error in singular or plural case.
             if (tbNoValueList.Count == 1)
             {
                 DialogResult confirm = MessageBox.Show(StringOperations.NameReplace(tbNoValueList[0]) + " is empty.\n\nDo you wish to proceed without it?", "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);

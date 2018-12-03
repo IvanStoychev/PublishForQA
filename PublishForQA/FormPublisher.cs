@@ -31,7 +31,6 @@ namespace PublishForQA
         {
             InitializeComponent();
             MainForm = this;
-            ListTextBoxes();
 
             // If there is only a single *.txt file in the current directory, it tries to load it.
             List<string> txtFilesInDir = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).ToList();
@@ -91,6 +90,7 @@ namespace PublishForQA
         private void btnPublish_Click(object sender, EventArgs e)
         {
             CursorChange();
+            ListTextBoxes();
             Publisher.Publish();
             CursorChange();
         }
@@ -240,8 +240,8 @@ namespace PublishForQA
         /// <param name="filePath">The full path to the save file.</param>
         private void LoadFile(string filePath)
         {
-            //We will use this list to tell if a value for a TextBox was missing in the save file.
-            List<TextBox> notFoundBoxes = AllTextBoxesList;
+            //This list will be used to tell if a value for a TextBox was missing in the save file.
+            List<TextBox> notFoundBoxes = AllTextBoxesList.ToList();
             string line;
             try
             {
