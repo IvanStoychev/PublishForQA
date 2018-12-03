@@ -90,7 +90,9 @@ namespace PublishForQA
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            btnCancel.Enabled = false;
             backgroundWorker.CancelAsync();
+            lblCurrentOperation.Text = "Cancelling...";
             TaskbarProgress.SetState(formPublisher.Handle, TaskbarProgress.TaskbarStates.Paused);
             TaskbarProgress.SetValue(formPublisher.Handle, 0, pbMain.Maximum);
         }

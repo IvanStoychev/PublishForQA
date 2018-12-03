@@ -31,6 +31,7 @@ namespace PublishForQA
         {
             InitializeComponent();
             MainForm = this;
+            ListTextBoxes();
 
             // If there is only a single *.txt file in the current directory, it tries to load it.
             List<string> txtFilesInDir = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt", SearchOption.TopDirectoryOnly).ToList();
