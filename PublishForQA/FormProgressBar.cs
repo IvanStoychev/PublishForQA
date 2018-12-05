@@ -220,27 +220,27 @@ namespace PublishForQA
             #region catch block
             catch (UnauthorizedAccessException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.Directory("The caller does not have the required permission for \"" + targetDir + "\".", sourceDir, targetDir, ex), "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.Directory("The caller does not have the required permission for \"" + targetDir + "\".", sourceDir, targetDir, ex), "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed for directory creation is null.", sourceDir, targetDir, ex), "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.Directory("The path passed for directory creation is null.", sourceDir, targetDir, ex), "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed for directory creation is invalid.", sourceDir, targetDir, ex), "Argument Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.Directory("The path passed for directory creation is invalid.", sourceDir, targetDir, ex), "Argument Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (PathTooLongException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.Directory("Cannot create target directory, path is too long.", sourceDir, targetDir, ex), "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.Directory("Cannot create target directory, path is too long.", sourceDir, targetDir, ex), "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (DirectoryNotFoundException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed for directory creation could not be found.", sourceDir, targetDir, ex), "Directory Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.Directory("The path passed for directory creation could not be found.", sourceDir, targetDir, ex), "Directory Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (IOException ex)
@@ -248,17 +248,17 @@ namespace PublishForQA
                 // IO Exception can be either the passed path is a file or the network name is not known.
                 // Since we have previous checks in place to make sure the path is a directory,
                 // the second possible error is shown.
-                MessageBox.Show(ExceptionMessageBuilder.Directory("The network name is not known.", sourceDir, targetDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.Directory("The network name is not known.", sourceDir, targetDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (NotSupportedException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.Directory("The path passed contains an illegal colon character.", sourceDir, targetDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.Directory("The path passed contains an illegal colon character.", sourceDir, targetDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.Directory("Unexpected exception occurred:" + Environment.NewLine + ex.Message, sourceDir, targetDir, ex), "Unexpected Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.Directory("Unexpected exception occurred:" + Environment.NewLine + ex.Message, sourceDir, targetDir, ex), "Unexpected Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             #endregion
@@ -306,47 +306,47 @@ namespace PublishForQA
             #region catch block
             catch (UnauthorizedAccessException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("The caller does not have the required permission for \"" + targetFileDir + "\".", sourceFile, targetFileDir, ex), "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("The caller does not have the required permission for \"" + targetFileDir + "\".", sourceFile, targetFileDir, ex), "Unauthorized Access Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("Either the source or destination file paths are null.", sourceFile, targetFileDir, ex), "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("Either the source or destination file paths are null.", sourceFile, targetFileDir, ex), "Argument Null Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("Either the source or destination file paths are invalid.", sourceFile, targetFileDir, ex), "Argument Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("Either the source or destination file paths are invalid.", sourceFile, targetFileDir, ex), "Argument Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (PathTooLongException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("Either the source or destination file paths are too long.", sourceFile, targetFileDir, ex), "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("Either the source or destination file paths are too long.", sourceFile, targetFileDir, ex), "Path Too Long Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (DirectoryNotFoundException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("Either the source or destination file paths could not be found.", sourceFile, targetFileDir, ex), "Directory Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("Either the source or destination file paths could not be found.", sourceFile, targetFileDir, ex), "Directory Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (NotSupportedException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("Either the source or destination file paths are invalid.", sourceFile, targetFileDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("Either the source or destination file paths are invalid.", sourceFile, targetFileDir, ex), "Not Supported Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (FileNotFoundException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("\"" + sourceFile + "\" was not found.", sourceFile, targetFileDir, ex), "File Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("\"" + sourceFile + "\" was not found.", sourceFile, targetFileDir, ex), "File Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (IOException ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("An I/O error has occurred.", sourceFile, targetFileDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("An I/O error has occurred.", sourceFile, targetFileDir, ex), "IO Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ExceptionMessageBuilder.File("An unexpected exception has occurred:" + Environment.NewLine + ex.Message, sourceFile, targetFileDir, ex), "Unexpected Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(MessageBuilder.File("An unexpected exception has occurred:" + Environment.NewLine + ex.Message, sourceFile, targetFileDir, ex), "Unexpected Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             #endregion

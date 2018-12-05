@@ -8,9 +8,9 @@ namespace PublishForQA
 {
     /// <summary>
     /// Builds messages intended to be displayed in
-    /// the case of an exception.
+    /// the case of an exception or error.
     /// </summary>
-    public static class ExceptionMessageBuilder
+    public static class MessageBuilder
     {
         /// <summary>
         /// Creates a StringBuilder and formats a more user-friendly message to display
