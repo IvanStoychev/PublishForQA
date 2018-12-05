@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PublishForQA
 {
@@ -13,15 +10,15 @@ namespace PublishForQA
     public static class MessageBuilder
     {
         /// <summary>
-        /// Creates a StringBuilder and formats a more user-friendly message to display
-        /// to the user when an exception occurrs in the directory structure creation method.
+        /// Displays a user-friendly message when an exception
+        /// occurrs in the directory structure creation method.
         /// </summary>
         /// <param name="message">A custom message to display.</param>
-        /// <param name="sourceDir">The path to the source directory.</param>
-        /// <param name="targetDir">The path to the target directory.</param>
+        /// <param name="sourceDir">The path of the source directory.</param>
+        /// <param name="targetDir">The path of the target directory.</param>
         /// <param name="exception">The exception thrown.</param>
         /// <returns>The formatted message.</returns>
-        public static string Directory(string message, string sourceDir, string targetDir, Exception exception)
+        public static string DirectoryStructureException(string message, string sourceDir, string targetDir, Exception exception)
         {
             StringBuilder sb = new StringBuilder();
             if (sourceDir == FormPublisher.ErrorBeforeDirectoryLoop || targetDir == FormPublisher.ErrorBeforeDirectoryLoop)
@@ -43,15 +40,15 @@ namespace PublishForQA
         }
 
         /// <summary>
-        /// Creates a StringBuilder and formats a more user-friendly message to display
-        /// to the user when an exception occurrs in the file copy method.
+        /// Displays a user-friendly message when an
+        /// exception occurrs in the file copy method.
         /// </summary>
         /// <param name="message">A custom message to display.</param>
         /// <param name="sourceFile">The path to the source file.</param>
         /// <param name="targetFileDir">The path to the target directory.</param>
         /// <param name="exception">The exception thrown.</param>
         /// <returns>The formatted message.</returns>
-        public static string File(string message, string sourceFile, string targetFileDir, Exception exception)
+        public static string FileCopyException(string message, string sourceFile, string targetFileDir, Exception exception)
         {
             StringBuilder sb = new StringBuilder();
             if (sourceFile == FormPublisher.ErrorBeforeFileLoop || targetFileDir == FormPublisher.ErrorBeforeFileLoop)
