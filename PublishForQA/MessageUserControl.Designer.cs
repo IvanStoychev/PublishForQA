@@ -1,6 +1,6 @@
 ﻿namespace PublishForQA
 {
-    partial class MessageWarning
+    partial class MessageUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,16 +30,19 @@
         {
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.pbIcon = new System.Windows.Forms.PictureBox();
+            this.btnFix = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // tlpMain
             // 
-            this.tlpMain.ColumnCount = 2;
+            this.tlpMain.ColumnCount = 3;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tlpMain.Controls.Add(this.pbIcon, 0, 0);
+            this.tlpMain.Controls.Add(this.btnFix, 2, 0);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 0);
             this.tlpMain.Name = "tlpMain";
@@ -58,14 +61,24 @@
             this.pbIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbIcon.TabIndex = 0;
             this.pbIcon.TabStop = false;
-            this.pbIcon.Click += new System.EventHandler(this.pbIcon_Click);
             // 
-            // MessageWarning
+            // btnFix
+            // 
+            this.btnFix.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnFix.Location = new System.Drawing.Point(373, 17);
+            this.btnFix.Name = "btnFix";
+            this.btnFix.Size = new System.Drawing.Size(40, 23);
+            this.btnFix.TabIndex = 1;
+            this.btnFix.Text = "Fix";
+            this.btnFix.UseVisualStyleBackColor = true;
+            this.btnFix.Click += new System.EventHandler(this.btnFix_Click);
+            // 
+            // MessageUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tlpMain);
-            this.Name = "MessageWarning";
+            this.Name = "MessageUserControl";
             this.Size = new System.Drawing.Size(443, 57);
             this.tlpMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
@@ -77,5 +90,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.PictureBox pbIcon;
+        private System.Windows.Forms.Button btnFix;
     }
 }
