@@ -26,6 +26,7 @@ namespace PublishForQA
         {
             InitializeComponent();
             lblMessage.Text = message;
+            btnFix.Visible = buttons == MessageUserControlButtons.Fix;
             fixMethod = func;
 
             switch (icon)

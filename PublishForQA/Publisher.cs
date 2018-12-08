@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static PublishForQA.Enums;
 using static PublishForQA.Globals;
 
 namespace PublishForQA
@@ -80,8 +81,8 @@ namespace PublishForQA
             //For user-friendlyness-ness-ness-ness format the shown error in singular or plural case.
             if (tbNoValueList.Count == 1)
             {
-                DialogResult confirm = MessageBox.Show(StringOperations.NameReplace(tbNoValueList[0]) + " is empty.\n\nDo you wish to proceed without it?", "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (confirm == DialogResult.No)
+                MessageBuilder.CreateMessage(StringOperations.NameReplace(tbNoValueList[0]) + " is empty.", MessageUserControlIcons.Warning, MessageUserControlButtons.None);
+                if (true)
                 {
                     return false;
                 }

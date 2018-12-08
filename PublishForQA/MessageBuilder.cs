@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using static PublishForQA.Enums;
 
 namespace PublishForQA
 {
@@ -9,6 +10,8 @@ namespace PublishForQA
     /// </summary>
     public static class MessageBuilder
     {
+        private static FormWarningErrors formWarningErrors = new FormWarningErrors();
+
         /// <summary>
         /// Displays a user-friendly message when an exception
         /// occurrs in the directory structure creation method.
@@ -67,6 +70,20 @@ namespace PublishForQA
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Creates a new instance of the MessageUserControl class, displaying the given message, icon and buttons.
+        /// </summary>
+        /// <param name="message">The message to display in the label control.</param>
+        /// <param name="icon">The type of icon to display.</param>
+        /// <param name="buttons">The type of buttons to display.</param>
+        /// <param name="func">The method to be called on button click.</param>
+        public static void CreateMessage(string message, MessageUserControlIcons icon, MessageUserControlButtons buttons, Func<bool> func = null)
+        {
+            MessageUserControl messageUserControl = new MessageUserControl(message, icon, buttons, func);
+            messageUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            formWarningErrors.tableLayoutPanel1.Controls.Add(messageUserControl);
         }
     }
 }
