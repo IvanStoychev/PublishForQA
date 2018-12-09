@@ -90,17 +90,6 @@ namespace PublishForQA
 
         private void btnPublish_Click(object sender, EventArgs e)
         {
-            FormWarningErrors formWarningErrors = new FormWarningErrors();
-            MessageUserControl messageUserControl = new MessageUserControl("lolz", Enums.MessageUserControlIcons.Error, Enums.MessageUserControlButtons.Fix);
-            formWarningErrors.tableLayoutPanel1.Controls.Add(new Button());
-            formWarningErrors.tableLayoutPanel1.Controls.Add(new Button());
-            formWarningErrors.tableLayoutPanel1.Controls.Add(new Button());
-            formWarningErrors.tableLayoutPanel1.Controls.Add(new Button());
-            formWarningErrors.tableLayoutPanel1.Controls.Add(new Button());
-            formWarningErrors.tableLayoutPanel1.Controls.Add(new Button());
-            formWarningErrors.tableLayoutPanel1.Controls.Add(new Button());
-            formWarningErrors.ShowDialog();
-
             CursorChange();
             ListTextBoxes();
             Publisher.Publish();

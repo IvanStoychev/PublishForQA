@@ -21,6 +21,11 @@ namespace PublishForQA
         private static FormPublisher formPublisher = MainForm;
 
         /// <summary>
+        /// A list for all TextBoxes that do not have a value.
+        /// </summary>
+        private static List<TextBox> tbNoValueList = new List<TextBox>();
+
+        /// <summary>
         /// Publishes the currently chosen version for QA. It does so by first
         /// making all the verifications needed for correct copying and then
         /// copying all the files and directories to the given QA folder.
@@ -53,17 +58,17 @@ namespace PublishForQA
         /// </remarks>
         public static bool NotEmpty()
         {
-            //First check if the "QA Folder" TextBox is empty.
-            //Since it is mandatory - alert the user, if it is.
+            // First check if the "QA Folder" TextBox is empty.
+            // Since it is mandatory - alert the user, if it is.
             if (formPublisher.tbQAFolderPath.Text.Length < 1)
             {
                 MessageBox.Show("No value provided for your QA folder.\nIt is mandatory, operation cannot continue.", "No QA Folder entered", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            //Then add all TextBoxes with an empty Text property to a list
-            //that will be used to display a warning and manipulate them further.
-            List<TextBox> tbNoValueList = new List<TextBox>();
+            // Add all TextBoxes with an empty Text property to a list
+            // that will be used to display a warning and manipulate them further.
+            tbNoValueList = new List<TextBox>();
             foreach (var tb in DebugTextBoxesList)
             {
                 if (tb.Text.Length < 1)
@@ -72,7 +77,7 @@ namespace PublishForQA
                 }
             }
 
-            //If there are no text boxes with no values - continue.
+            // If there are no text boxes with no values - continue.
             if (tbNoValueList.Count == 0)
             {
                 return true;
@@ -82,19 +87,10 @@ namespace PublishForQA
             if (tbNoValueList.Count == 1)
             {
                 MessageBuilder.CreateMessage(StringOperations.NameReplace(tbNoValueList[0]) + " is empty.", MessageUserControlIcons.Warning, MessageUserControlButtons.None);
-                if (true)
-                {
-                    return false;
-                }
-                else
-                {
-                    AllTextBoxesList = AllTextBoxesList.Except(tbNoValueList).ToList();
-                    DebugTextBoxesList = DebugTextBoxesList.Except(tbNoValueList).ToList();
-                    return true;
-                }
             }
             else if (tbNoValueList.Count > 1)
             {
+                // TO DO [???]
                 StringBuilder stringBuilder = new StringBuilder("The following text boxes are empty:" + Environment.NewLine + Environment.NewLine);
                 foreach (var tb in tbNoValueList)
                 {
