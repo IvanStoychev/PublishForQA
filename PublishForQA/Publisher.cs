@@ -58,6 +58,13 @@ namespace PublishForQA
         /// </remarks>
         public static bool NotEmpty()
         {
+            #region message parameters
+            MessageUserControlIcons messageIcon = MessageUserControlIcons.Warning;
+            MessageUserControlButtons messageButtons = MessageUserControlButtons.None;
+            Func<bool> fixFunc = null;
+            string message = null;
+            #endregion
+
             // First check if the "QA Folder" TextBox is empty.
             // Since it is mandatory - alert the user, if it is.
             if (formPublisher.tbQAFolderPath.Text.Length < 1)
@@ -78,36 +85,29 @@ namespace PublishForQA
             }
 
             // If there are no text boxes with no values - continue.
-            if (tbNoValueList.Count == 0)
-            {
-                return true;
-            }
+            if (tbNoValueList.Count == 0) return true;
 
-            //For user-friendlyness-ness-ness-ness format the shown error in singular or plural case.
+            // For user-friendlyness-ness-ness-ness format the shown error in singular or plural case.
             if (tbNoValueList.Count == 1)
             {
-                MessageBuilder.CreateMessage(StringOperations.NameReplace(tbNoValueList[0]) + " is empty.", MessageUserControlIcons.Warning, MessageUserControlButtons.None);
+                message = StringOperations.NameReplace(tbNoValueList[0]) + " is empty.";
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
             }
             else if (tbNoValueList.Count > 1)
             {
-                // TO DO [???]
                 StringBuilder stringBuilder = new StringBuilder("The following text boxes are empty:" + Environment.NewLine + Environment.NewLine);
                 foreach (var tb in tbNoValueList)
                 {
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
-                stringBuilder.Append(Environment.NewLine + "Do you wish to proceed without them?");
-                DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Empty value", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (confirm == DialogResult.No)
-                {
-                    return false;
-                }
-                else
-                {
-                    AllTextBoxesList = AllTextBoxesList.Except(tbNoValueList).ToList();
-                    DebugTextBoxesList = DebugTextBoxesList.Except(tbNoValueList).ToList();
-                    return true;
-                }
+                stringBuilder.Append(Environment.NewLine + "If you continue they will be ignored.");
+                MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
+
+                // Empty TextBoxes are removed from the global lists, because the next step is showing
+                // the warning and error form, where the user can either continue or abort and if they
+                // abort the lists will be repopulated for the next validation.
+                AllTextBoxesList = AllTextBoxesList.Except(tbNoValueList).ToList();
+                DebugTextBoxesList = DebugTextBoxesList.Except(tbNoValueList).ToList();
             }
 
             return true;
@@ -123,44 +123,37 @@ namespace PublishForQA
         /// </returns>
         public static bool PathsAreLegal()
         {
-            //This list will hold all text boxes whose paths contain more than one colon character.
+            #region message parameters
+            MessageUserControlIcons messageIcon = MessageUserControlIcons.Error;
+            MessageUserControlButtons messageButtons = MessageUserControlButtons.Fix;
+            Func<bool> fixFunc = null;
+            string message = null;
+            #endregion
+
+            // This list will hold all text boxes whose paths contain more than one colon character.
             List<TextBox> tbIllegalColonList = new List<TextBox>();
-            //This list will hold all text boxes whose paths contain more than one consecutive backslash character.
+            // This list will hold all text boxes whose paths contain more than one consecutive backslash character.
             List<TextBox> tbIllegalBackslashList = new List<TextBox>();
-            //For each TextBox we check if the position of the last colon character is greater than 1.
-            //If it is that means it is located further than where it should be for a drive letter
-            //which in all likelyhood is wrong, so we add it to the list.
-            //Similarly we use a RegEx to check if a path has more than one backslash character. If it does
-            //we add it to the appropriate list.
+
             foreach (var tb in AllTextBoxesList)
             {
-                //For clarity and "just in case", we add a slash at the end of paths that don't have one.
-                if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
-                //If there is a colon character beyond index 1 of the string we add
-                //the corresponding TextBox to the IllegalColonList list.
+                // If there is a colon character beyond index 1 of the string we add
+                // the corresponding TextBox to the IllegalColonList list.
                 if (tb.Text.LastIndexOf(':') > 1) tbIllegalColonList.Add(tb);
-                //If there are two or more consecutive backslash characters beyond the start
-                //of the string we add that TextBox to the IllegalBackslashList.
+
+                // If there are two or more consecutive backslash characters beyond the start
+                // of the string we add that TextBox to the IllegalBackslashList.
                 if (Regex.IsMatch(tb.Text.Substring(1), @"[\\]{2,}")) tbIllegalBackslashList.Add(tb);
             }
 
-            //If there are no text boxes with illegal paths we continue.
-            if (tbIllegalColonList.Count == 0 && tbIllegalBackslashList.Count == 0)
-            {
-                return true;
-            }
+            // If there are no text boxes with illegal paths we continue.
+            if (tbIllegalColonList.Count == 0 && tbIllegalBackslashList.Count == 0) return true;
 
+            fixFunc = new Func<bool>(() => StringOperations.FixColons(tbIllegalColonList));
             if (tbIllegalColonList.Count == 1)
             {
-                DialogResult fixPath = MessageBox.Show("The path of " + StringOperations.NameReplace(tbIllegalColonList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix that and continue?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (fixPath == DialogResult.No)
-                {
-                    return false;
-                }
-                else
-                {
-                    StringOperations.FixColons(tbIllegalColonList);
-                }
+                message = "The path of " + StringOperations.NameReplace(tbIllegalColonList[0]) + " looks illegal as it contains a ':' character where it shouldn't and thus copying cannot continue.\nWould you like to fix that and continue?";
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
             }
             else if (tbIllegalColonList.Count > 1)
             {
@@ -170,28 +163,14 @@ namespace PublishForQA
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Copying cannot proceed like this.\nWould you like to fix this problem in each path and continue?");
-                DialogResult fixPath = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (fixPath == DialogResult.No)
-                {
-                    return false;
-                }
-                else
-                {
-                    StringOperations.FixColons(tbIllegalColonList);
-                }
+                MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
             }
 
+            fixFunc = new Func<bool>(() => StringOperations.FixBackslashes(tbIllegalBackslashList));
             if (tbIllegalBackslashList.Count == 1)
             {
-                DialogResult fixPath = MessageBox.Show("The path of " + StringOperations.NameReplace(tbIllegalBackslashList[0]) + " looks illegal as it contains too many consecutive '\\' characters.\nWould you like to fix that by replacing them with a single '\\' character?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if (fixPath == DialogResult.Cancel)
-                {
-                    return false;
-                }
-                else if (fixPath == DialogResult.Yes)
-                {
-                    StringOperations.FixBackslashes(tbIllegalBackslashList);
-                }
+                message = "The path of " + StringOperations.NameReplace(tbIllegalBackslashList[0]) + " looks illegal as it contains too many consecutive '\\' characters.";
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
             }
             else if (tbIllegalBackslashList.Count > 1)
             {
@@ -200,17 +179,7 @@ namespace PublishForQA
                 {
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
-                stringBuilder.Append(Environment.NewLine + "Would you like to fix that by replacing them all with a single '\\' character?");
-                stringBuilder.AppendLine(Environment.NewLine + Environment.NewLine + "Operation will continue if either \"Yes\" or \"No\" are chosen.");
-                DialogResult fixPath = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (fixPath == DialogResult.Cancel)
-                {
-                    return false;
-                }
-                else if (fixPath == DialogResult.Yes)
-                {
-                    StringOperations.FixBackslashes(tbIllegalBackslashList);
-                }
+                MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
             }
 
             return true;
@@ -228,8 +197,16 @@ namespace PublishForQA
         /// </remarks>
         public static bool HasBinDebug()
         {
-            //And we check if the paths ends with in "bin\Debug" folder.
+            #region message parameters
+            MessageUserControlIcons messageIcon = MessageUserControlIcons.Warning;
+            MessageUserControlButtons messageButtons = MessageUserControlButtons.None;
+            Func<bool> fixFunc = null;
+            string message = null;
+            #endregion
+
+            // A list of TextBoxes, whose paths do not end with "bin\Debug".
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
+
             foreach (var tb in DebugTextBoxesList)
             {
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\"))
@@ -239,19 +216,13 @@ namespace PublishForQA
             }
 
             //If all text boxes end in "bin\Debug" we continue.
-            if (tbNoBinDebugList.Count == 0)
-            {
-                return true;
-            }
+            if (tbNoBinDebugList.Count == 0) return true;
 
             //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (tbNoBinDebugList.Count == 1)
             {
-                DialogResult confirm = MessageBox.Show("The path of " + StringOperations.NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.\nAre you sure you wish to proceed?", "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (confirm == DialogResult.No)
-                {
-                    return false;
-                }
+                message = "The path of " + StringOperations.NameReplace(tbNoBinDebugList[0]) + " does not end with a \"bin\\Debug\" folder.";
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
             }
             else if (tbNoBinDebugList.Count > 1)
             {
@@ -260,12 +231,7 @@ namespace PublishForQA
                 {
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
-                stringBuilder.Append(Environment.NewLine + "Are you sure you wish to proceed?");
-                DialogResult confirm = MessageBox.Show(stringBuilder.ToString(), "Path warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (confirm == DialogResult.No)
-                {
-                    return false;
-                }
+                MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
             }
 
             return true;
@@ -279,31 +245,35 @@ namespace PublishForQA
         /// </returns>
         public static bool DirectoriesExist()
         {
-            //This list will hold all text boxes whose listed directories do not exist.
+            #region message parameters
+            MessageUserControlIcons messageIcon = MessageUserControlIcons.Error;
+            MessageUserControlButtons messageButtons = MessageUserControlButtons.Fix;
+            Func<bool> fixFunc = null;
+            string message = null;
+            #endregion
+
+            // This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
 
-            //For each TextBox we check if its listed directory exists and add it to the list if it does not.
+            // For each TextBox we check if its listed directory exists and add it to the list if it does not.
             foreach (var tb in AllTextBoxesList)
             {
-                //A new task is started asynchronously that checks if the given directory exists.
-                //If the task does not return a result after one second or returns that the
-                //directory does not exist the TextBox with said directory path is added to the list.
+                // A new task is started asynchronously that checks if the given directory exists.
+                // If the task does not return a result in the given timeout or returns that the
+                // directory does not exist the TextBox with said directory path is added to the list.
                 var task = new System.Threading.Tasks.Task<bool>(() => { return Directory.Exists(tb.Text); });
                 task.Start();
 
-                if (!(task.Wait(1000) && task.Result)) tbDoesNotExistList.Add(tb);
+                if (!(task.Wait(500) && task.Result)) tbDoesNotExistList.Add(tb);
             }
 
-            //If all directories exist we continue.
-            if (tbDoesNotExistList.Count == 0)
-            {
-                return true;
-            }
+            // If all directories exist - continue.
+            if (tbDoesNotExistList.Count == 0) return true;
 
-            //For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
+            // For user-friendlyness-ness-ness-ness we format the shown error in singular or plural case.
             if (tbDoesNotExistList.Count == 1)
             {
-                //If the folder that does not exist is the QA one we prompt the user to create it.
+                // If the folder that does not exist is the QA one we prompt the user to create it.
                 if (tbDoesNotExistList[0] == formPublisher.tbQAFolderPath)
                 {
                     DialogResult create = MessageBox.Show("The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);

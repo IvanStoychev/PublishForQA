@@ -27,7 +27,7 @@ namespace PublishForQA
         /// characters, except the first one.
         /// </summary>
         /// <param name="list">A list of TextBoxes whose text properties should be fixed.</param>
-        public static void FixColons(List<TextBox> list)
+        public static bool FixColons(List<TextBox> list)
         {
             Regex regex = new Regex("^[a-zA-Z]:");
             try
@@ -55,8 +55,10 @@ namespace PublishForQA
             catch (Exception ex)
             {
                 MessageBox.Show("An unexpected exception has occurred while trying to fix illegal colon characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace PublishForQA
         /// than one consecutive backslash character with just a single backslash character.
         /// </summary>
         /// <param name="list">A list of TextBoxes whose text properties should be fixed.</param>
-        public static void FixBackslashes(List<TextBox> list)
+        public static bool FixBackslashes(List<TextBox> list)
         {
             Regex regex = new Regex(@"[\\]{2,}");
             try
@@ -77,8 +79,10 @@ namespace PublishForQA
             catch (Exception ex)
             {
                 MessageBox.Show("An unexpected exception has occurred while trying to fix repeated backslash characters:\n" + ex.Message, "Unexpected exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
+
+            return true;
         }
     }
 }

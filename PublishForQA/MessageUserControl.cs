@@ -51,6 +51,9 @@ namespace PublishForQA
                 default:
                     break;
             }
+
+            // Extra precaution.
+            if (func == null) btnFix.Visible = false;
         }
 
         private void btnFix_Click(object sender, EventArgs e)

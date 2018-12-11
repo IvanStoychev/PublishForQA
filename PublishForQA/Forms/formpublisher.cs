@@ -86,6 +86,7 @@ namespace PublishForQA
         {
             TextBox tb = (TextBox)sender;
             if (tb.Text.EndsWith(".")) tb.Text = tb.Text.TrimEnd('.');
+            if (!tb.Text.EndsWith("\\")) tb.Text = tb.Text + "\\";
         }
 
         private void btnPublish_Click(object sender, EventArgs e)
