@@ -87,6 +87,20 @@ namespace PublishForQA
             // If there are no text boxes with no values - continue.
             if (tbNoValueList.Count == 0) return true;
 
+            // If all TextBoxes are empty operation cannot continue.
+            if (AllTextBoxesList.SequenceEqual(tbNoValueList))
+            {
+                MessageBox.Show("All text boxes are empty, no operation can be performed.", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // If all "Debug" TextBoxes are empty there is nothing to copy - operation cannot continue.
+            if (DebugTextBoxesList.SequenceEqual(tbNoValueList))
+            {
+                MessageBox.Show("All \"Debug\" text boxes are empty, no operation can be performed.", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             // For user-friendlyness-ness-ness-ness format the shown error in singular or plural case.
             if (tbNoValueList.Count == 1)
             {
@@ -255,7 +269,7 @@ namespace PublishForQA
             // This list will hold all text boxes whose listed directories do not exist.
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
 
-            // For each TextBox we check if its listed directory exists and add it to the list if it does not.
+            // For each TextBox - check if its listed directory exists and add it to the list if it does not.
             foreach (var tb in AllTextBoxesList)
             {
                 // A new task is started asynchronously that checks if the given directory exists.
@@ -276,23 +290,14 @@ namespace PublishForQA
                 // If the folder that does not exist is the QA one we prompt the user to create it.
                 if (tbDoesNotExistList[0] == formPublisher.tbQAFolderPath)
                 {
-                    DialogResult create = MessageBox.Show("The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nWould you like to create it?" + "\n\nOperation will continue if either \"Yes\" or \"No\" are chosen.", "Path error", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
-                    if (create == DialogResult.Yes) //User chose to create the directory.
-                    {
-                        return AdditionalFunctionality.CreateQAFolder();
-                    }
-                    else if (create == DialogResult.Cancel) //User chose to abort the operation.
-                    {
-                        return false;
-                    }
-                    else //User chose not to create the direcotry.
-                    {
-                        return true;
-                    }
+                    message = "The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\n\nPressing the \"Fix\" button will attempt to create it.";
+                    fixFunc = new Func<bool>(() => AdditionalFunctionality.CreateQAFolder());
+                    MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
                 }
                 else
                 {
-                    MessageBox.Show("The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\nPlease, check that the path is correct.", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    message = "The directory for " + StringOperations.NameReplace(tbDoesNotExistList[0]) + " does not exist.\n\nPlease, check that the path is correct.";
+                    MessageBuilder.CreateMessage(message, messageIcon, MessageUserControlButtons.None, fixFunc);
                     return false;
                 }
             }
@@ -304,8 +309,18 @@ namespace PublishForQA
                     stringBuilder.AppendLine(StringOperations.NameReplace(txtb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Please, check that the paths are correct.");
-                if (tbDoesNotExistList.Contains(formPublisher.tbQAFolderPath)) stringBuilder.AppendLine(Environment.NewLine + "The QA Folder can be automatically created but the other paths need to be corrected, first.");
-                MessageBox.Show(stringBuilder.ToString(), "Path error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                if (tbDoesNotExistList.Contains(formPublisher.tbQAFolderPath))
+                {
+                    stringBuilder.AppendLine("The QA Folder can be created by clicking the \"Fix\" button, but the other paths need to be corrected.");
+                    fixFunc = new Func<bool>(() => AdditionalFunctionality.CreateQAFolder());
+                    MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
+                }
+                else
+                {
+                    MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, MessageUserControlButtons.None, fixFunc);
+                }
+
                 return false;
             }
 
