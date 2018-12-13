@@ -85,5 +85,10 @@ namespace PublishForQA
             messageUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             formWarningErrors.tableLayoutPanel1.Controls.Add(messageUserControl);
         }
+
+        public static void ShowFormWarningErrors()
+        {
+            formWarningErrors.ShowDialog();
+        }
     }
 }

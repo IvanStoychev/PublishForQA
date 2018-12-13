@@ -33,16 +33,15 @@ namespace PublishForQA
         public static void Publish()
         {
             //Subsequent checks before beginning the copy operation.
-            //Ordered in this way for readability.
-            if (NotEmpty())
-                if (PathsAreLegal())
-                    if (HasBinDebug())
-                        if (DirectoriesExist())
-                            if (HasNetworkAccess())
-                            {
-                                FormProgressBar formProgressBar = new FormProgressBar();
-                                formProgressBar.ShowDialog();
-                            }
+            if (NotEmpty() && PathsAreLegal() && HasBinDebug() && DirectoriesExist() && HasNetworkAccess())
+            {
+                FormProgressBar formProgressBar = new FormProgressBar();
+                formProgressBar.ShowDialog();
+            }
+            else
+            {
+                MessageBuilder.ShowFormWarningErrors();
+            }
         }
 
         /// <summary>
@@ -115,7 +114,8 @@ namespace PublishForQA
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
                 stringBuilder.Append(Environment.NewLine + "If you continue they will be ignored.");
-                MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
+                message = stringBuilder.ToString();
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
 
                 // Empty TextBoxes are removed from the global lists, because the next step is showing
                 // the warning and error form, where the user can either continue or abort and if they
@@ -177,7 +177,8 @@ namespace PublishForQA
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
                 stringBuilder.Append(Environment.NewLine + "Copying cannot proceed like this.\nWould you like to fix this problem in each path and continue?");
-                MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
+                message = stringBuilder.ToString();
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
             }
 
             fixFunc = new Func<bool>(() => StringOperations.FixBackslashes(tbIllegalBackslashList));
@@ -193,7 +194,8 @@ namespace PublishForQA
                 {
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
-                MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
+                message = stringBuilder.ToString();
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
             }
 
             return true;
@@ -245,7 +247,8 @@ namespace PublishForQA
                 {
                     stringBuilder.AppendLine(StringOperations.NameReplace(tb));
                 }
-                MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
+                message = stringBuilder.ToString();
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
             }
 
             return true;
@@ -313,12 +316,14 @@ namespace PublishForQA
                 if (tbDoesNotExistList.Contains(formPublisher.tbQAFolderPath))
                 {
                     stringBuilder.AppendLine("The QA Folder can be created by clicking the \"Fix\" button, but the other paths need to be corrected.");
+                    message = stringBuilder.ToString();
                     fixFunc = new Func<bool>(() => AdditionalFunctionality.CreateQAFolder());
-                    MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, messageButtons, fixFunc);
+                    MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
                 }
                 else
                 {
-                    MessageBuilder.CreateMessage(stringBuilder.ToString(), messageIcon, MessageUserControlButtons.None, fixFunc);
+                    message = stringBuilder.ToString();
+                    MessageBuilder.CreateMessage(message, messageIcon, MessageUserControlButtons.None, fixFunc);
                 }
 
                 return false;
@@ -335,15 +340,24 @@ namespace PublishForQA
         /// </returns>
         public static bool HasNetworkAccess()
         {
+            #region message parameters
+            MessageUserControlIcons messageIcon = MessageUserControlIcons.Error;
+            MessageUserControlButtons messageButtons = MessageUserControlButtons.None;
+            Func<bool> fixFunc = null;
+            string message = null;
+            #endregion
+
+            // A list containing all TextBoxes whose path raises an UnauthorizedAccessException when accessed.
             List<TextBox> unauthorizedAccessExceptionList = new List<TextBox>();
+            // A list containing all TextBoxes whose path raises an InvalidOperationException when accessed.
             List<TextBox> invalidOperationExceptionList = new List<TextBox>();
 
             foreach (var tb in AllTextBoxesList)
             {
                 try
                 {
-                    //This will raise an exception if the path is read only or the user
-                    //does not have access to view the permissions.
+                    // This will raise an exception if the path is read only or the user
+                    // does not have access to view the permissions.
                     Directory.GetAccessControl(tb.Text);
                 }
                 catch (UnauthorizedAccessException)
@@ -361,18 +375,19 @@ namespace PublishForQA
                 }
             }
 
-            if (unauthorizedAccessExceptionList.Count < 1 && invalidOperationExceptionList.Count < 1)
+            if (unauthorizedAccessExceptionList.Count == 0 && invalidOperationExceptionList.Count == 0)
             {
                 return true;
             }
             else
             {
-                StringBuilder errorMessage = new StringBuilder("There were network errors:" + Environment.NewLine + "----------------------------" + Environment.NewLine);
+                StringBuilder errorMessage = new StringBuilder("There were network errors:" + Environment.NewLine + Environment.NewLine);
 
                 if (unauthorizedAccessExceptionList.Count == 1)
                 {
                     errorMessage.AppendLine("You are not authorized to access the folder for " + StringOperations.NameReplace(unauthorizedAccessExceptionList[0]) + Environment.NewLine);
                 }
+                // unauthorizedAccessExceptionList.Count can still be 0, the passed "if" check only triggers if BOTH lists are empty.
                 else if (unauthorizedAccessExceptionList.Count > 1)
                 {
                     errorMessage.AppendLine("You are not authorized to access the folders for:" + Environment.NewLine);
@@ -398,7 +413,8 @@ namespace PublishForQA
                     errorMessage.AppendLine();
                 }
 
-                MessageBox.Show(errorMessage.ToString(), "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                message = errorMessage.ToString();
+                MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
                 return false;
             }
 
