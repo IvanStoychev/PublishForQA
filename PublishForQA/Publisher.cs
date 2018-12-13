@@ -21,9 +21,14 @@ namespace PublishForQA
         private static FormPublisher formPublisher = MainForm;
 
         /// <summary>
-        /// A list for all TextBoxes that do not have a value.
+        /// A list for all "debug" TextBoxes that need validation.
         /// </summary>
-        private static List<TextBox> tbNoValueList = new List<TextBox>();
+        private static List<TextBox> validatingDebugTB = new List<TextBox>();
+
+        /// <summary>
+        /// A list for all TextBoxes that need validation.
+        /// </summary>
+        private static List<TextBox> validatingAllTB = new List<TextBox>();
 
         /// <summary>
         /// Publishes the currently chosen version for QA. It does so by first
@@ -32,7 +37,9 @@ namespace PublishForQA
         /// </summary>
         public static void Publish()
         {
-            //Subsequent checks before beginning the copy operation.
+            validatingAllTB = AllTextBoxesList.ToList();
+            validatingDebugTB = DebugTextBoxesList.ToList();
+
             if (NotEmpty() && PathsAreLegal() && HasBinDebug() && DirectoriesExist() && HasNetworkAccess())
             {
                 FormProgressBar formProgressBar = new FormProgressBar();
@@ -55,7 +62,7 @@ namespace PublishForQA
         /// <remarks>
         /// The QA folder is mandatory and cannot be omitted.
         /// </remarks>
-        public static bool NotEmpty()
+        private static bool NotEmpty()
         {
             #region message parameters
             MessageUserControlIcons messageIcon = MessageUserControlIcons.Warning;
@@ -63,6 +70,9 @@ namespace PublishForQA
             Func<bool> fixFunc = null;
             string message = null;
             #endregion
+
+            // A list of all empty TextBoxes.
+            List<TextBox> tbNoValueList = new List<TextBox>();
 
             // First check if the "QA Folder" TextBox is empty.
             // Since it is mandatory - alert the user, if it is.
@@ -74,8 +84,7 @@ namespace PublishForQA
 
             // Add all TextBoxes with an empty Text property to a list
             // that will be used to display a warning and manipulate them further.
-            tbNoValueList = new List<TextBox>();
-            foreach (var tb in DebugTextBoxesList)
+            foreach (var tb in validatingDebugTB)
             {
                 if (tb.Text.Length < 1)
                 {
@@ -87,14 +96,14 @@ namespace PublishForQA
             if (tbNoValueList.Count == 0) return true;
 
             // If all TextBoxes are empty operation cannot continue.
-            if (AllTextBoxesList.SequenceEqual(tbNoValueList))
+            if (validatingAllTB.SequenceEqual(tbNoValueList))
             {
                 MessageBox.Show("All text boxes are empty, no operation can be performed.", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             // If all "Debug" TextBoxes are empty there is nothing to copy - operation cannot continue.
-            if (DebugTextBoxesList.SequenceEqual(tbNoValueList))
+            if (validatingDebugTB.SequenceEqual(tbNoValueList))
             {
                 MessageBox.Show("All \"Debug\" text boxes are empty, no operation can be performed.", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -116,14 +125,9 @@ namespace PublishForQA
                 stringBuilder.Append(Environment.NewLine + "If you continue they will be ignored.");
                 message = stringBuilder.ToString();
                 MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
-
-                // Empty TextBoxes are removed from the global lists, because the next step is showing
-                // the warning and error form, where the user can either continue or abort and if they
-                // abort the lists will be repopulated for the next validation.
-                AllTextBoxesList = AllTextBoxesList.Except(tbNoValueList).ToList();
-                DebugTextBoxesList = DebugTextBoxesList.Except(tbNoValueList).ToList();
             }
 
+            ExceptLists(tbNoValueList);
             return true;
         }
 
@@ -135,7 +139,7 @@ namespace PublishForQA
         /// <returns>
         /// "True" if all paths contain no more than a single colon character per path, otherwise "False".
         /// </returns>
-        public static bool PathsAreLegal()
+        private static bool PathsAreLegal()
         {
             #region message parameters
             MessageUserControlIcons messageIcon = MessageUserControlIcons.Error;
@@ -149,7 +153,7 @@ namespace PublishForQA
             // This list will hold all text boxes whose paths contain more than one consecutive backslash character.
             List<TextBox> tbIllegalBackslashList = new List<TextBox>();
 
-            foreach (var tb in AllTextBoxesList)
+            foreach (var tb in validatingAllTB)
             {
                 // If there is a colon character beyond index 1 of the string we add
                 // the corresponding TextBox to the IllegalColonList list.
@@ -160,7 +164,7 @@ namespace PublishForQA
                 if (Regex.IsMatch(tb.Text.Substring(1), @"[\\]{2,}")) tbIllegalBackslashList.Add(tb);
             }
 
-            // If there are no text boxes with illegal paths we continue.
+            // If there are no text boxes with illegal paths - continue.
             if (tbIllegalColonList.Count == 0 && tbIllegalBackslashList.Count == 0) return true;
 
             fixFunc = new Func<bool>(() => StringOperations.FixColons(tbIllegalColonList));
@@ -198,6 +202,8 @@ namespace PublishForQA
                 MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
             }
 
+            ExceptLists(tbIllegalColonList);
+            ExceptLists(tbIllegalBackslashList);
             return true;
         }
 
@@ -211,7 +217,7 @@ namespace PublishForQA
         /// <remarks>
         /// The MessageBox lists all TextBoxes that do not end with a "bin\Debug" folder.
         /// </remarks>
-        public static bool HasBinDebug()
+        private static bool HasBinDebug()
         {
             #region message parameters
             MessageUserControlIcons messageIcon = MessageUserControlIcons.Warning;
@@ -223,7 +229,7 @@ namespace PublishForQA
             // A list of TextBoxes, whose paths do not end with "bin\Debug".
             List<TextBox> tbNoBinDebugList = new List<TextBox>();
 
-            foreach (var tb in DebugTextBoxesList)
+            foreach (var tb in validatingDebugTB)
             {
                 if (!tb.Text.ToLower().EndsWith("\\bin\\debug\\"))
                 {
@@ -260,7 +266,7 @@ namespace PublishForQA
         /// <returns>
         /// "True" if all directories exist, otherwise "False".
         /// </returns>
-        public static bool DirectoriesExist()
+        private static bool DirectoriesExist()
         {
             #region message parameters
             MessageUserControlIcons messageIcon = MessageUserControlIcons.Error;
@@ -273,7 +279,7 @@ namespace PublishForQA
             List<TextBox> tbDoesNotExistList = new List<TextBox>();
 
             // For each TextBox - check if its listed directory exists and add it to the list if it does not.
-            foreach (var tb in AllTextBoxesList)
+            foreach (var tb in validatingAllTB)
             {
                 // A new task is started asynchronously that checks if the given directory exists.
                 // If the task does not return a result in the given timeout or returns that the
@@ -304,7 +310,7 @@ namespace PublishForQA
                     return false;
                 }
             }
-            else if (tbDoesNotExistList.Count > 1)
+            else
             {
                 StringBuilder stringBuilder = new StringBuilder("The directories for the following do not exist:" + Environment.NewLine + Environment.NewLine);
                 foreach (var txtb in tbDoesNotExistList)
@@ -329,6 +335,7 @@ namespace PublishForQA
                 return false;
             }
 
+            ExceptLists(tbDoesNotExistList);
             return true;
         }
 
@@ -338,7 +345,7 @@ namespace PublishForQA
         /// <returns>
         /// "True" if the user can write to the folder, otherwise "False".
         /// </returns>
-        public static bool HasNetworkAccess()
+        private static bool HasNetworkAccess()
         {
             #region message parameters
             MessageUserControlIcons messageIcon = MessageUserControlIcons.Error;
@@ -352,7 +359,7 @@ namespace PublishForQA
             // A list containing all TextBoxes whose path raises an InvalidOperationException when accessed.
             List<TextBox> invalidOperationExceptionList = new List<TextBox>();
 
-            foreach (var tb in AllTextBoxesList)
+            foreach (var tb in validatingAllTB)
             {
                 try
                 {
@@ -417,7 +424,17 @@ namespace PublishForQA
                 MessageBuilder.CreateMessage(message, messageIcon, messageButtons, fixFunc);
                 return false;
             }
+        }
 
+        /// <summary>
+        /// Remove elements from the given list from the "validatingDebugTB"
+        /// and "validatingAllTB" lists.
+        /// </summary>
+        /// <param name="localList">A local variable List, containing TextBoxes that needn't be validated further.</param>
+        private static void ExceptLists(List<TextBox> localList)
+        {
+            validatingDebugTB = validatingDebugTB.Except(localList).ToList();
+            validatingAllTB = validatingAllTB.Except(localList).ToList();
         }
     }
 }
