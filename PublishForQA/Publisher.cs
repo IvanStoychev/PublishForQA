@@ -98,7 +98,7 @@ namespace PublishForQA
             // If all "Debug" TextBoxes are empty there is nothing to copy - operation cannot continue.
             if (validatingDebugTB.SequenceEqual(tbNoValueList))
             {
-                MessageBox.Show("All \"Debug\" text boxes are empty, no operation can be performed.", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("All \"Debug\" text boxes are empty,\nno operation can be performed.", "No input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 

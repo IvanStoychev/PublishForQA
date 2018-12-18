@@ -83,12 +83,12 @@ namespace PublishForQA
         {
             MessageUserControl messageUserControl = new MessageUserControl(message, icon, buttons, func);
             messageUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            formWarningErrors.tableLayoutPanel1.Controls.Add(messageUserControl);
+            formWarningErrors.tlpMessages.Controls.Add(messageUserControl);
         }
 
         public static void ShowFormWarningErrors()
         {
-            formWarningErrors.ShowDialog();
+            if (formWarningErrors.tlpMessages.RowCount > 1) formWarningErrors.ShowDialog();
         }
     }
 }

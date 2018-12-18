@@ -33,7 +33,7 @@
             this.tlpButtons = new System.Windows.Forms.TableLayoutPanel();
             this.btnContinue = new System.Windows.Forms.Button();
             this.btnAbort = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpMessages = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMain.SuspendLayout();
             this.tlpButtons.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +44,7 @@
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.Controls.Add(this.lblInstructions, 0, 0);
             this.tlpMain.Controls.Add(this.tlpButtons, 0, 2);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel1, 0, 1);
+            this.tlpMain.Controls.Add(this.tlpMessages, 0, 1);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 0);
             this.tlpMain.Name = "tlpMain";
@@ -103,18 +103,18 @@
             this.btnAbort.Text = "Abort";
             this.btnAbort.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel1
+            // tlpMessages
             // 
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 28);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(422, 273);
-            this.tableLayoutPanel1.TabIndex = 2;
+            this.tlpMessages.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tlpMessages.ColumnCount = 1;
+            this.tlpMessages.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMessages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpMessages.Location = new System.Drawing.Point(3, 28);
+            this.tlpMessages.Name = "tlpMessages";
+            this.tlpMessages.RowCount = 1;
+            this.tlpMessages.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMessages.Size = new System.Drawing.Size(422, 273);
+            this.tlpMessages.TabIndex = 2;
             // 
             // FormWarningErrors
             // 
@@ -136,7 +136,7 @@
         private System.Windows.Forms.TableLayoutPanel tlpButtons;
         private System.Windows.Forms.Button btnContinue;
         private System.Windows.Forms.Button btnAbort;
-        public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        public System.Windows.Forms.TableLayoutPanel tlpMessages;
         private System.Windows.Forms.TableLayoutPanel tlpMain;
     }
 }
